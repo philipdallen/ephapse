@@ -6,8 +6,8 @@
   "n_prompts": 16,
   "pooling": "mean over tokens",
   "dtype": "float32",
-  "generated_utc": "2026-09-28T02:18:01+00:00",
-  "layout_rule": "rows ordered by descending mean |activation|",
+  "generated_utc": "2026-09-28T02:20:04+00:00",
+  "layout_rule": "rows are units ordered by descending mean |activation|; columns are prompts",
   "prompts": [
     "The Eiffel Tower is located in the city of Paris",
     "Photosynthesis converts light into chemical energy",
@@ -29,7 +29,7 @@
   "artifacts": {
     "atlas": {
       "path": "atlas.png",
-      "sha256": "0bcc122b7478eb4b8c5030e1e76fa1cf58ae15ace8c5b62a3730ee5993ab1891"
+      "sha256": "4eddd296f237c08ea2b110e7c6e50edb0a7f7f05ce250e98b7214f12b8179455"
     },
     "similarity": {
       "path": "atlas_similarity.png",

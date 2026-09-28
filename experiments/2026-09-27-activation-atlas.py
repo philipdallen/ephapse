@@ -107,12 +107,17 @@ def order_features(activations: np.ndarray) -> np.ndarray:
 def render_atlas(activations: np.ndarray, path: Path) -> np.ndarray:
     """Render an (n_prompts, d_model) activation matrix to a normalised PNG.
 
-    Normalised per-matrix to [0, 1] so the image is legible; the raw values are
-    kept in the provenance sidecar. Row order is :func:`order_features`.
+    The output is transposed to (d_model, n_prompts): each **row is a unit**,
+    each **column is a prompt**. Rows are ordered by descending mean
+    |activation| (:func:`order_features`), so the units that move most are at
+    the top and the eye reads a gradient of activity rather than storage order.
+    Features on rows also matches the similarity map, so the two panels share an
+    axis. Normalised per-matrix to [0, 1] so the image is legible; raw values are
+    kept in the provenance sidecar.
     """
     from PIL import Image
 
-    ordered = activations[:, order_features(activations)]
+    ordered = activations[:, order_features(activations)].T  # (d_model, prompts)
     lo, hi = float(ordered.min()), float(ordered.max())
     span = hi - lo
     norm = (ordered - lo) / span if span > 1e-12 else np.zeros_like(ordered)
@@ -172,11 +177,14 @@ def selftest() -> int:
     # The injected block must be the brightest region after normalisation. Check
     # in *feature* space, not pixel space, so the test is about the pipeline's
     # ordering+scaling, not about how PIL happens to encode it.
+    #
+    # The render is transposed to (features, prompts), so the injected feature
+    # columns c0:c1 land on output *rows*, and the injected prompt rows r0:r1
+    # land on output *columns*.
     ordered_cols = order_features(injected)
-    # Recover which output columns the injected feature columns landed in.
-    out_cols = {int(np.where(ordered_cols == c)[0][0]) for c in range(c0, c1)}
-    block = n_after[r0:r1, list(out_cols)]
-    rest = np.delete(n_after[r0:r1, :], list(out_cols), axis=1)
+    out_rows = [int(np.where(ordered_cols == c)[0][0]) for c in range(c0, c1)]
+    block = n_after[out_rows, r0:r1]
+    rest = np.delete(n_after, out_rows, axis=0)[:, r0:r1]
     detected = float(block.min()) > float(rest.max())
 
     print("selftest (instrument positive control)")
@@ -251,7 +259,7 @@ def main(argv: list[str] | None = None) -> int:
     provenance = {
         **meta,
         "generated_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-        "layout_rule": "rows ordered by descending mean |activation|",
+        "layout_rule": "rows are units ordered by descending mean |activation|; columns are prompts",
         "prompts": PROMPTS,
         "artifacts": {
             "atlas": {"path": atlas_path.name, "sha256": _sha256(atlas_path)},
