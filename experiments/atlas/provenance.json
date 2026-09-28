@@ -6,7 +6,7 @@
   "n_prompts": 16,
   "pooling": "mean over tokens",
   "dtype": "float32",
-  "generated_utc": "2026-09-28T02:20:04+00:00",
+  "generated_utc": "2026-09-28T02:44:26+00:00",
   "layout_rule": "rows are units ordered by descending mean |activation|; columns are prompts",
   "prompts": [
     "The Eiffel Tower is located in the city of Paris",

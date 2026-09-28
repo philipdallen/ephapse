@@ -30,6 +30,16 @@ block into the activations and confirm the atlas recovers it. If the control
 fails, the render is `instrument-failed` and says so; it does not fall back to
 "look, structure".
 
+**External second reading (run 20260928-0241-pg59).** rorschach's consumer
+(`examples/neural_field.py`, `ViewerField.from_images`, no import) reads the
+render as an 8x8 field with spread 0.0017, below its 0.01 vacuity threshold, and
+prints its own `WARNING: ... nearly flat; the constraint is close to vacuous`.
+That is rorschach's instrument working: a normalised matrix rendered as a
+picture can look structured while carrying almost no contrast between cells, so
+its damping mask is near-uniform. Read the atlas as a *record* of which units
+responded (the positive control holds); do not read its visual texture as
+signal. The handoff is accepted on the coupling criterion, not on field spread.
+
 Run: python3 experiments/2026-09-27-activation-atlas.py
 """
 
