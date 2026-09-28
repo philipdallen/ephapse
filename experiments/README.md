@@ -101,6 +101,7 @@ NP_SAE      = "3-res-sm"
 Decoder directions come from local `sae.W_dec`. Neuronpedia does **not**
 serve vectors (DEC-015).
 | 2026-09-22 | `2026-09-22-comparator-baselines.py` | #37 | DEC-034 comparators on the #6 corpus: SAE bridge statistic beside difference-in-means and linear-probe AUROC, on matched / shuffled-null / paraphrase arms. SAE stays the primary reading; comparators are a sensitivity check |
+| 2026-09-27 | `2026-09-27-activation-atlas.py` | #82 | Feature-response atlas: pythia-70m-deduped layer-3 residual matrix rendered to PNG (+ co-activation map) with provenance, for the rorschach handoff. Positive control **PASSES** (injected block recovered in feature space). No statistic computed — a record, not a finding |
 ```
 python3 experiments/2026-09-22-comparator-baselines.py
 ```
