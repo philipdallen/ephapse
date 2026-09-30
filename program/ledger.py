@@ -36,6 +36,7 @@ from typing import Optional
 
 REPO = Path(__file__).resolve().parent.parent
 DEFAULT_LEDGER = REPO / "program" / "ledger.jsonl"
+FINDINGS = REPO / "findings.jsonl"
 
 # The kind vocabulary has one machine-readable source (DEC-035); the ledger
 # reads it rather than carrying its own copy, so a value the gate accepts cannot
@@ -100,6 +101,46 @@ def next_record_id(existing: "list[LedgerRecord]") -> str:
     return f"P-{n + 1:03d}"
 
 
+def _findings_record_lines() -> set[int]:
+    """1-based physical line numbers in `findings.jsonl` that hold a record.
+
+    The ledger header defines a `findings` entry as a 1-based line number in
+    `findings.jsonl`; the committed records cite 62..66, the file's real
+    records. The header's leading `#` comment lines and any blank lines are not
+    citable — a citation must point at a finding, not at the file.
+    """
+    if not FINDINGS.exists():
+        return set()
+    lines = FINDINGS.read_text(encoding="utf-8").splitlines()
+    return {
+        i for i, line in enumerate(lines, start=1)
+        if line.strip() and not line.lstrip().startswith("#")
+    }
+
+
+def _resolve_result_path(entry: object) -> Optional[str]:
+    """Return the rejection reason for a `results` entry, or None when it exists.
+
+    Repo-relative entries resolve against `REPO`. An absolute path is resolved
+    as-is, and an entry that would escape the repo root is rejected as out of
+    scope — a ledger record may only rest on artifacts inside the repository.
+    """
+    if not isinstance(entry, str) or not entry.strip():
+        return f"results entry {entry!r} is not a non-empty string"
+    rel = Path(entry)
+    if rel.is_absolute():
+        target = rel.resolve()
+    else:
+        target = (REPO / rel).resolve()
+    try:
+        target.relative_to(REPO)
+    except ValueError:
+        return f"results entry {entry!r} resolves outside the repository"
+    if not target.exists():
+        return f"results entry {entry!r} does not exist"
+    return None
+
+
 @dataclass
 class LedgerRecord:
     """One ledger record. `outcome` is null while the work is in flight."""
@@ -143,13 +184,36 @@ class LedgerRecord:
             if not isinstance(getattr(self, key), list):
                 raise LedgerError(f"{key} must be a list")
 
-        # Rule 1 — `outcome` requires `results` or `findings`. An outcome with
-        # no artifact behind it is an assertion, not a record of one.
+        # Rule 1 — `outcome` requires `results` or `findings`, and each entry
+        # must name a real artifact. An outcome with no artifact behind it is an
+        # assertion, not a record of one — and a truthy *string* is not an
+        # artifact either. `results` entries are repository paths that must
+        # exist; `findings` entries are 1-based line numbers in `findings.jsonl`
+        # that must fall within the file (spec §4). This is the check that makes
+        # "an outcome with no artifact behind it" mechanical rather than
+        # decorative.
         if self.outcome is not None and not (self.results or self.findings):
             raise LedgerError(
                 "rule 1: outcome set but neither `results` nor `findings` is "
                 "populated — an outcome with no artifact behind it is an "
                 "assertion (spec §4)")
+        for entry in self.results:
+            reason = _resolve_result_path(entry)
+            if reason is not None:
+                raise LedgerError(
+                    f"rule 1: {reason} — `results` must name an existing "
+                    f"repository artifact (spec §4)")
+        n_findings = _findings_record_lines()
+        for entry in self.findings:
+            if not isinstance(entry, int) or isinstance(entry, bool):
+                raise LedgerError(
+                    f"rule 1: findings entry {entry!r} is not a line number")
+            if entry not in n_findings:
+                hi = max(n_findings) if n_findings else 0
+                raise LedgerError(
+                    f"rule 1: findings entry {entry} is not a record line in "
+                    f"findings.jsonl (records at {hi} lines) — `findings` must "
+                    f"cite a real finding (spec §4)")
 
         # Rule 2 — `rung` requires `outcome`. A rung on an in-flight record is
         # a claim about nothing.

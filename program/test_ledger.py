@@ -25,6 +25,11 @@ import ledger as L  # noqa: E402
 RUN = "20260922-0431-eph3"
 TS = "2026-09-22T00:00:00Z"
 
+# A real repository artifact and a real findings line — rule 1 now requires both
+# to exist, so a placeholder like "x" is no longer a valid citation.
+REAL_RESULT = "program/ledger.jsonl"
+REAL_FINDING = max(L._findings_record_lines())
+
 
 def rec(**kw) -> L.LedgerRecord:
     base = dict(id="P-001", ts=TS, issue=31, run_id=RUN, kind="protocol")
@@ -53,11 +58,34 @@ def test_rule1_fires_on_outcome_without_artifact():
 
 
 def test_rule1_silent_when_results_present():
-    rec(outcome="phenomenon-null", results=["experiments/x.md"]).validate()
+    rec(outcome="phenomenon-null", results=[REAL_RESULT]).validate()
 
 
 def test_rule1_silent_when_findings_present():
-    rec(outcome="phenomenon-null", findings=[3]).validate()
+    rec(outcome="phenomenon-null", findings=[REAL_FINDING]).validate()
+
+
+def test_rule1_fires_on_a_result_path_that_does_not_exist():
+    """The defect #85 reports: a truthy *string* is not an artifact.
+
+    Before this, `results=["anything"]` satisfied rule 1 — the rule was
+    satisfiable by a string, so an outcome could rest on an artifact that was
+    never there.
+    """
+    with pytest.raises(L.LedgerError, match="does not exist"):
+        rec(outcome="phenomenon-null", results=["does/not/exist.md"]).validate()
+
+
+def test_rule1_fires_on_a_findings_line_out_of_range():
+    """A findings citation must be a real line in findings.jsonl, not any int."""
+    n = max(L._findings_record_lines())
+    with pytest.raises(L.LedgerError, match="not a record line"):
+        rec(outcome="phenomenon-null", findings=[n + 1]).validate()
+
+
+def test_rule1_fires_on_a_non_integer_findings_entry():
+    with pytest.raises(L.LedgerError, match="not a line number"):
+        rec(outcome="phenomenon-null", findings=["3"]).validate()
 
 
 # --------------------------------------------------------------- rule 2
@@ -67,7 +95,7 @@ def test_rule2_fires_on_rung_without_outcome():
 
 
 def test_rule2_silent_with_outcome():
-    rec(outcome="phenomenon-present", rung=2, results=["x"]).validate()
+    rec(outcome="phenomenon-present", rung=2, results=[REAL_RESULT]).validate()
 
 
 # --------------------------------------------------------------- rule 3
@@ -88,11 +116,11 @@ def test_rule3_silent_on_a_real_emergent_issue():
 # --------------------------------------------------------------- rule 4
 def test_rule4_fires_when_defect_found_cites_no_issue():
     with pytest.raises(L.LedgerError, match="rule 4"):
-        rec(outcome="defect-found", results=["x"], note="a flaw").validate()
+        rec(outcome="defect-found", results=[REAL_RESULT], note="a flaw").validate()
 
 
 def test_rule4_silent_when_note_cites_the_issue():
-    rec(outcome="defect-found", results=["x"],
+    rec(outcome="defect-found", results=[REAL_RESULT],
         note="found the defect in #24").validate()
 
 
@@ -122,7 +150,7 @@ def test_bad_run_id_is_rejected():
 
 def test_bad_outcome_is_rejected():
     with pytest.raises(L.LedgerError, match="unknown outcome"):
-        rec(outcome="maybe", results=["x"]).validate()
+        rec(outcome="maybe", results=[REAL_RESULT]).validate()
 
 
 # ------------------------------------------------- append / id behaviour
@@ -135,17 +163,17 @@ def test_append_writes_nothing_on_rejection(tmp_path):
 
 def test_append_is_append_only_and_ids_are_sequential(tmp_path):
     p = tmp_path / "l.jsonl"
-    L.append_record(rec(id="P-001", outcome="phenomenon-null", results=["x"]), p)
-    L.append_record(rec(id="P-002", outcome="phenomenon-null", results=["y"]), p)
+    L.append_record(rec(id="P-001", outcome="phenomenon-null", results=[REAL_RESULT]), p)
+    L.append_record(rec(id="P-002", outcome="phenomenon-null", results=[REAL_RESULT]), p)
     assert len(L.read_ledger(p)) == 2
     assert L.next_record_id(L.read_ledger(p)) == "P-003"
 
 
 def test_duplicate_id_is_rejected(tmp_path):
     p = tmp_path / "l.jsonl"
-    L.append_record(rec(id="P-001", outcome="phenomenon-null", results=["x"]), p)
+    L.append_record(rec(id="P-001", outcome="phenomenon-null", results=[REAL_RESULT]), p)
     with pytest.raises(L.LedgerError, match="already present"):
-        L.append_record(rec(id="P-001", outcome="phenomenon-null", results=["x"]), p)
+        L.append_record(rec(id="P-001", outcome="phenomenon-null", results=[REAL_RESULT]), p)
 
 
 def test_to_json_carries_exactly_the_schema_keys():
