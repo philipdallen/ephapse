@@ -93,6 +93,40 @@ FIELD_RE = re.compile(r"^\s*\**\s*(Model|Inputs|Question|Null|Correction|Issue)\
 HEADER_MODEL_RE = re.compile(
     r"^\s*\**\s*Model\s*\**\s*:?\s*(.+)$", re.MULTILINE | re.IGNORECASE)
 
+# --- G-R1 content rule (issue #86) ------------------------------------------
+# Field *presence* is not field *content*. Before #86 the gate passed any file
+# whose header carried the six labels, so `**Null:** none.` satisfied it -- a
+# plausible artifact from an unchecked process, which is the exact class of
+# defect the gates exist to catch. These constants add the content half.
+#
+# The floor is deliberately weak. A stronger rule ("the value must name a
+# decision id or a statistic") was prototyped against the real tree and
+# rejected: it turned G-R1 red on the clean `experiments_clean` fixture and on
+# four other gates' clean fixtures, whose `Correction:` reads `fixture
+# correction.` -- so it would have required editing fixtures belonging to other
+# gates, and its boundary was a matter of taste. The hole #86 names is a
+# *placeholder*, and the check that closes it is a placeholder check. Whether a
+# `Null:` is scientifically adequate is tier 1 and stays the human's.
+PROSE_FIELDS = ("Inputs", "Question", "Null", "Correction")
+HEADER_WINDOW = 4000
+MIN_FIELD_CHARS = 15
+MIN_FIELD_WORDS = 2
+# Anchored on the labels rather than a `(.+)` capture, so a value wrapped across
+# lines is read whole. A single-line capture would truncate `**Null:** none\n
+#  — a measurement` at the newline -- the same wrapping that already defeated a
+# single-line assumption once (#24's date-prefix bug).
+HEADER_FIELD_RE = re.compile(
+    r"^\s*\**\s*(Model|Inputs|Question|Null|Correction|Issue)\b[^\S\n]*:?",
+    re.MULTILINE | re.IGNORECASE)
+FIELD_WORD_RE = re.compile(r"[A-Za-z][A-Za-z'-]*")
+# A whole value that is a non-value. The `$` anchor is what keeps a real value
+# that merely *starts* with a placeholder word safe: `none — a descriptive
+# measurement` does not match, `none.` does.
+PLACEHOLDER_VALUE_RE = re.compile(
+    r"^(?:todo|tbd|fixme|xxx+|n/?a|none|null|nil|unknown|placeholder"
+    r"|pending|see\s+above|-+|\.{3,}|\?+)[.!\s]*$",
+    re.IGNORECASE)
+
 MODEL_ASSIGN_RE = re.compile(r'^\s*MODEL\s*=\s*["\']([^"\']+)["\']', re.MULTILINE)
 FROM_PRETRAINED_RE = re.compile(r'from_pretrained\(\s*["\']([^"\']+)["\']')
 # Recognisable model-id families, so "a model we can see but which is not the
@@ -191,7 +225,47 @@ def _is_infra(name: str, text: str) -> bool:
 
 
 def _present_fields(text: str) -> set[str]:
-    return {m.group(1).capitalize() for m in FIELD_RE.finditer(text[:4000])}
+    return {m.group(1).capitalize() for m in FIELD_RE.finditer(text[:HEADER_WINDOW])}
+
+
+def _header_values(text: str) -> dict[str, str]:
+    """Field label -> value, for the header block only.
+
+    A value runs from its label to the next label (or the end of the header
+    window), so a value wrapped over several lines is read whole. Labels are
+    matched case-insensitively; the first occurrence of each wins, matching
+    `_present_fields`.
+    """
+    window = text[:HEADER_WINDOW]
+    matches = list(HEADER_FIELD_RE.finditer(window))
+    values: dict[str, str] = {}
+    for i, m in enumerate(matches):
+        label = m.group(1).capitalize()
+        if label in values:
+            continue
+        end = matches[i + 1].start() if i + 1 < len(matches) else len(window)
+        raw = " ".join(window[m.end():end].split())
+        values[label] = raw.strip("*").strip()
+    return values
+
+
+def _placeholder_problem(field: str, value: str) -> str | None:
+    """Why a present field's value is not usable content, or None if it is.
+
+    Returns a short reason string (no field name) so the caller can phrase the
+    finding. Only the four prose fields are judged: `Model` and `Issue` have
+    their own gates (G-R2) or a fixed shape, and a one-word `#86` is a real
+    value.
+    """
+    if not value:
+        return "empty value"
+    if PLACEHOLDER_VALUE_RE.match(value):
+        return f"placeholder value {value!r}"
+    if len(value) < MIN_FIELD_CHARS:
+        return f"value too short ({len(value)} chars < {MIN_FIELD_CHARS})"
+    if len(FIELD_WORD_RE.findall(value)) < MIN_FIELD_WORDS:
+        return "value is not prose"
+    return None
 
 
 def load_target_models() -> list[str]:
@@ -258,6 +332,18 @@ def check_header_completeness(path: Path) -> list[str]:
         kind = "infrastructure" if infra else "full"
         findings.append(f"{path.name}: G-R1 {kind} header missing "
                         f"{len(missing)} field(s): {', '.join(missing)}")
+    # Presence is necessary but not sufficient (#86): a label with a
+    # placeholder value is not a filled field. Judged on the fields the file is
+    # actually required to carry, so an exempt file's absent `Null` stays absent
+    # rather than becoming a content finding.
+    values = _header_values(text)
+    for field in PROSE_FIELDS:
+        if field not in required or field not in values:
+            continue
+        reason = _placeholder_problem(field, values[field])
+        if reason:
+            findings.append(f"{path.name}: G-R1 {field} header is present but "
+                            f"unfilled: {reason}")
     return findings
 
 
@@ -396,10 +482,12 @@ def gate_r5(root: Path) -> list[str]:
 register(Gate(
     id="G-R1", name="experiment header completeness", tier=0, check=gate_r1,
     clean_fixture="experiments_clean",
-    failing_fixture="experiments_r1_missing_field",
+    failing_fixture="experiments_r1_placeholder_value",
     traces_to="experiments/README.md; spec §3",
     description="Six mandatory header fields, or the documented three-field "
-                "infrastructure exemption (filename-enumerated; issue #24).",
+                "infrastructure exemption (filename-enumerated; issue #24). "
+                "Presence is not content: a present field whose value is a "
+                "placeholder is reported as unfilled (issue #86).",
 ))
 
 register(Gate(

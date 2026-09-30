@@ -490,6 +490,53 @@ def test_header_near_miss_is_reported_not_only_an_empty_file():
     assert any("G-R1 full header missing" in f for f in findings), findings
 
 
+def test_g_r1_fires_when_fields_are_present_but_placeholder():
+    """Issue #86: presence is not content.
+
+    The fixture carries all six labels with stub values (`TBD`, `?`, `none.`,
+    `n/a`). Before the content rule the gate returned `[]` here — the labels
+    were present — which is the hole: a header copied and never filled passed.
+    It must now be reported as present-but-unfilled.
+    """
+    import validate_experiments as V
+    d = R.FIXTURES / "experiments_r1_placeholder_value"
+    findings = V.gate_r1(d)
+    assert findings, "G-R1 accepted a header whose values are placeholders"
+    joined = "\n".join(findings)
+    for field in ("Inputs", "Question", "Null", "Correction"):
+        assert f"G-R1 {field} header is present but unfilled" in joined, joined
+    assert "missing" not in joined, (
+        "the fixture's labels are all present; reporting them missing would mean "
+        "the content rule is reading the wrong thing")
+
+
+def test_g_r1_content_rule_is_silent_on_the_clean_fixture():
+    """The content rule must not fire on a genuinely filled header.
+
+    Paired with the fixture above, this is the both-directions evidence the
+    harness requires. The clean fixture's `Null`/`Correction` are short but real
+    prose; a rule that flagged them would be measuring brevity, not placeholder
+    content.
+    """
+    import validate_experiments as V
+    assert V.gate_r1(R.FIXTURES / "experiments_clean") == []
+
+
+def test_g_r1_placeholder_word_inside_a_real_value_is_not_a_placeholder():
+    """A real value may *start* with a placeholder word; the rule must not fire.
+
+    Every `Null:` in the real tree opens with `none —`, and a naive
+    `startswith("none")` test would flag all of them. The `$` anchor on
+    `PLACEHOLDER_VALUE_RE` is what distinguishes `none.` (a stub) from
+    `none — a descriptive measurement` (content).
+    """
+    import validate_experiments as V
+    assert V._placeholder_problem("Null", "none — a descriptive measurement") is None
+    assert V._placeholder_problem("Null", "none.") is not None
+    assert V._placeholder_problem("Correction", "none — no hypothesis tests run") is None
+    assert V._placeholder_problem("Correction", "n/a") is not None
+
+
 def test_readme_header_exemption_matches_the_gate():
     """The README's exemption patterns must be the gate's, not a drifting copy.
 
