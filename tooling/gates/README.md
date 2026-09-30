@@ -189,6 +189,7 @@ tooling/gates/
 | **G-E2** | `null_model`, `correction`, `n` non-empty — the evidence bar | issue #4 DoD | **wired** |
 | **G-E6** | Append-only — record count >= committed high-water mark | `findings.jsonl` header; spec §10 Q4 | **wired** |
 | **G-E7** | `issue` cites a closed-done issue; `run_id` matches format | workflow § Run-ids | **wired** (SKIPs without the issue cache) |
+| **G-E9** | A `flagged` finding cannot rest on an `instrument-failed` outcome — the join between `findings.jsonl` `verdict` and the ledger `outcome` | program spec §3.2; issue #87 | **wired** |
 | **G-P2** | Two prompt sets share zero tokenizer ids; intersection size *and contents* reported | DEC-011; spec §3 | **wired** |
 | **G-P4** | No prompt string appears in both sets | spec §3 | **wired** (same module) |
 | **G-M1** | Exactly one `status:` and one `kind:` label per OPEN issue, from the registered vocabulary | program spec §7 | **wired** (SKIPs without the cache) |
