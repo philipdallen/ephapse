@@ -141,7 +141,7 @@ second among the rest — it unblocks #32 and #33.
 
 | Item | State |
 |---|---|
-| Tier-0 gates | **11 wired, 11 passing** |
+| Tier-0 gates | **22 wired, 22 passing** (per `tooling/gates/gate_inventory.py`; do not hand-copy) |
 | Gate ids specified in the validation spec | 38 |
 | Test suite | **67 passed, 1 failed** |
 | The failure | `test_real_findings_file_passes_the_registered_findings_gates` → **#25** (pre-existing, owned by that issue) |
@@ -150,14 +150,16 @@ second among the rest — it unblocks #32 and #33.
 | `kind:` coverage | Every open issue carries exactly one `kind:`; `kind:hygiene` added to the vocabulary by DEC-037 |
 | Open issues | **42**, of which **22 are claimable** (`status:available`) |
 
-**The gate-count discrepancy is resolved (#38, DEC-039).** Four documents said
-37, `PROGRAM_MANAGEMENT_SPEC.md` said 38, and the registry says 11 wired. The
-spec's § 3 inventory enumerates **38** distinct ids (**29** tier-0 capable,
-**9** tier-1), so "37" was the stale figure — a hand-count that drifted one
-behind the table, and the tier-1 prose was also one low. All are corrected, and
-`tooling/gates/gate_inventory.py` now derives the specified counts from the table
-so the number cannot drift again. This was exactly the docs-coherence drift
-**G-R4** exists to catch, occurring in the window before G-R4 is wired (#20).
+**The gate-count discrepancy is resolved (#38, DEC-039; wired half #88).** Four
+documents said 37, `PROGRAM_MANAGEMENT_SPEC.md` said 38, and the registry wires
+**22**. The spec's § 3 inventory enumerates **38** distinct ids (**29** tier-0
+capable, **9** tier-1), so "37" was the stale figure — a hand-count that drifted
+one behind the table, and the tier-1 prose was also one low. DEC-039's "11 wired"
+was likewise stale (the G-C series, G-E3/E4/E5/E8, G-M3, and G-R4 landed after
+it); #88 derives the wired count from `run_all.py`'s live registry so the figure
+cannot re-drift. `tooling/gates/gate_inventory.py` now emits both totals from
+their sources. This was exactly the docs-coherence drift **G-R4** exists to
+catch, occurring in the window before G-R4 is wired (#20).
 
 **Two tooling facts a session needs:**
 

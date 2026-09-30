@@ -1349,3 +1349,23 @@ def test_experiment_code_g_c3_fails_closed_on_an_unbound_call(tmp_path):
                     encoding="utf-8")
     assert check_g_c3(bare), "an unbound survival call must fail closed"
 
+
+# ---- gate_inventory: the wired count is derived, not hand-typed (issue #88) ----
+
+def test_gate_inventory_wired_total_matches_the_live_registry():
+    """The advertised wired count must equal what `run_all.py` registers."""
+    import gate_inventory as I
+    assert I.counts()["total"] == 38
+    assert I.registered_ids() == sorted(g.id for g in R.REGISTRY)
+    assert len(I.registered_ids()) == 22
+
+
+def test_gate_inventory_registered_ids_is_idempotent():
+    """Repeated calls must not double-count by re-appending to REGISTRY."""
+    import gate_inventory as I
+    before = list(R.REGISTRY)
+    first = I.registered_ids()
+    second = I.registered_ids()
+    assert first == second
+    assert R.REGISTRY == before, "deriving the count must not mutate the registry"
+

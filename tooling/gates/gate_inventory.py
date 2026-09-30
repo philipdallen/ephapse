@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
-"""Single source for the gate-count figures (issue #38).
+"""Single source for the gate-count figures (issues #38, #88).
 
 Three figures circulated in prose (37, 38, "7 wired") and disagreed with the
-registry. The spec's own § 3 inventory table is the authority — it enumerates
-the gate ids — so the count is derived from it here rather than hand-copied.
-Prose that quotes a count should cite this module's output, not a typed number.
+registry. The spec's own § 3 inventory table is the authority for the
+**specified** count — it enumerates the gate ids — so that count is derived
+from it here rather than hand-copied. The **wired** count is the number of ids
+`run_all.py` actually registers; it is read from the live registry for the same
+reason. Prose that quotes either figure should cite this module's output, not a
+typed number.
 
 Usage:
     python3 tooling/gates/gate_inventory.py           # human summary
@@ -58,14 +61,41 @@ def counts(spec_path: Path = SPEC) -> dict:
     }
 
 
+def registered_ids() -> list[str]:
+    """Return the ids `run_all.py` actually wires, from the live registry.
+
+    `run_all.py` discovers its gates by importing the `validate_*.py` /
+    `check_*.py` modules beside it; importing it here runs that discovery, so the
+    count cannot drift from the runner the way a hand-typed figure did.
+    """
+    import run_all
+
+    here = Path(__file__).resolve().parent
+    if str(here) not in sys.path:
+        sys.path.insert(0, str(here))
+    # `_load_gate_modules` appends to a module-level REGISTRY without clearing it,
+    # so calling it twice would double the list. Rebuild from empty and restore,
+    # which keeps this function idempotent for any caller.
+    saved = list(run_all.REGISTRY)
+    run_all.REGISTRY.clear()
+    try:
+        run_all._load_gate_modules()
+        return sorted({g.id for g in run_all.REGISTRY})
+    finally:
+        run_all.REGISTRY[:] = saved
+
+
 def main() -> int:
     c = counts()
+    c["wired"] = registered_ids()
+    c["wired_total"] = len(c["wired"])
     if "--json" in sys.argv:
         print(json.dumps(c, indent=2))
         return 0
     print(f"specified gate ids: {c['total']}")
     print(f"tier-0 capable:     {c['tier0']}  (of which {c['conditional']} conditional)")
     print(f"tier-1 only:        {c['tier1']}")
+    print(f"wired (registered): {c['wired_total']}  ({', '.join(c['wired'])})")
     return 0
 
 

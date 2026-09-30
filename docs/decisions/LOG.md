@@ -2115,6 +2115,12 @@ corrected. `tooling/gates/gate_inventory.py` now derives the specified counts
 from the spec's § 3 inventory table, so prose cites a computed number instead of
 a hand-typed one. Resolves #38.
 
+> **Superseded in part (2026-09-30, #88).** The wired figure **11** was itself a
+> hand-count and went stale: `run_all.py` now registers **22** gates (the G-C
+> series, G-E3/E4/E5/E8, G-M3, and G-R4 landed after this entry). #88 extends
+> `gate_inventory.py` to derive the wired count from the live registry, so both
+> halves of the count are computed, not typed. The 38/29/9 figures above stand.
+
 **Rationale — the disagreement was a hand-count, not a design change.** The spec's
 § 3 table enumerates 38 rows with 38 distinct ids; `PROGRAM_MANAGEMENT_SPEC.md`
 said 38, while `README.md`, `AGENT_HANDOFF.md`, and the spec's own § "Tier 0 is
