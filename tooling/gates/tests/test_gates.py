@@ -1397,6 +1397,75 @@ def test_experiment_code_g_c3_fails_closed_on_an_unbound_call(tmp_path):
     assert check_g_c3(bare), "an unbound survival call must fail closed"
 
 
+# ---- G-E9: a flagged finding cannot rest on an instrument-failed outcome ----
+
+def test_g_e9_fires_on_flagged_under_instrument_failed():
+    """The pairing issue #87 exists to reject.
+
+    The ledger record is otherwise rule-1 clean (its artifact and cited line both
+    resolve), so only the verdict/outcome join can catch it — which is the whole
+    point of the gate.
+    """
+    import validate_program as V
+    status, findings = V.check_flagged_findings_reachability(
+        R.FIXTURES / "program_ledger_flagged_on_instrument_failed")
+    assert status == "FAIL", f"expected FAIL, got {status}"
+    assert any("instrument-failed" in f and "flagged" in f for f in findings), findings
+
+
+def test_g_e9_passes_on_flagged_under_permitting_outcomes():
+    """`instrument-validated` and `phenomenon-present` may carry a flagged line.
+
+    Both are outcomes where the apparatus worked and a world-claim is reachable;
+    a gate that fired here would be rejecting the legitimate case.
+    """
+    import validate_program as V
+    assert V.check_flagged_findings_reachability(
+        R.FIXTURES / "program_ledger_flagged_reachable") == ("PASS", [])
+
+
+def test_g_e9_skips_when_findings_are_absent():
+    """No findings file means the join cannot be evaluated — SKIP, not PASS.
+
+    A green result computed from data the gate never had is the vacuous-PASS
+    defect this harness exists to prevent.
+    """
+    import json
+    import shutil
+    import tempfile
+    import validate_program as V
+    src = R.FIXTURES / "program_ledger_flagged_on_instrument_failed"
+    dst = Path(tempfile.mkdtemp())
+    for f in src.iterdir():
+        if f.name != "findings.jsonl":
+            shutil.copy(f, dst / f.name)
+    status, findings = V.check_flagged_findings_reachability(dst)
+    assert status == "SKIP", f"expected SKIP, got {status}"
+    assert findings and "findings fixture absent" in findings[0], findings
+
+
+def test_g_e9_does_not_fire_on_a_null_or_missing_citation():
+    """Only `flagged` citations are in scope; a null or dangling one is not.
+
+    `null` is not a phenomenon claim, and an out-of-range line is already G-M3's
+    finding. Neither is evidence of a flagged finding resting on a failed
+    instrument, so neither may make G-E9 fire.
+    """
+    import tempfile
+    import validate_program as V
+    tmp = Path(tempfile.mkdtemp())
+    (tmp / "findings.jsonl").write_text(
+        '# line 2 is null\n{"issue": 1, "verdict": "null"}\n', encoding="utf-8")
+    (tmp / "artifact.txt").write_text("x\n", encoding="utf-8")
+    (tmp / "ledger.jsonl").write_text(
+        '{"blocks": [], "decisions": [], "emergent": [], "findings": [2, 99], '
+        '"id": "P-001", "issue": 1, "kind": "experiment", "note": "n", '
+        '"outcome": "instrument-failed", "results": ["artifact.txt"], "rung": null, '
+        '"run_id": "20260930-0000-aaaa", "ts": "2026-09-30T00:00:00Z"}\n',
+        encoding="utf-8")
+    assert V.check_flagged_findings_reachability(tmp) == ("PASS", [])
+
+
 # ---- gate_inventory: the wired count is derived, not hand-typed (issue #88) ----
 
 def test_gate_inventory_wired_total_matches_the_live_registry():
@@ -1404,7 +1473,7 @@ def test_gate_inventory_wired_total_matches_the_live_registry():
     import gate_inventory as I
     assert I.counts()["total"] == 38
     assert I.registered_ids() == sorted(g.id for g in R.REGISTRY)
-    assert len(I.registered_ids()) == 22
+    assert len(I.registered_ids()) == 23
 
 
 def test_gate_inventory_registered_ids_is_idempotent():

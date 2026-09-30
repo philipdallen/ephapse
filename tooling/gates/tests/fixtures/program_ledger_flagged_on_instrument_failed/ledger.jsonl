@@ -1,0 +1,5 @@
+# G-E9 failing fixture — a `flagged` finding resting on `instrument-failed`.
+#
+# P-002 failed its instrument, yet cites a `flagged` finding. The ledger record
+# is otherwise rule-1 clean, so only the verdict/outcome join can catch it.
+{"blocks": [], "decisions": [], "emergent": [], "findings": [3], "id": "P-002", "issue": 2, "kind": "experiment", "note": "instrument failed but cites a flagged finding", "outcome": "instrument-failed", "results": ["artifact.txt"], "rung": null, "run_id": "20260930-0000-aaaa", "ts": "2026-09-30T00:00:00Z"}

@@ -1,0 +1,3 @@
+# G-E9 failing fixture — a `flagged` finding resting on `instrument-failed`.
+# Record line is 3; the ledger record P-002 cites it from that failed outcome.
+{"issue": 2, "verdict": "flagged", "ts": "2026-09-30T00:00:00Z"}

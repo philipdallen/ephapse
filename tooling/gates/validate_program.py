@@ -325,3 +325,112 @@ register(Gate(
     description="A rule-1 outcome's `results` exist and its `findings` lines "
                 "are real record lines.",
 ))
+
+
+# ------------------------------------------------------------------- G-E9
+# `verdict` (findings.jsonl) and `outcome` (the ledger) are orthogonal by
+# design, and §3.2's load-bearing distinction is that `instrument-failed` and
+# `phenomenon-present` both permit a `flagged` label while meaning opposite
+# things about the world. Nothing joined them: the ledger record's `findings:
+# [N]` link was unconstrained by its own `outcome`, so a record with
+# `outcome: instrument-failed` and `findings: [62]` (a `flagged` line) validated
+# cleanly (issue #87). This gate is that join.
+#
+# A `flagged` finding is a *claim about the world* — a co-activation that
+# survived the controls. It may only rest on an apparatus that worked:
+# `instrument-validated` or `phenomenon-present`. An instrument that failed
+# cannot carry a flagged phenomenon, so `instrument-failed` paired with a
+# `flagged` citation is rejected.
+#
+# Scope, stated because a gate is partial by construction: `defect-found` and
+# `requirement-emerged` are claims *about the work*, not about the world, so a
+# flagged citation there is rejected too — the gate only accepts the two outcomes
+# that can carry a world-claim. A `null` finding line is not a phenomenon claim,
+# so it is not flagged-reachable evidence either way and is never rejected.
+def check_flagged_findings_reachability(path: Path) -> tuple[str, list[str]]:
+    """G-E9: a `flagged` finding cannot rest on an `instrument-failed` outcome.
+
+    `path` is the fixture **directory** holding `ledger.jsonl` and the
+    `findings.jsonl` the citations are resolved against (the G-M3 form, so the
+    check runs against a fixture tree rather than the live files, whose record
+    lines drift as evidence is appended). The gate reads `outcome` from the
+    ledger and `verdict` from the cited finding line — neither file carries the
+    other's field, which is why this is a cross-file join and not a schema check.
+    """
+    ledger_jsonl = path / "ledger.jsonl"
+    if not ledger_jsonl.exists():
+        return "SKIP", [f"ledger fixture absent ({ledger_jsonl.name})"]
+    findings_jsonl = path / "findings.jsonl"
+    if not findings_jsonl.exists():
+        return "SKIP", [f"findings fixture absent ({findings_jsonl.name})"]
+
+    program_dir = REPO / "program"
+    if str(program_dir) not in sys.path:
+        sys.path.insert(0, str(program_dir))
+    try:
+        import ledger as L
+    except Exception as e:  # noqa: BLE001 - a gate fails, it does not crash
+        return "FAIL", [f"cannot import program/ledger.py — {type(e).__name__}: {e}"]
+
+    try:
+        records = L.read_ledger(ledger_jsonl)
+    except Exception as e:  # noqa: BLE001 - a gate fails, it does not crash
+        return "FAIL", [f"ledger fixture unreadable — {type(e).__name__}: {e}"]
+
+    # Resolve each cited line to its `verdict`. Read the file as physical lines
+    # so a citation's line number means the same thing the ledger's own rule-1
+    # check means by it. A line that does not parse, or carries no `verdict`
+    # string, is not a `flagged` finding and cannot trigger this gate; the
+    # missing/out-of-range citation is already G-M3's finding, not a second one.
+    verdicts: dict[int, object] = {}
+    for i, line in enumerate(
+            findings_jsonl.read_text(encoding="utf-8").splitlines(), start=1):
+        line = line.strip()
+        if not line or line.startswith("#"):
+            continue
+        try:
+            rec = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if isinstance(rec, dict):
+            verdicts[i] = rec.get("verdict")
+
+    # Outcome classes that permit a `flagged` finding — a claim about the world.
+    # `instrument-validated` (the apparatus was shown to work) and
+    # `phenomenon-present` (a measurement that found something) only.
+    FLAGGED_REACHABLE = ("instrument-validated", "phenomenon-present")
+
+    findings: list[str] = []
+    for rec in records:
+        if rec.outcome is None:
+            continue
+        for entry in rec.findings:
+            if not isinstance(entry, int) or isinstance(entry, bool):
+                continue
+            if verdicts.get(entry) != "flagged":
+                continue
+            if rec.outcome == "instrument-failed":
+                findings.append(
+                    f"G-E9 {rec.id}: outcome `instrument-failed` cites flagged "
+                    f"finding line {entry} — an instrument that failed cannot "
+                    f"carry a flagged phenomenon (spec §3.2)")
+            elif rec.outcome not in FLAGGED_REACHABLE:
+                findings.append(
+                    f"G-E9 {rec.id}: outcome `{rec.outcome}` cites flagged "
+                    f"finding line {entry} — a flagged finding requires outcome "
+                    f"in {FLAGGED_REACHABLE} (spec §3.2)")
+    if not findings:
+        return "PASS", []
+    return "FAIL", findings
+
+
+register(Gate(
+    id="G-E9", name="flagged-finding reachability", tier=0,
+    check=lambda p: [],
+    check_status=check_flagged_findings_reachability,
+    clean_fixture="program_ledger_flagged_reachable",
+    failing_fixture="program_ledger_flagged_on_instrument_failed",
+    traces_to="PROGRAM_MANAGEMENT_SPEC.md section 3.2; issue #87",
+    description="A `flagged` finding cannot rest on an `instrument-failed` "
+                "outcome — the join between `verdict` and `outcome`.",
+))

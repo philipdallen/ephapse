@@ -1,0 +1,7 @@
+# G-E9 clean fixture — `flagged` findings reached from outcomes that permit them.
+#
+# P-002 is `instrument-validated` (the apparatus was shown to work) and P-003 is
+# `phenomenon-present` (a measurement that found something). Both may carry a
+# `flagged` finding, which is a claim about the world. The gate must be silent.
+{"blocks": [], "decisions": [], "emergent": [], "findings": [3], "id": "P-002", "issue": 2, "kind": "experiment", "note": "apparatus validated; flagged finding is reachable", "outcome": "instrument-validated", "results": ["artifact.txt"], "rung": null, "run_id": "20260930-0000-aaaa", "ts": "2026-09-30T00:00:00Z"}
+{"blocks": [], "decisions": [], "emergent": [], "findings": [3], "id": "P-003", "issue": 3, "kind": "experiment", "note": "phenomenon present; flagged finding is reachable", "outcome": "phenomenon-present", "results": ["artifact.txt"], "rung": 2, "run_id": "20260930-0000-aaaa", "ts": "2026-09-30T00:00:00Z"}

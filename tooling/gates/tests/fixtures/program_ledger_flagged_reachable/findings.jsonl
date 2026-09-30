@@ -1,0 +1,4 @@
+# G-E9 clean fixture — findings whose `verdict` a ledger record cites.
+# Record lines are 3 (flagged) and 4 (null); both cited from permitting outcomes.
+{"issue": 2, "verdict": "flagged", "ts": "2026-09-30T00:00:00Z"}
+{"issue": 3, "verdict": "null", "ts": "2026-09-30T00:00:00Z"}
