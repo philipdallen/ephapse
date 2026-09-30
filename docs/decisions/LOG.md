@@ -2211,3 +2211,58 @@ false-positive class.
 - The fail-closed branch in `check_model_authorized` is unchanged; the two
   accept paths are additive and body-checked.
 
+
+
+---
+
+## DEC-041 — Adopt the directive-first task protocol (pilot on ephapse)
+
+**Date:** 2026-09-30
+**Status:** Proposed
+**Tier:** 2
+**Scope:** Task protocol
+**Origin:** human
+**Directive (verbatim):** source "chat with Claude, 2026-09-30, no link available":
+
+> "I want to build in a step that my decisions are logged by the top level
+> agent before subtasks are created. then agents pickup tasks and decompose if
+> needed. then complete work . if they hit a blocker they file a task for me.
+> and it all continues. I also want to start encouraging duplicate work to
+> compare which is best and merge only the winner."
+>
+> "maybe we need to build in the research and consideration step so that I
+> don't accidentally launch a new directive without proper thought."
+>
+> "the goal is to pilot on ephapse"
+
+**Decision:** Adopt the directive-first task protocol appended to
+`docs/decisions/considerations/DEC-041.proposal.md` (sha256
+`b41df84f82ed362d11bb27079a58c39660be29256ecc312c61f2f1a02db4dbce`), as a
+pilot on ephapse only. The protocol adds three things to
+`docs/MULTI_AGENT_WORKFLOW.md`: (1) every task traces to a logged decision that
+exists before the task does, (2) a consideration step (memo, plus an independent
+challenge and a 24-hour wait for Tier 2) so a directive cannot become a decision
+without research and an explicit human ratification, and (3) an opt-in bake-off
+mode where several agents attempt the same task on slot branches and only the
+judged winner merges.
+
+**Rationale:** The human's direction is to make the decision-to-task ordering
+explicit and auditable, to force a research step before a directive binds the
+queue, and to allow sanctioned duplicate work where a task has a genuine design
+choice. This is a load-bearing, hard-to-reverse change (it adds a gate, changes
+the commit-to-`main` rule for bake-off slots, and touches the blocker and label
+vocabulary), so it is Tier 2: it needs a consideration memo, an independent
+challenge from a different run, and a 24-hour waiting period before ratification.
+The pilot is scoped to ephapse so the cost can be measured before it spreads.
+
+**Consideration:** `docs/decisions/considerations/DEC-041.md` (memo, to be
+written) and `docs/decisions/considerations/DEC-041.challenge.md` (independent
+challenge, a different run).
+**Ratified:** pending — no ratifying comment yet.
+**Spawns:** to be filled as issues are filed.
+**Acceptance:** over the next N directives, observable counts of (a) directives
+that reached `Active` with a consideration memo, (b) directives rejected or
+amended at consideration, and (c) `URGENT` overrides used. The pilot works if a
+directive cannot reach `Active` without a memo, a challenge where Tier 2 applies,
+and a ratifying comment ordered after the memo, and if the override and
+`Rejected` counts are low enough to read as exceptions rather than the norm.
