@@ -43,6 +43,7 @@ from __future__ import annotations
 
 import json
 import re
+import sys
 from pathlib import Path
 
 from run_all import Gate, register           # noqa: E402
@@ -259,4 +260,68 @@ register(Gate(
     failing_fixture="program_r2_available_blocked.json",
     traces_to="PROGRAM_MANAGEMENT_SPEC.md section 4; MULTI_AGENT_WORKFLOW.md section 1a",
     description="An available issue has no open blocker.",
+))
+
+
+# ------------------------------------------------------------------- G-M3
+def check_ledger_rule1_artifacts(path: Path) -> tuple[str, list[str]]:
+    """G-M3: a ledger rule-1 outcome must rest on artifacts that exist.
+
+    Rule 1 (`outcome` requires `results` or `findings`) was satisfiable by a
+    string: the check only counted the lists, never touched the filesystem, so
+    an outcome could rest on an absent artifact or cite a finding line outside
+    `findings.jsonl` (issue #85). This gate asserts the mechanical half of the
+    fix — existence of each `results` path, and range of each `findings` line.
+
+    `path` is the fixture **directory** holding `ledger.jsonl` and the
+    `findings.jsonl` the citations are resolved against; both resolve relative
+    to that directory, so the gate never reads the live repo file whose record
+    lines drift as evidence is appended. Semantic correctness — whether the
+    artifact passed its downstream gate — is deliberately out of scope (the
+    issue says so); existence and range are what a tier-0 gate can check.
+
+    `program/` is not a package, so ledger.py is imported by path rather than by
+    name. A gate must fail, not crash, so an import error is reported as a
+    finding rather than allowed to propagate into run_all's BROKEN path.
+    """
+    ledger_jsonl = path / "ledger.jsonl"
+    if not ledger_jsonl.exists():
+        return "SKIP", [f"ledger fixture absent ({ledger_jsonl.name})"]
+
+    program_dir = REPO / "program"
+    if str(program_dir) not in sys.path:
+        sys.path.insert(0, str(program_dir))
+    try:
+        import ledger as L
+    except Exception as e:  # noqa: BLE001 - a gate fails, it does not crash
+        return "FAIL", [f"cannot import program/ledger.py — {type(e).__name__}: {e}"]
+
+    try:
+        records = L.read_ledger(ledger_jsonl)
+    except Exception as e:  # noqa: BLE001 - a gate fails, it does not crash
+        return "FAIL", [f"ledger fixture unreadable — {type(e).__name__}: {e}"]
+
+    findings: list[str] = []
+    for rec in records:
+        try:
+            rec.validate(results_root=path, findings_path=path / "findings.jsonl")
+        except L.LedgerError as e:
+            findings.append(f"G-M3 {rec.id}: {e}")
+        except Exception as e:  # noqa: BLE001 - a gate fails, it does not crash
+            findings.append(f"G-M3 {rec.id}: validation raised "
+                            f"{type(e).__name__}: {e}")
+    if not findings:
+        return "PASS", []
+    return "FAIL", findings
+
+
+register(Gate(
+    id="G-M3", name="ledger rule-1 artifacts", tier=0,
+    check=lambda p: [],
+    check_status=check_ledger_rule1_artifacts,
+    clean_fixture="program_ledger",
+    failing_fixture="program_ledger_missing_artifact",
+    traces_to="PROGRAM_MANAGEMENT_SPEC.md section 4; issue #85",
+    description="A rule-1 outcome's `results` exist and its `findings` lines "
+                "are real record lines.",
 ))

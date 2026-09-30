@@ -1,0 +1,4 @@
+# Findings fixture for the missing-artifact case. It exists (so the failure is
+# unambiguously the missing result, not an absent findings file) and holds one
+# record line.
+{"issue": 2, "verdict": "flagged", "ts": "2026-09-30T00:00:00Z"}

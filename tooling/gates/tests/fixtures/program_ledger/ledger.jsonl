@@ -1,0 +1,9 @@
+# G-M3 clean fixture — a ledger whose rule-1 records rest on real artifacts.
+#
+# `results` names `artifact.txt`, which exists beside this file; `findings`
+# cites line 3, a real record line in this fixture's findings.jsonl (records are
+# lines 3 and 4). Both resolve relative to this directory, the fixture root the
+# gate passes to ledger.py — so the check never depends on the live repo file,
+# whose record lines drift as evidence is appended.
+{"blocks": [], "decisions": [], "emergent": [], "findings": [], "id": "P-001", "issue": 1, "kind": "protocol", "note": "in-flight record: outcome null, so rule 1 does not apply", "outcome": null, "results": [], "rung": null, "run_id": "20260930-0000-aaaa", "ts": "2026-09-30T00:00:00Z"}
+{"blocks": [], "decisions": [], "emergent": [], "findings": [3], "id": "P-002", "issue": 2, "kind": "experiment", "note": "outcome rests on a real artifact and a real finding line", "outcome": "instrument-validated", "results": ["artifact.txt"], "rung": null, "run_id": "20260930-0000-aaaa", "ts": "2026-09-30T00:00:00Z"}

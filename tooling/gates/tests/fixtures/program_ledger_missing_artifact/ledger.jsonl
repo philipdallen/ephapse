@@ -1,0 +1,5 @@
+# G-M3 FAILING fixture (a) — a rule-1 outcome resting on an artifact that does
+# not exist. `experiments/does-not-exist.json` is absent from this fixture root,
+# which is exactly the assertion-recorded-as-evidence hole issue #85 names.
+# Reproduces the issue's own example.
+{"blocks": [], "decisions": [], "emergent": [], "findings": [], "id": "P-999", "issue": 999, "kind": "experiment", "note": "bogus path", "outcome": "instrument-validated", "results": ["experiments/does-not-exist.json"], "rung": null, "run_id": "20260930-0000-zzzz", "ts": "2026-09-30T00:00:00Z"}

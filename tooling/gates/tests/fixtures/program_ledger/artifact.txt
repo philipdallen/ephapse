@@ -1,0 +1,2 @@
+The artifact a rule-1 outcome rests on. Its existence is what makes the clean
+fixture's P-002 record a record rather than an assertion.

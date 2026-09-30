@@ -1,0 +1,4 @@
+# Findings fixture — record lines are 2 and 3. The leading comment is not a
+# citable record line, so the valid citations are 2..3 and 1 or 4 must fail.
+{"issue": 2, "verdict": "flagged", "ts": "2026-09-30T00:00:00Z"}
+{"issue": 3, "verdict": "null", "ts": "2026-09-30T00:00:00Z"}

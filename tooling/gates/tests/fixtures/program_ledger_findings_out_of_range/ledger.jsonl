@@ -1,0 +1,6 @@
+# G-M3 FAILING fixture (b) — a rule-1 outcome whose `results` artifact exists
+# (so that half of the rule passes) but whose `findings` citation points past the
+# end of findings.jsonl. That file holds two record lines (3 and 4), so a
+# citation of 99 is out of range — the "line numbers are likewise unchecked"
+# half of issue #85.
+{"blocks": [], "decisions": [], "emergent": [], "findings": [99], "id": "P-998", "issue": 998, "kind": "experiment", "note": "finding line out of range", "outcome": "instrument-validated", "results": ["artifact.txt"], "rung": null, "run_id": "20260930-0000-zzzz", "ts": "2026-09-30T00:00:00Z"}

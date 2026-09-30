@@ -1,0 +1,4 @@
+# Findings fixture — record lines are 3 and 4, so the out-of-range citation of 99
+# in the ledger is unambiguous.
+{"issue": 2, "verdict": "flagged", "ts": "2026-09-30T00:00:00Z"}
+{"issue": 3, "verdict": "null", "ts": "2026-09-30T00:00:00Z"}

@@ -1,0 +1,2 @@
+The artifact this failing fixture's `results` names. It exists so the gate fires
+on the out-of-range `findings` citation, not on a missing result.

@@ -101,39 +101,49 @@ def next_record_id(existing: "list[LedgerRecord]") -> str:
     return f"P-{n + 1:03d}"
 
 
-def _findings_record_lines() -> set[int]:
+def _findings_record_lines(findings_path: Optional[Path] = None) -> set[int]:
     """1-based physical line numbers in `findings.jsonl` that hold a record.
 
     The ledger header defines a `findings` entry as a 1-based line number in
     `findings.jsonl`; the committed records cite 62..66, the file's real
     records. The header's leading `#` comment lines and any blank lines are not
     citable — a citation must point at a finding, not at the file.
+
+    `findings_path` defaults to the repo's `findings.jsonl`; the tier-0 gate
+    passes a fixture-local path so its check runs against a fixture, not the
+    live file (which would drift as records are appended).
     """
-    if not FINDINGS.exists():
+    if findings_path is None:
+        findings_path = FINDINGS
+    if not findings_path.exists():
         return set()
-    lines = FINDINGS.read_text(encoding="utf-8").splitlines()
+    lines = findings_path.read_text(encoding="utf-8").splitlines()
     return {
         i for i, line in enumerate(lines, start=1)
         if line.strip() and not line.lstrip().startswith("#")
     }
 
 
-def _resolve_result_path(entry: object) -> Optional[str]:
+def _resolve_result_path(entry: object, root: Optional[Path] = None) -> Optional[str]:
     """Return the rejection reason for a `results` entry, or None when it exists.
 
-    Repo-relative entries resolve against `REPO`. An absolute path is resolved
-    as-is, and an entry that would escape the repo root is rejected as out of
-    scope — a ledger record may only rest on artifacts inside the repository.
+    Repo-relative entries resolve against `root` (the repo by default). An
+    absolute path is resolved as-is, and an entry that would escape the root is
+    rejected as out of scope — a ledger record may only rest on artifacts inside
+    the repository. The gate passes a fixture root so the same rule is checked
+    against a fixture tree.
     """
+    if root is None:
+        root = REPO
     if not isinstance(entry, str) or not entry.strip():
         return f"results entry {entry!r} is not a non-empty string"
     rel = Path(entry)
     if rel.is_absolute():
         target = rel.resolve()
     else:
-        target = (REPO / rel).resolve()
+        target = (root / rel).resolve()
     try:
-        target.relative_to(REPO)
+        target.relative_to(root)
     except ValueError:
         return f"results entry {entry!r} resolves outside the repository"
     if not target.exists():
@@ -160,8 +170,16 @@ class LedgerRecord:
     note: str = ""
 
     # ------------------------------------------------------------ validation
-    def validate(self, kind_vocabulary: Optional[tuple[str, ...]] = None) -> None:
-        """Enforce spec §4's four rules plus the schema. Raises LedgerError."""
+    def validate(self, kind_vocabulary: Optional[tuple[str, ...]] = None,
+                 results_root: Optional[Path] = None,
+                 findings_path: Optional[Path] = None) -> None:
+        """Enforce spec §4's four rules plus the schema. Raises LedgerError.
+
+        `results_root` and `findings_path` locate the artifacts rule 1 checks
+        against; both default to the repository, which is what `append_record`
+        wants. The tier-0 gate passes a fixture root so the same code path is
+        exercised against a fixture, not the live files.
+        """
         if not self.id:
             raise LedgerError("id is required")
         if not self.ts:
@@ -198,12 +216,12 @@ class LedgerRecord:
                 "populated — an outcome with no artifact behind it is an "
                 "assertion (spec §4)")
         for entry in self.results:
-            reason = _resolve_result_path(entry)
+            reason = _resolve_result_path(entry, root=results_root)
             if reason is not None:
                 raise LedgerError(
                     f"rule 1: {reason} — `results` must name an existing "
                     f"repository artifact (spec §4)")
-        n_findings = _findings_record_lines()
+        n_findings = _findings_record_lines(findings_path)
         for entry in self.findings:
             if not isinstance(entry, int) or isinstance(entry, bool):
                 raise LedgerError(
