@@ -2255,9 +2255,9 @@ vocabulary), so it is Tier 2: it needs a consideration memo, an independent
 challenge from a different run, and a 24-hour waiting period before ratification.
 The pilot is scoped to ephapse so the cost can be measured before it spreads.
 
-**Consideration:** `docs/decisions/considerations/DEC-041.md` (memo, to be
-written) and `docs/decisions/considerations/DEC-041.challenge.md` (independent
-challenge, a different run).
+**Consideration:** `docs/decisions/considerations/DEC-041.md` (memo) and
+`docs/decisions/considerations/DEC-041.challenge.md` (independent challenge, a
+different run — not yet written).
 **Ratified:** pending — no ratifying comment yet.
 **Spawns:** to be filled as issues are filed.
 **Acceptance:** over the next N directives, observable counts of (a) directives
