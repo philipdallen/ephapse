@@ -345,13 +345,17 @@ close + unblock dependents) before claiming the next.
    leave work sitting on the local branch behind a credentials prompt.
 
 1d. **Directive sweep (advisory).** Run
-   `python3 tooling/gates/directive_scan.py` and report its findings in the
-   sweep comment. It lists task issues filed from #89 onward with no
+   `python3 tooling/gates/directive_scan.py --issues-file /tmp/issues.json`
+   (cache the queue first with `gh issue list --state all --limit 200
+   --json number,title,labels,body > /tmp/issues.json`) and report its findings
+   in the sweep comment. It lists task issues filed from #89 onward with no
    `Directive: DEC-NNN` trailer, DECs marked `Active` with no consideration
-   memo, and open bake-offs whose slots are missing. It is **warn-only**; do
-   not block work on it. Bake-off slots are swept like any other issue, with
-   one addition: a slot whose parent bake-off is already judged is stale and
-   is reported, not reclaimed.
+   memo, a Tier 2 `Active` DEC with no challenge file, a
+   `status:blocked-needs-input` issue with no `needs:human` label, and a
+   `bakeoff` slot that does not name its parent (`Bakeoff: #PARENT/<slot>`).
+   It is **warn-only**; do not block work on it. Bake-off slots are swept like
+   any other issue, with one addition: a slot whose parent bake-off is already
+   judged is stale and is reported, not reclaimed.
 
 1e. **Start-of-session: list stalled proposals.** List every DEC still marked
    `Proposed` whose log entry is older than 7 days and that has no

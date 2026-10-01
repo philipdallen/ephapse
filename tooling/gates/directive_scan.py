@@ -7,7 +7,7 @@ layers, both warn-only by default:
 | Layer | Source | Checks |
 |-------|--------|--------|
 | offline | `docs/decisions/LOG.md`, `docs/decisions/considerations/`, `git log` | DEC-041 §1 and §1a: a cited DEC exists and is `Active`, an `Active` Tier 1/2 DEC has a memo with the eight headings, a Tier 2 DEC has a challenge, the tier keyword rule, and `Directive:` trailers on commits |
-| tracker | a cached issues JSON (`--issues-file`) | §1: every `status:available`/`status:claimed` issue from #89 carries `Directive: DEC-NNN`, and the cited DEC is `Active` |
+| tracker | a cached issues JSON (`--issues-file`) | §1: every `status:available`/`status:claimed` issue from #89 carries `Directive: DEC-NNN`, and the cited DEC is `Active`; §3: a `status:blocked-needs-input` issue carries `needs:human`; §4: a `bakeoff` slot names its parent (`Bakeoff: #PARENT/<slot>`) |
 
 WHY WARN-ONLY
 
@@ -69,6 +69,7 @@ TIER2_KEYWORDS = re.compile(
     re.IGNORECASE,
 )
 DIRECTIVE_RE = re.compile(r"Directive:\s*(DEC-\d{3})")
+BAKEOFF_SLOT_RE = re.compile(r"Bakeoff:\s*#\d+/\S+")
 DEC_HEADING_RE = re.compile(r"^##\s+(DEC-\d{3})\s+—")
 STATUS_RE = re.compile(r"\*\*Status:\*\*\s*(\w+)")
 TIER_RE = re.compile(r"\*\*Tier:\*\*\s*(\d)")
@@ -250,6 +251,40 @@ def check_commit_trailer(sha: str, subject: str, body: str) -> list[Finding]:
     return [Finding("commit-trailer", f"{sha[:7]} has no `Directive:` trailer")]
 
 
+def check_blocker_needs_human(issue: dict) -> list[Finding]:
+    """A blocked-needs-input issue is a task in the human's queue.
+
+    DIRECTIVE_PROTOCOL § 3 step 2: the blocker carries `needs:human` so
+    `needs-audit.sh` lists it. Without the label the ask is invisible, which is
+    the failure mode the protocol exists to close.
+    """
+    number = issue.get("number", 0)
+    if number <= GRANDFATHER_MAX:
+        return []
+    names = [l["name"] if isinstance(l, dict) else l for l in issue.get("labels", [])]
+    if "status:blocked-needs-input" in names and "needs:human" not in names:
+        return [Finding("blocker-needs-human",
+                        f"#{number} is status:blocked-needs-input without `needs:human`")]
+    return []
+
+
+def check_bakeoff_slot_has_parent(issue: dict) -> list[Finding]:
+    """A `bakeoff` slot names its parent and slot (`Bakeoff: #PARENT/<slot>`).
+
+    DIRECTIVE_PROTOCOL § 4: the field is what lets the sweep match a slot to its
+    parent and what the merge trailers are checked against. A slot without it is
+    an orphan the sweep cannot see.
+    """
+    number = issue.get("number", 0)
+    if number <= GRANDFATHER_MAX:
+        return []
+    names = [l["name"] if isinstance(l, dict) else l for l in issue.get("labels", [])]
+    if "bakeoff" in names and not BAKEOFF_SLOT_RE.search(issue.get("body") or ""):
+        return [Finding("bakeoff-slot-parent",
+                        f"#{number} is labeled `bakeoff` but has no `Bakeoff: #PARENT/<slot>`")]
+    return []
+
+
 def check_tier2_urgent_window(dec_id: str, ratified_at: str, memo_at: str,
                               urgent: bool) -> list[Finding]:
     if not (ratified_at and memo_at) or urgent:
@@ -330,11 +365,14 @@ def scan(issues: list[dict] | None, decs: dict[str, Dec]) -> tuple[list[Finding]
 
     if issues is None:
         skipped.append("tracker checks (no --issues-file): issue-has-directive, "
-                       "cited-dec-exists, cited-dec-active, proposed-dec-cited")
+                       "cited-dec-exists, cited-dec-active, proposed-dec-cited, "
+                       "blocker-needs-human, bakeoff-slot-parent")
     else:
         for issue in issues:
             findings.extend(check_issue_has_directive(issue))
             findings.extend(check_proposed_dec_not_cited_by_task(issue, decs))
+            findings.extend(check_blocker_needs_human(issue))
+            findings.extend(check_bakeoff_slot_has_parent(issue))
             m = DIRECTIVE_RE.search(issue.get("body") or "")
             if m:
                 findings.extend(check_cited_dec_exists(m.group(1), decs))
@@ -350,7 +388,7 @@ def scan(issues: list[dict] | None, decs: dict[str, Dec]) -> tuple[list[Finding]
 # Self-test: every check must fire on a bad case and stay silent on a good one.
 # --------------------------------------------------------------------------
 
-def gate_d1(path: Path) -> list[str]:
+def gate_directive(path: Path) -> list[str]:
     """Fixture entry point: scan a fixture tree (`LOG.md`, `considerations/`,
     optional `issues.json`) with the offline + tracker checks.
 
@@ -375,21 +413,25 @@ def gate_d1(path: Path) -> list[str]:
         for issue in issues:
             findings.extend(str(f) for f in check_issue_has_directive(issue))
             findings.extend(str(f) for f in check_proposed_dec_not_cited_by_task(issue, decs))
+            findings.extend(str(f) for f in check_blocker_needs_human(issue))
+            findings.extend(str(f) for f in check_bakeoff_slot_has_parent(issue))
     return findings
 
 
 register(Gate(
-    id="G-D1",
+    id="G-M4",
     name="directive-first",
     tier=0,
-    check=gate_d1,
+    check=gate_directive,
     clean_fixture="directive_scan/clean",
     failing_fixture="directive_scan/failing",
-    traces_to="DIRECTIVE_PROTOCOL.md § 1, § 1a (DEC-041)",
+    traces_to="DIRECTIVE_PROTOCOL.md § 1, § 1a, § 3, § 4 (DEC-041)",
     description="An Active Tier 1/2 DEC has a memo with the eight headings and, "
                 "at Tier 2, a challenge file; a Tier 0/1 DEC does not match Tier 2 "
-                "keywords; and a claimable issue from #89 has a `Directive:` citing "
-                "a DEC that exists. Advisory by default (`--strict` to fail).",
+                "keywords; a claimable issue from #89 has a `Directive:` citing "
+                "a DEC that exists; a blocked-needs-input issue carries "
+                "`needs:human`; a `bakeoff` slot names its parent. Advisory by "
+                "default (`--strict` to fail).",
 ))
 
 
@@ -438,6 +480,12 @@ def _selftest() -> int:
         ("tier2-urgent-window",
          lambda: check_tier2_urgent_window("DEC-900", "2026-09-30T12:00:00Z", "2026-09-30T00:00:00Z", False),
          lambda: check_tier2_urgent_window("DEC-900", "2026-10-02T00:00:00Z", "2026-09-30T00:00:00Z", False)),
+        ("blocker-needs-human",
+         lambda: check_blocker_needs_human({"number": 200, "labels": ["status:blocked-needs-input"], "body": ""}),
+         lambda: check_blocker_needs_human({"number": 200, "labels": ["status:blocked-needs-input", "needs:human"], "body": ""})),
+        ("bakeoff-slot-parent",
+         lambda: check_bakeoff_slot_has_parent({"number": 200, "labels": ["bakeoff"], "body": "no parent named"}),
+         lambda: check_bakeoff_slot_has_parent({"number": 200, "labels": ["bakeoff"], "body": "Bakeoff: #200/slot-a\n"})),
     ]
 
     broken = 0

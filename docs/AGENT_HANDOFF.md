@@ -463,10 +463,13 @@ written down — including one produced by the session that proposed the gate.
 Ported from Maith's `docs/MULTI_AGENT_WORKFLOW.md` (itself ported from
 PleaNP), which battle-tested it. See `docs/MULTI_AGENT_WORKFLOW.md` in
 this repo for the full protocol. **Task direction is governed by
-`docs/DIRECTIVE_PROTOCOL.md`** (adopted 2026-09-30, DEC-041, pilot): no task
-issue is filed until the decision that justifies it is `Active` in
-`docs/decisions/LOG.md`, and each issue from #89 onward carries
-`Directive: DEC-NNN`. Summary:
+`docs/DIRECTIVE_PROTOCOL.md`** (adopted 2026-09-30, DEC-041; **full pilot,
+scoped to ephapse**): no task issue is filed until the decision that justifies
+it is `Active` in `docs/decisions/LOG.md`, and each issue from #89 onward
+carries `Directive: DEC-NNN`. The advisory scanner
+(`tooling/gates/directive_scan.py`, gate `G-M4`) additionally checks the
+consideration memo and Tier 2 challenge, the `needs:human` label on blockers,
+and the `Bakeoff: #PARENT/<slot>` field on slots. Summary:
 
 - Status labels: `status:available` / `status:claimed` / `status:done` /
   `status:blocked-needs-input`.
