@@ -62,7 +62,7 @@ jobs:
     name: Tier-0 gates (fixtures prove each can fail)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           # G-E6 (append-only) reads a committed high-water mark rather than
           # history, so a shallow clone is sufficient and no `fetch-depth: 0`
@@ -109,7 +109,7 @@ jobs:
     name: Stdlib test suites
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       # The two dependencies this workflow installs, and no more. `pytest` runs
       # `tooling/gates/tests/`; `numpy` is required by `tooling/gates/comparators.py`,
