@@ -5,6 +5,15 @@ Maith's `docs/decisions/LOG.md`: each entry is numbered `DEC-0NN`, dated,
 and states the decision plus its rationale. Entries are append-only —
 supersede rather than edit.
 
+**Status vocabulary:** `Proposed` | `Active` | `Rejected` | `Superseded`.
+A decision is `Proposed` when it is logged, and becomes `Active` only after
+the consideration step and a human ratification (`docs/DIRECTIVE_PROTOCOL.md`
+§ 1a). Consideration memos and challenges live in
+`docs/decisions/considerations/`. From DEC-041 onward the extended entry
+format in `docs/DIRECTIVE_PROTOCOL.md` § 1 is authoritative: it adds `Tier`,
+`Scope`, `Origin`, the verbatim `Directive`, `Consideration`, `Ratified`, and
+`Spawns`. Entries before DEC-041 keep their original format.
+
 ---
 
 ## DEC-001 — Single active branch: `dev`
@@ -2224,7 +2233,7 @@ false-positive class.
 ## DEC-041 — Adopt the directive-first task protocol (pilot on ephapse)
 
 **Date:** 2026-09-30
-**Status:** Proposed
+**Status:** Active
 **Tier:** 2
 **Scope:** Task protocol
 **Origin:** human
@@ -2261,11 +2270,27 @@ vocabulary), so it is Tier 2: it needs a consideration memo, an independent
 challenge from a different run, and a 24-hour waiting period before ratification.
 The pilot is scoped to ephapse so the cost can be measured before it spreads.
 
-**Consideration:** `docs/decisions/considerations/DEC-041.md` (memo) and
-`docs/decisions/considerations/DEC-041.challenge.md` (independent challenge, a
-different run — not yet written).
-**Ratified:** pending — no ratifying comment yet.
-**Spawns:** to be filled as issues are filed.
+**Consideration:** `docs/decisions/considerations/DEC-041.md` (memo, run
+`20260930-1127-iyn6`) and `docs/decisions/considerations/DEC-041.challenge.md`
+(independent challenge, run `20260930-1241-q7mx` — a different run, which argued
+Option B′ and added conflicts C7–C9).
+**Ratified:** 2026-09-30 by the owner out of band, **in chat** ("Complete the new
+process"), **not** by the in-band `RATIFY DEC-041` comment §1a specifies. This is
+an `URGENT`-class override recorded honestly: the comment mechanism could not be
+used because every comment on this repo is posted by the single shared account
+`philipdallen`, so a chat instruction and a comment are indistinguishable at the
+API and a `RATIFY` comment would have been authored by the agent, not the human.
+The 24-hour floor (which would have fallen at 2026-10-01T12:43:30Z, 24h after
+the challenge commit `78298a7`) was therefore **waived by the owner**, not met.
+The chat instruction is the human's ratification for this pilot; it is not
+verifiable from the repo, and that weakness is recorded rather than hidden
+(see §11 of the memo).
+**Spawns:** #89 (consideration, closed), #90 (challenge, closed), #91
+(auditor digest, pre-existing, not from this DEC), #92 (scanner
+`directive_scan.py` and grandfather cutoff), #93 (section 5 amendments and the
+`docs/DIRECTIVE_PROTOCOL.md` copy). Registration in portfolio-ops is **not
+filed as an ephapse issue** — it lands directly in that repo as part of the
+pilot and is recorded in its register. No bake-off was run.
 **Acceptance:** over the next N directives, observable counts of (a) directives
 that reached `Active` with a consideration memo, (b) directives rejected or
 amended at consideration, and (c) `URGENT` overrides used. The pilot works if a
