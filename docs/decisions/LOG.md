@@ -2397,3 +2397,26 @@ is part of the pilot, not a separate direction.
 a fixture proving the check can fire; the gate suite still passes 24/24; and the
 live-queue scan remains clean. The pilot's own acceptance (DEC-041) is unchanged
 and still measured over the next N directives.
+
+## DEC-043 — RLM Analyzer triage decisions for ephapse
+
+**Date:** 2026-10-01
+**Status:** Active
+**Tier:** 1
+**Scope:** Task protocol
+**Origin:** human
+**Decision:** Triage decisions governing how the RLM Analyzer pass over ephapse becomes tasks.
+
+- **D1** — An RLM Analyzer report is unverified LLM triage. A finding becomes a task only after it is confirmed against raw files in this repo.
+- **D2** — A refuted or stale finding gets no task; it is recorded in the triage summary with the evidence that refutes it.
+- **D3** — Generic web-application security advice (authentication, authorization, API validation, security headers, WAF, pen testing, SAST/DAST, log anomaly detection) does not apply to a Python analysis repo that runs no web service, so no task is filed for it.
+- **D4** — One task per verified finding, no bundling and no extra scope.
+- **D5** — Anything that needs a human choice is filed as a blocker for the owner, not decided by the agent.
+
+**Rationale:** The reports are a triage aid, not a source of truth. Verification against raw artifacts is the only step that separates a real defect from a plausible-sounding one, which is the rule the integrity gates already apply to results. D4 keeps each task claimable in one run with an unambiguous acceptance check.
+
+**Consideration:** `docs/decisions/considerations/DEC-043.md` (eight-heading memo).
+**Ratified:** the owner's standing instruction to verify triage findings and file pickup-ready tasks, applied here as recorded direction rather than a new direction.
+**References:**
+  - `rlm-triage-summary.md` in `philipdallen/portfolio-ops` (branch `tasks/rlm-triage-2026-10-01`)
+  - `docs/MULTI_AGENT_WORKFLOW.md` §Task definition, `docs/DIRECTIVE_PROTOCOL.md` §3
