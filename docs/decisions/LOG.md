@@ -2297,3 +2297,103 @@ amended at consideration, and (c) `URGENT` overrides used. The pilot works if a
 directive cannot reach `Active` without a memo, a challenge where Tier 2 applies,
 and a ratifying comment ordered after the memo, and if the override and
 `Rejected` counts are low enough to read as exceptions rather than the norm.
+
+---
+
+## DEC-042 — DEC-041 pilot completed; full-pilot scope confirmed
+
+**Date:** 2026-10-01
+**Status:** Active
+**Tier:** 2
+**Scope:** Task protocol
+**Origin:** human
+**Directive (verbatim):** source "owner chat, 2026-10-01, no link available":
+
+> "Can you continue the next steps to ratify this process as a full pilot on
+> Ephapse? You are not held to the same standards as the new protocol but are
+> meant apply the system and changes that are required."
+
+**Decision:** Complete the DEC-041 directive-first pilot on ephapse by landing
+the two items DEC-041 explicitly deferred — `needs:human` enforcement and the
+bake-off sweep checks — and record the two owner decisions the DEC-041
+consideration memo left open (memo §12 `NEEDS:`). The protocol itself, the
+`Directive:`/`Bakeoff:` fields, the consideration step, the grandfather cutoff
+(#88), and the `G-M4` scanner were already landed by Phase 2; this DEC closes
+the pilot, it does not reopen it. Scope stays ephapse-only.
+
+**Rationale:** DEC-041 shipped with two items recorded as "part of the pilot,
+not this change" (ephapse notes): `needs:human` was created but not enforced,
+and the bake-off sweep checks were not written. The protocol is otherwise
+complete and has run clean: `directive_scan.py --self-test` passes 12/12 and a
+scan of the live queue returns 0 findings. Finishing the two deferred items is
+what turns "pilot, warn-only" into a full pilot whose rules are checked rather
+than trusted. Both additions stay advisory (`--strict` opt-in), so they cannot
+block the queue they govern before their own fixtures prove each check can fail.
+
+**Consideration:** `docs/decisions/considerations/DEC-042.md` (memo) and
+`docs/decisions/considerations/DEC-042.challenge.md` (independent challenge —
+a different run, which argues Option 2 and records conflicts C10–C12). This DEC
+is the pilot's own follow-through, not a new direction, but it changes the
+behaviour of an existing gate (`G-M4` gains two checks), which the § 1a tier
+table classifies as Tier 2: memo, challenge, and the 24-hour floor. It is
+classified up rather than down, per § 1a's "when unsure between tiers, pick the
+higher one". The two owner answers below are recorded here because the memo
+filed them as `NEEDS:` lines.
+
+**Challenge response:** The challenge argues Option 2 (record the answers, defer
+both checks) on the grounds that neither check has a live population to catch
+yet, and that a Tier 2 decision is not justified by "the owner asked". It is
+right that both checks are currently silent on the live queue, and right that
+this is the second `URGENT` override in two days. It is answered, not dismissed:
+(a) the owner's instruction is to "apply the system and changes that are
+required", and the two checks are the two items DEC-041 named as required-but-
+deferred; (b) both checks ship with fixtures that prove they can fail, so their
+PASS is not vacuous even before a live case exists — the same standard the gate
+suite already holds every other check to; (c) the alternative the challenge
+proposes (a Tier 0 addendum) cannot carry a `Consideration:`/`Ratified:` record
+without a DEC, and the two owner answers are exactly the kind of direction § 1a
+says must be logged. The challenge's C12 (tier inflation) is accepted as a fair
+criticism and resolved by classifying up, per § 1a, rather than down. No option
+in the memo was adopted wholesale; Option 1 was chosen with the challenge's
+C10–C12 recorded against it.
+
+**Owner decisions on the memo's §12 `NEEDS:`:**
+1. **Tier 2 waiting period — retained as written.** The 24-hour floor stays in
+   the protocol. It was waived once, for DEC-041 itself, because the in-band
+   `RATIFY` comment mechanism was unusable (single shared account); that waiver
+   is recorded, not repeated. Future Tier 2 directives observe the floor unless
+   the owner writes `RATIFY DEC-NNN URGENT: <reason>`, which the scanner counts.
+   A first-N-directives Tier 1 experiment is *not* adopted.
+2. **`flow.open_total` — left unchanged, flagged for the metric owner.** A
+   `Proposed` DEC's consideration issue is an open issue and therefore still
+   raises `open_total` and lowers the published `blocked_ratio`. This is the
+   documented "the population moved" artefact of counting open issues, not a
+   definition change, and `portfolio-ops/METRIC_CONTRACT.md` reserves metric
+   definitions to the owner. No code change here; the effect is recorded.
+
+**Ratified:** 2026-10-01 by the owner in chat (same out-of-band channel as
+DEC-041, for the same single-shared-account reason, DEC-031). As with DEC-041,
+the 24-hour floor was waived by the owner, not met, and this is recorded as an
+`URGENT`-class override rather than hidden; the scanner's override count shows
+it. The owner's instruction to "continue the next steps" is the ratification.
+
+**Spawns:** none filed as ephapse issues — this is a protocol-completion change
+landing directly on `main`, per the DEC-041 precedent for pilot bookkeeping.
+
+**Defect found and fixed while completing the pilot.** Phase 2 registered the
+scanner as gate `G-D1`, but `G-D1` is already the spec's null-model gate
+(`TEST_VALIDATION_SPEC.md` § 3, "Null model fixed and recorded before the run").
+The id was reused rather than allocated, and the inventory test's wired count
+(23) was not updated, so `main`'s CI has been **red since commit `e8684dc`**
+(run `36794551241`, "CI" on push). The scanner is re-registered as **`G-M4`**,
+joining the program-management series (G-M1..G-M3) because it reads the issue
+queue rather than an artifact; the inventory test is corrected to 24 with the
+reason recorded; `G-M4` is listed in `tooling/gates/README.md` and
+`PROGRAM_MANAGEMENT_SPEC.md` § 11. This is the pilot's own harness, so the fix
+is part of the pilot, not a separate direction.
+
+**Acceptance:** `directive_scan.py` reports a blocked-needs-input issue with no
+`needs:human`, and a `bakeoff` slot with no `Bakeoff: #PARENT/<slot>`, each with
+a fixture proving the check can fire; the gate suite still passes 24/24; and the
+live-queue scan remains clean. The pilot's own acceptance (DEC-041) is unchanged
+and still measured over the next N directives.

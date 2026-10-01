@@ -380,8 +380,9 @@ the rule is easy to state and easy to violate by hand.
 
 ## 11. What this spec does not do
 
-- It does not change any gate in `TEST_VALIDATION_SPEC.md`. It adds one (`G-M1`)
-  and reuses the rest.
+- It does not change any gate in `TEST_VALIDATION_SPEC.md`. It adds `G-M1` and
+  reuses the rest. (`G-M4`, the directive-first scan added by DEC-041, joins
+  this series for the same reason: it reads the issue queue, not an artifact.)
 - It does not change `findings.jsonl` or its schema. #25 owns that.
 - It does not make any judgment about results. It records that one was made and
   what it rested on.

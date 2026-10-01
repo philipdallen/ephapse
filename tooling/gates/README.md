@@ -194,6 +194,7 @@ tooling/gates/
 | **G-P4** | No prompt string appears in both sets | spec §3 | **wired** (same module) |
 | **G-M1** | Exactly one `status:` and one `kind:` label per OPEN issue, from the registered vocabulary | program spec §7 | **wired** (SKIPs without the cache) |
 | **G-M2** | An `status:available` issue has no OPEN blocker | program spec §4; workflow §1a | **wired** (SKIPs without edges) |
+| **G-M4** | Directive-first — an `Active` Tier 1/2 DEC has a memo (eight headings) and, at Tier 2, a challenge; a Tier 0/1 DEC does not match Tier 2 keywords; a claimable issue from #89 carries `Directive:` citing an `Active` DEC; a `status:blocked-needs-input` issue carries `needs:human`; a `bakeoff` slot names its parent | `DIRECTIVE_PROTOCOL.md` § 1, § 1a, § 3, § 4 (DEC-041) | **wired** (advisory; SKIPs tracker checks without `--issues-file`) |
 
 ### Label-state protection: three failure modes, three mechanisms
 

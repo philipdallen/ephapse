@@ -1473,7 +1473,9 @@ def test_gate_inventory_wired_total_matches_the_live_registry():
     import gate_inventory as I
     assert I.counts()["total"] == 38
     assert I.registered_ids() == sorted(g.id for g in R.REGISTRY)
-    assert len(I.registered_ids()) == 23
+    # 23 before DEC-041; `directive_scan.py` adds G-M4 (the program series),
+    # not G-D1 -- G-D1 is the spec's null-model gate (spec §3).
+    assert len(I.registered_ids()) == 24
 
 
 def test_gate_inventory_registered_ids_is_idempotent():

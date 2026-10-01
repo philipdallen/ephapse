@@ -251,7 +251,7 @@ def _load_gate_modules() -> None:
     Both patterns are matched, and a module is imported once even if it somehow
     matches twice. `directive_*.py` was added for `directive_scan.py` (DEC-041),
     which the Phase-2 brief fixes at that exact filename — without this prefix it
-    would register nothing and `--gate G-D1` would report "no gate registered",
+    would register nothing and `--gate G-M4` would report "no gate registered",
     the same silent omission the comment above records for `check_*`.
     """
     seen: set[Path] = set()

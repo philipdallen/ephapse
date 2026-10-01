@@ -397,8 +397,9 @@ Deviations, confirmed against this repo rather than copied from the proposal:
   required from #89 onward. Consideration issues #89 and #90 are themselves
   covered by the grandfather rule.
 
-- **`needs:human` is created but not yet enforced.** The label is created in this
-  repo; wiring it to a check is part of the pilot, not this change.
+- **`needs:human` enforcement has landed.** The label is created in this repo,
+  and `directive_scan.py` now reports a `status:blocked-needs-input` issue that
+  lacks it (`blocker-needs-human`), so § 3 step 2 is checked rather than trusted.
 
 - **`pass_scan.py` does not exist here** and no gate tool has an offline
   `--json-file` mode, so `directive_scan.py` follows the `check_docs_coherence.py`
