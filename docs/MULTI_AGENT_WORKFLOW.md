@@ -108,6 +108,12 @@ curl -s -o /dev/null -w '%{http_code}\n' \
 | `status:blocked-needs-input` | Agent could not start or finish; needs human input. |
 | `priority:high` | Jumps the work queue (default order is lowest issue number). |
 | `needs-review` | Requires human or integrity review before acceptance. |
+| `bakeoff` | Slot of a sanctioned bake-off (`docs/DIRECTIVE_PROTOCOL.md` § 4). Slot branches, not `main`, until a winner merges. |
+| `needs:human` | A blocker that only the human can resolve. The Orchestrator logs the resolution as a DEC (`docs/DIRECTIVE_PROTOCOL.md` § 3). |
+
+Every task issue filed from #89 onward also carries `Directive: DEC-NNN` in its
+body — the decision that justifies it, logged before the issue existed
+(`docs/DIRECTIVE_PROTOCOL.md` § 1). Issues up to #88 are grandfathered.
 
 ## Task definition
 
@@ -117,6 +123,11 @@ Each issue contains:
 - **Definition of done** — the observable end state (files written, numbers logged, evidence)
 - **Context** — links to spec sections, prior art, or related tasks
 - **Blocked by** — native GitHub issue-blocking relationships forming the lineage
+- **Directive** — `Directive: DEC-NNN`, the logged decision this task serves
+  (`docs/DIRECTIVE_PROTOCOL.md` § 1). Required from #89 onward; issues up to #88
+  are grandfathered.
+- **Bakeoff** — optional. Present only on a sanctioned bake-off slot, naming the
+  parent and the slot (`docs/DIRECTIVE_PROTOCOL.md` § 4).
 
 Sizing rule: one task = completable in **one agent run**. Note what a run now
 means: scheduled OpenHands automation runs are hard-capped at **30 minutes
@@ -333,6 +344,22 @@ close + unblock dependents) before claiming the next.
    write the sweep comment. See §Credentials for the push setup — and never
    leave work sitting on the local branch behind a credentials prompt.
 
+1d. **Directive sweep (advisory).** Run
+   `python3 tooling/gates/directive_scan.py` and report its findings in the
+   sweep comment. It lists task issues filed from #89 onward with no
+   `Directive: DEC-NNN` trailer, DECs marked `Active` with no consideration
+   memo, and open bake-offs whose slots are missing. It is **warn-only**; do
+   not block work on it. Bake-off slots are swept like any other issue, with
+   one addition: a slot whose parent bake-off is already judged is stale and
+   is reported, not reclaimed.
+
+1e. **Start-of-session: list stalled proposals.** List every DEC still marked
+   `Proposed` whose log entry is older than 7 days and that has no
+   consideration memo, or no ratification, and report them in the session's
+   first comment. **Do not act on them** — a stalled proposal is a human
+   decision, not a queue item, and the Orchestrator may not ratify its own
+   proposal (`docs/DIRECTIVE_PROTOCOL.md` § 1a).
+
 2. **Pick work.** Any `status:available` issue the agent can start. Default
    order: lowest issue number first; `priority:high` jumps the queue.
    Before concluding any work item is undone, check `git log origin/main`
@@ -407,7 +434,9 @@ close + unblock dependents) before claiming the next.
    refuses to release a claim held by another run-id.
 
 5. **Do the work; prove the done.** Commit directly to `main` (no PR —
-   review happens retrospectively on `main`). Swap `status:claimed` →
+   review happens retrospectively on `main`) — **except on a bake-off slot,
+   which commits to its slot branch and merges only as the judged winner
+   (`docs/DIRECTIVE_PROTOCOL.md` § 4)**. Swap `status:claimed` →
    `status:done` and close the issue with a comment linking the commits.
    **Tasks with known-answer criteria close only when the done comment
    includes the exact command and its output** — a done claim without
@@ -433,7 +462,11 @@ close + unblock dependents) before claiming the next.
      resolve conflicts, push again.
    - **Rebase revealed a sibling landed the same work?** Compare the two
      implementations: if yours adds nothing, drop it; if yours genuinely
-     extends it, merge the two in the rebase. Never push a second copy.
+     extends it, merge the two in the rebase. Never push a second copy —
+     **except inside a sanctioned bake-off (`docs/DIRECTIVE_PROTOCOL.md` § 4),
+     where duplicate entries live on slot branches and only the judged winner
+     merges.** Slots of one bake-off are not duplicates of each other; the guard
+     still applies between bake-offs and ordinary tasks.
    - **Never force-push to `main`** — it can destroy a sibling's committed
      work.
    - A rebase conflict you cannot resolve confidently is a blocker — file it.
@@ -450,6 +483,13 @@ close + unblock dependents) before claiming the next.
 
 8. **Iterate.** If review later finds the work lacking, write a new task
    rather than reopening the old one.
+
+9. **End-of-session report (directive additions).** Beyond the usual summary,
+   an Orchestrator session reports: DECs proposed, ratified, rejected, and
+   `URGENT` overrides used; DECs written with their `Origin`; tasks decomposed
+   with their children; and bake-offs opened, judged, merged, or escalated.
+   These counts are the pilot's acceptance signal (`docs/DIRECTIVE_PROTOCOL.md`
+   § 1a), so they are reported even when zero.
 
 ## Gates (done-evidence)
 

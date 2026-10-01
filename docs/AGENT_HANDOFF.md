@@ -462,7 +462,11 @@ written down — including one produced by the session that proposed the gate.
 
 Ported from Maith's `docs/MULTI_AGENT_WORKFLOW.md` (itself ported from
 PleaNP), which battle-tested it. See `docs/MULTI_AGENT_WORKFLOW.md` in
-this repo for the full protocol. Summary:
+this repo for the full protocol. **Task direction is governed by
+`docs/DIRECTIVE_PROTOCOL.md`** (adopted 2026-09-30, DEC-041, pilot): no task
+issue is filed until the decision that justifies it is `Active` in
+`docs/decisions/LOG.md`, and each issue from #89 onward carries
+`Directive: DEC-NNN`. Summary:
 
 - Status labels: `status:available` / `status:claimed` / `status:done` /
   `status:blocked-needs-input`.
@@ -526,6 +530,7 @@ findings.jsonl        — append-only log: one record per co-activation event
 docs/
   AGENT_HANDOFF.md    — this document
   MULTI_AGENT_WORKFLOW.md — full claiming/run-id/dependency protocol
+  DIRECTIVE_PROTOCOL.md — directive-first tasks, consideration, bake-offs (DEC-041)
   decisions/LOG.md    — decision log (DEC-0xx)
   reference/SANDBOX_BASELINE.md — measured sandbox numbers + evidence
 ```
