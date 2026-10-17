@@ -182,16 +182,13 @@ artifact is evidence of process; that is why it stays public.
 ## Three-repo shared code
 
 `tooling/auditor.py`, `tooling/tests/test_auditor.py`, and
-`tooling/tests/test_hub_sweep.py` are **byte-identical across all three repos**.
-A fix in one must be propagated to the other two and the hashes re-verified:
-
-```bash
-for f in tooling/auditor.py tooling/tests/test_auditor.py tooling/tests/test_hub_sweep.py; do
-  md5sum /workspace/work/{Maith,PleaNP,ephapse}/$f
-done
-```
+`tooling/tests/test_hub_sweep.py` are **byte-identical across Maith, PleaNP,
+and ephapse**, with **Maith's copy canonical** (it carries the status-branch
+support the others lack). Do not diverge this repo's copies; sync from Maith
+via PR. The daily audit's `tooling-drift` check watches for silent divergence.
 
 Divergence is silent drift, not a merge conflict.
+
 
 ## Recent state
 
