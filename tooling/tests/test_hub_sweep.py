@@ -183,7 +183,8 @@ def test_snapshot_shape_has_timestamp_flow_notes(tmp_path):
     # the repo root passed in, so passing the cwd made this test's outcome depend
     # on where it was invoked from -- it passed from /tmp and failed from the repo
     # root, where trl.json is present and adds a "trl" key. A test whose result
-    # depends on cwd is not a test.
+    # depends on cwd is not a test. tmp_path has no trl.json, so the optional TRL
+    # field must be omitted rather than defaulted.
     snap = hub.build_snapshot([issue(1, ["status:available"])], [], [], tmp_path, NOW)
     assert snap["timestamp"].endswith("Z")
     assert "flow" in snap and "notes" in snap
