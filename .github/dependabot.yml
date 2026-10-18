@@ -4,6 +4,12 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    # Wait before proposing a brand-new release. A freshly published version has
+    # had the least scrutiny, so a short delay lets a compromised or broken
+    # release be yanked before it reaches a PR here (semgrep
+    # `dependabot-missing-cooldown`).
+    cooldown:
+      default-days: 7
     labels:
       - "dependencies"
 
@@ -11,5 +17,7 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    cooldown:
+      default-days: 7
     labels:
       - "dependencies"
