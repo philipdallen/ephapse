@@ -41,6 +41,8 @@ import urllib.error
 import urllib.request
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from net import safe_urlopen  # noqa: E402
 
 CLAIM_RE = re.compile(
     r"claimed\s+by\s+(?P<agent>\S+)\s+run=(?P<runid>[0-9A-Za-z._-]+)"
@@ -320,7 +322,7 @@ def fetch(repo: str, token: str) -> tuple[list[dict], dict[str, list[dict]]]:
         req = urllib.request.Request(
             url, headers={"Authorization": f"token {token}",
                           "Accept": "application/vnd.github+json"})
-        with urllib.request.urlopen(req) as r:
+        with safe_urlopen(req) as r:
             return json.load(r)
 
     issues = [i for i in api(

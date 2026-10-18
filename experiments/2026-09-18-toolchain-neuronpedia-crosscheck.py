@@ -49,6 +49,10 @@ print(f"  d_model={model.cfg.d_model}  n_layers={model.cfg.n_layers}")
 
 # --- 2. SAELens load ---
 from sae_lens import SAE
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "tooling"))
+from net import safe_urlopen  # noqa: E402
 
 sae = SAE.from_pretrained(release=SAE_RELEASE, sae_id=SAE_ID, device="cpu")
 print(f"  SAE loaded: d_in={sae.cfg.d_in}  d_sae={sae.cfg.d_sae}")
@@ -76,7 +80,7 @@ for idx, local_max in top:
     url = f"https://www.neuronpedia.org/api/feature/{NP_MODEL}/{NP_SAE}/{idx}"
     req = urllib.request.Request(url, headers={"Accept": "application/json"})
     try:
-        with urllib.request.urlopen(req, timeout=30) as r:
+        with safe_urlopen(req, timeout=30) as r:
             d = json.load(r)
     except Exception as e:  # noqa: BLE001 - deliberate: per-row fetch failure is recorded, loop continues
         print(f"{idx:>6} {local_max:>10.3f}  FETCH FAILED: {type(e).__name__}")

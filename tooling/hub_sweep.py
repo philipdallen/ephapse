@@ -48,6 +48,8 @@ import sys
 import urllib.error
 import urllib.request
 from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from net import safe_urlopen  # noqa: E402
 
 API = "https://api.github.com"
 LOG_NAME = "status_log.jsonl"
@@ -87,7 +89,7 @@ def _request(url: str, token: str | None) -> tuple[object, dict]:
     if token:
         headers["Authorization"] = f"Bearer {token}"
     req = urllib.request.Request(url, headers=headers)
-    with urllib.request.urlopen(req, timeout=30) as resp:
+    with safe_urlopen(req, timeout=30) as resp:
         return json.loads(resp.read().decode()), dict(resp.headers)
 
 

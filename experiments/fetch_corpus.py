@@ -30,6 +30,10 @@ import json
 import os
 import time
 import urllib.request
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "tooling"))
+from net import safe_urlopen  # noqa: E402
 
 N_PAIRED = 1500
 MAX_LEN = 100          # server-enforced cap
@@ -50,7 +54,7 @@ def fetch(dataset, config, split, offset, length, tries=6):
                 "Accept": "application/json",
                 "User-Agent": "ephapse-research/0.1",
             })
-            with urllib.request.urlopen(r, timeout=90) as x:
+            with safe_urlopen(r, timeout=90) as x:
                 return json.load(x)["rows"]
         except urllib.error.HTTPError as e:
             if e.code == 422:

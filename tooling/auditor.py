@@ -44,6 +44,8 @@ import sys
 import urllib.error
 import urllib.request
 from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from net import safe_urlopen  # noqa: E402
 
 API = "https://api.github.com"
 STATE_PATH = "status/auditor_state.json"
@@ -176,7 +178,7 @@ class GitHub:
         if self.token:
             headers["Authorization"] = f"Bearer {self.token}"
         req = urllib.request.Request(url, data=data, method=method, headers=headers)
-        with urllib.request.urlopen(req, timeout=45) as resp:
+        with safe_urlopen(req, timeout=45) as resp:
             raw = resp.read().decode()
             return json.loads(raw) if raw.strip() else {}
 
@@ -196,7 +198,7 @@ class GitHub:
             if self.token:
                 headers_probe["Authorization"] = f"Bearer {self.token}"
             req = urllib.request.Request(url, headers=headers_probe)
-            with urllib.request.urlopen(req, timeout=45) as resp:
+            with safe_urlopen(req, timeout=45) as resp:
                 data = json.loads(resp.read().decode())
                 link = resp.headers.get("Link", "")
             if not isinstance(data, list):
@@ -910,7 +912,7 @@ def osv_query(packages: list[tuple[str, str]]) -> dict:
     req = urllib.request.Request(
         OSV_API, data=json.dumps(body).encode(),
         headers={"Content-Type": "application/json", "User-Agent": "repo-auditor"})
-    with urllib.request.urlopen(req, timeout=45) as resp:
+    with safe_urlopen(req, timeout=45) as resp:
         return json.loads(resp.read().decode())
 
 

@@ -41,6 +41,8 @@ import sys
 import urllib.request
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from net import safe_urlopen  # noqa: E402
 
 CLAIMS_DIR = "claims"
 STALE_AFTER = timedelta(hours=1)
@@ -266,7 +268,7 @@ def last_activity_for(repo: Path, run_id: str, issue: int,
         **({"Authorization": f"token {token}"} if token else {}),
     })
     try:
-        with urllib.request.urlopen(req, timeout=20) as r:
+        with safe_urlopen(req, timeout=20) as r:
             comments = json.load(r)
     except Exception:  # noqa: BLE001 - deliberate: heartbeat is best-effort; None falls back to file age
         return None

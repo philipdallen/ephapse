@@ -51,6 +51,9 @@ import sys
 import time
 import urllib.error
 import urllib.request
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from net import safe_urlopen  # noqa: E402
 
 # Byte size of one parameter per dtype. `int8` is a quantised weight-only load;
 # activations stay fp32, which is why its saving is smaller than the name implies.
@@ -78,7 +81,7 @@ def _check_id(model: str) -> str:
 
 def _get_json(url: str) -> dict:
     req = urllib.request.Request(url, headers={"User-Agent": "ephapse-footprint"})
-    with urllib.request.urlopen(req, timeout=30) as r:
+    with safe_urlopen(req, timeout=30) as r:
         return json.load(r)
 
 

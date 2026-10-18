@@ -70,6 +70,10 @@ import urllib.request
 
 import numpy as np
 import torch
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "tooling"))
+from net import safe_urlopen  # noqa: E402
 
 MODEL = "pythia-70m-deduped"
 SAE_RELEASE = "pythia-70m-deduped-res-sm"
@@ -93,7 +97,7 @@ def fetch_rows(dataset, config, split, offset, length):
     url = (f"https://datasets-server.huggingface.co/rows?dataset={dataset}"
            f"&config={config}&split={split}&offset={offset}&length={length}")
     req = urllib.request.Request(url, headers={"Accept": "application/json"})
-    with urllib.request.urlopen(req, timeout=60) as r:
+    with safe_urlopen(req, timeout=60) as r:
         return json.load(r)["rows"]
 
 
