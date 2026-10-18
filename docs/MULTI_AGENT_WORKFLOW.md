@@ -195,8 +195,8 @@ Rules for that line:
   in one message rather than asking a clarifying question.
 
 This is what makes the whole blocker queue readable in one command — see
-`needs-audit.sh` in this repo's tooling, or the recipe in
-`automations/HUMAN_REVIEW.md`. A blocked comment without a `NEEDS:` line is
+a needs-audit.sh script in this repo's tooling, or the recipe in
+an automations/HUMAN_REVIEW.md file (both planned, not yet built). A blocked comment without a `NEEDS:` line is
 considered incomplete.
 
 **2. "Not in my lane" — one line on your final comment, when you saw something.**
