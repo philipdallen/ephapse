@@ -96,7 +96,8 @@ def main():
     from sae_lens import SAE
 
     print("=== issue #6 re-run: non-verbal robustness (bug fixes applied) ===")
-    d = json.load(open(CORPUS))
+    with open(CORPUS) as f:
+        d = json.load(f)
     verb, sym, par = d["narrative"], d["symbolic"], d["paraphrase"]
     n = min(len(verb), len(sym), len(par))
     verb, sym, par = verb[:n], sym[:n], par[:n]

@@ -225,7 +225,8 @@ def main():
     from sae_lens import SAE
 
     print("=== issue #3: cross-domain co-activation probe ===")
-    d = json.load(open(CORPUS))
+    with open(CORPUS) as f:
+        d = json.load(f)
     cook, astro = d["cooking"], d["astronomy"]
     n = min(len(cook), len(astro))
     cook, astro = cook[:n], astro[:n]

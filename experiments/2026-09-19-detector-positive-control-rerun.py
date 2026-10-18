@@ -105,7 +105,8 @@ def main():
     from sae_lens import SAE
 
     print("=== issue #5 re-run: positive control with per-feature thresholds ===")
-    c = json.load(open(CORPUS))
+    with open(CORPUS) as f:
+        c = json.load(f)
     A, B = c["A"], c["B"]
     n = min(len(A), len(B))
     A, B = A[:n], B[:n]

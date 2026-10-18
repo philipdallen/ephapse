@@ -43,7 +43,8 @@ if __name__ == "__main__":
     from transformer_lens import HookedTransformer
     from sae_lens import SAE
 
-    d = json.load(open(CORPUS))
+    with open(CORPUS) as f:
+        d = json.load(f)
     nar, sym = d["narrative"], d["symbolic"]
     model = HookedTransformer.from_pretrained(MODEL, device="cpu")
     sae = SAE.from_pretrained(release=SAE_RELEASE, sae_id=HOOK, device="cpu")

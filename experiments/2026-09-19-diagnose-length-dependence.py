@@ -66,7 +66,8 @@ if __name__ == "__main__":
     from transformer_lens import HookedTransformer
     from sae_lens import SAE
 
-    d = json.load(open(CORPUS))
+    with open(CORPUS) as f:
+        d = json.load(f)
     nar = d["narrative"]
     model = HookedTransformer.from_pretrained(MODEL, device="cpu")
     tok = model.tokenizer

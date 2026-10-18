@@ -142,7 +142,8 @@ def main():
     from transformer_lens import HookedTransformer
     from sae_lens import SAE
 
-    d = json.load(open(CORPUS))
+    with open(CORPUS) as f:
+        d = json.load(f)
     verb, sym, par, meta = d["narrative"], d["symbolic"], d["paraphrase"], d["meta"]
     n = min(len(verb), len(sym), len(par))
     verb, sym, par, meta = verb[:n], sym[:n], par[:n], meta[:n]
