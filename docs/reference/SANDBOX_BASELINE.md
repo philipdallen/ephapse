@@ -161,7 +161,7 @@ requests**:
 | Target | Result |
 |---|---|
 | `huggingface.co` (API + metadata) | 200 |
-| `hf_hub_download` of `config.json` | 0.2 s |
+| `hf_hub_download` of config.json from HuggingFace Hub (remote artifact, not a repo file) | 0.2 s |
 | `hf_hub_download` of `model.safetensors` (166 MB) | **6.8 s → 24.6 MB/s** |
 | `neuronpedia.org` | 200 |
 | `pypi.org` | 200 |

@@ -141,7 +141,7 @@ second among the rest — it unblocks #32 and #33.
 
 | Item | State |
 |---|---|
-| Tier-0 gates | **22 wired, 22 passing** (per `tooling/gates/gate_inventory.py`; do not hand-copy) |
+| Tier-0 gates | **24 wired** (per `tooling/gates/gate_inventory.py`; do not hand-copy — recount 2026-10-18 raised 22 → 24; passing count not re-measured here) |
 | Gate ids specified in the validation spec | 38 |
 | Test suite | **67 passed, 1 failed** |
 | The failure | `test_real_findings_file_passes_the_registered_findings_gates` → **#25** (pre-existing, owned by that issue) |
