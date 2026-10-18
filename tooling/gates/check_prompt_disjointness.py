@@ -68,6 +68,11 @@ from pathlib import Path
 from run_all import Gate, register           # noqa: E402
 
 DEFAULT_TOKENIZER = "EleutherAI/pythia-70m-deduped"
+# Pinned HuggingFace commit for the tokenizer download (bandit B615). A bare name
+# can resolve to a newer revision and silently change the tokenization the G-P2
+# comparison is computed on. Bump deliberately; override with --revision when a
+# different --tokenizer is used.
+DEFAULT_TOKENIZER_REVISION = "e93a9faa9c77e5d09219f6c868bfc7a1bd65593c"
 
 
 def _split_prompts(text: str) -> list[str]:
@@ -138,10 +143,15 @@ def check_disjointness(
     }
 
 
-def token_ids_for(prompts: list[str], tokenizer_name: str = DEFAULT_TOKENIZER) -> set[int]:
-    """Live tokenizer read. Imports lazily so the tier-0 path never needs it."""
+def token_ids_for(prompts: list[str], tokenizer_name: str = DEFAULT_TOKENIZER,
+                  revision: str | None = DEFAULT_TOKENIZER_REVISION) -> set[int]:
+    """Live tokenizer read. Imports lazily so the tier-0 path never needs it.
+
+    `revision` pins the download to an immutable commit (bandit B615); pass
+    `None` only when a caller has already pinned the name another way.
+    """
     from transformers import AutoTokenizer
-    tok = AutoTokenizer.from_pretrained(tokenizer_name)
+    tok = AutoTokenizer.from_pretrained(tokenizer_name, revision=revision)
     ids: set[int] = set()
     for p in prompts:
         ids.update(tok.encode(p, add_special_tokens=False))
@@ -199,6 +209,10 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("set_a", type=Path)
     ap.add_argument("set_b", type=Path)
     ap.add_argument("--tokenizer", default=DEFAULT_TOKENIZER)
+    ap.add_argument("--revision", default=DEFAULT_TOKENIZER_REVISION,
+                    help="immutable commit for --tokenizer (default: the pinned "
+                         "pythia-70m-deduped revision). Pass the tokenizer's own "
+                         "commit when overriding --tokenizer.")
     ap.add_argument("--allow-id", type=int, action="append", default=[],
                     help="token id permitted to appear in both sets")
     ap.add_argument("--allow-shared-prompts", action="store_true")
@@ -212,8 +226,8 @@ def main(argv: list[str] | None = None) -> int:
     if ids_a is None or ids_b is None:
         print(f"tokenizing live with {args.tokenizer} "
               f"(no committed tokenids sidecar)", file=sys.stderr)
-        ids_a = token_ids_for(prompts_a, args.tokenizer)
-        ids_b = token_ids_for(prompts_b, args.tokenizer)
+        ids_a = token_ids_for(prompts_a, args.tokenizer, args.revision)
+        ids_b = token_ids_for(prompts_b, args.tokenizer, args.revision)
         source = f"live tokenizer {args.tokenizer}"
 
     r = check_disjointness(prompts_a, prompts_b, ids_a, ids_b,

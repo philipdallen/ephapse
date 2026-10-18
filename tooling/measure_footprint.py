@@ -277,19 +277,21 @@ def cmd_load(args) -> int:
     torch_dtype = {"fp32": torch.float32, "bf16": torch.bfloat16,
                    "fp16": torch.float16, "int8": torch.float32}[args.dtype]
     out: dict = {"model": model_id, "dtype": args.dtype, "cap_gb": cap,
+                 "revision": args.revision,
                  "torch": torch.__version__,
                  "mem_available_before_gb": mem_available_gb()}
 
     t0 = time.time()
     try:
-        tok = AutoTokenizer.from_pretrained(model_id)
+        tok = AutoTokenizer.from_pretrained(model_id, revision=args.revision)
         kwargs = {"dtype": torch_dtype, "low_cpu_mem_usage": True}
         if args.dtype == "int8":
             # Weight-only quantisation; needs bitsandbytes, which is not pinned.
             print("  int8 load requires bitsandbytes; use --dtype bf16 instead",
                   file=sys.stderr)
             return 1
-        model = AutoModelForCausalLM.from_pretrained(model_id, **kwargs)
+        model = AutoModelForCausalLM.from_pretrained(
+            model_id, revision=args.revision, **kwargs)
         model.eval()
     except (MemoryError, RuntimeError, OSError, PermissionError) as e:
         out["stage"] = "load"
@@ -515,6 +517,11 @@ def main(argv=None) -> int:
     load.add_argument("--dtype", default="fp32", choices=sorted(DTYPE_BYTES))
     load.add_argument("--batch", type=int, default=0)
     load.add_argument("--logits", action="store_true", help="record logits shape/size")
+    load.add_argument("--revision", default=None,
+                      help="immutable HuggingFace commit to load --model at. There "
+                           "is no default: --model is caller-supplied, so only the "
+                           "caller knows the commit that was measured. The value "
+                           "used is recorded in the output for provenance.")
     load.add_argument("--cap-gb", type=float, default=None,
                       help="RLIMIT_AS in GB; makes an OOM survivable")
     load.add_argument("--json", action="store_true")

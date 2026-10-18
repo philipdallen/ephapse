@@ -21,11 +21,17 @@ import traceback
 import torch
 
 MODEL = os.environ.get("EPHAPSE_GEMMA_MODEL", "google/gemma-2-2b")
+# Pinned HuggingFace commits (bandit B615). A bare repo name resolves to a
+# moving branch head, so a silent upstream change would move the weights under a
+# feasibility measurement that is quoted by hash. The SHAs are the `main`
+# heads recorded when the run was authored; bump deliberately.
+MODEL_REVISION = "c5ebcd40d208330abc697524c919956e692655cf"
 # Gated-repo fallback. The official checkpoint requires an HF login this sandbox
 # has no token for; this mirror is the same architecture, so load/RSS/latency and
 # the residual-stream geometry are measurable with it. Recon error from the mirror
 # is architecture-comparable but not bit-identical to the official checkpoint.
 MIRROR = os.environ.get("EPHAPSE_GEMMA_MIRROR", "unsloth/gemma-2-2b")
+MIRROR_REVISION = "25319945f7fd83b8b903e12081777b7eef2ba993"
 SAE_RELEASE = "gemma-scope-2b-pt-res-canonical"
 SAE_ID = "layer_12/width_16k/canonical"
 N_BATCH = 64
@@ -83,7 +89,8 @@ def load_model():
     try:
         from transformer_lens import HookedTransformer
 
-        model = HookedTransformer.from_pretrained(MODEL, device="cpu")
+        model = HookedTransformer.from_pretrained(
+            MODEL, revision=MODEL_REVISION, device="cpu")
         load_s = time.time() - t0
         n_params = sum(p.numel() for p in model.parameters())
         print("  PATH: transformer_lens (exact SAE hook parity)")
@@ -101,8 +108,9 @@ def load_model():
     try:
         from transformers import AutoModelForCausalLM, AutoTokenizer
 
-        tok = AutoTokenizer.from_pretrained(MIRROR)
-        model = AutoModelForCausalLM.from_pretrained(MIRROR, dtype=DTYPE)
+        tok = AutoTokenizer.from_pretrained(MIRROR, revision=MIRROR_REVISION)
+        model = AutoModelForCausalLM.from_pretrained(
+            MIRROR, revision=MIRROR_REVISION, dtype=DTYPE)
         model.eval()
         load_s = time.time() - t0
         cfg = model.config

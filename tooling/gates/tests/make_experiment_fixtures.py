@@ -228,7 +228,11 @@ def main():
         '"""\n\n'
         'from transformers import AutoModelForCausalLM\n\n\n'
         'def load(model_id):\n'
-        '    return AutoModelForCausalLM.from_pretrained(model_id)\n')
+        '    # Deliberately unpinned: this fixture\'s whole point is an unguarded\n'
+        '    # from_pretrained call (see module docstring). Suppress bandit B615\n'
+        '    # rather than pin, because pinning would be a no-op on a fixture\n'
+        '    # that never runs.\n'
+        '    return AutoModelForCausalLM.from_pretrained(model_id)  # nosec B615\n')
     r2e_files["README.md"] = run_log([n for n in r2e_files if n != "README.md"])
     write("experiments_r2_model_free_lies", r2e_files)
 

@@ -78,6 +78,9 @@ from transformer_lens import HookedTransformer
 MODEL = "pythia-70m-deduped"
 HOOK = "blocks.3.hook_resid_post"
 SAE_RELEASE = "pythia-70m-deduped-res-sm"
+# Pinned HuggingFace commit for the corpus download. Loading by name alone lets a
+# fresh pull resolve to a newer revision and silently change the data (bandit B615).
+PILE_10K_REVISION = "127bfedcd5047750df5ccf3a12979a47bfa0bafa"
 RUN_ID = "20260918-2332-e7c4"
 ISSUE = 5
 
@@ -159,7 +162,7 @@ def main():
     print(f"  d_sae={sae.cfg.d_sae}  d_model={model.cfg.d_model}")
 
     # ---- corpus --------------------------------------------------------
-    ds = load_dataset("NeelNanda/pile-10k", split="train")
+    ds = load_dataset("NeelNanda/pile-10k", revision=PILE_10K_REVISION, split="train")
     bg_texts = [ds[i]["text"][:400] for i in range(N)]
     t1, t2 = (ds[i]["text"][:200] for i in SIGNAL_IDX)
     print(f"  background N={N}  signal texts from idx {SIGNAL_IDX}")

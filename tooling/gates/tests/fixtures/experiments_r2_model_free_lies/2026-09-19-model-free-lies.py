@@ -12,4 +12,8 @@ from transformers import AutoModelForCausalLM
 
 
 def load(model_id):
-    return AutoModelForCausalLM.from_pretrained(model_id)
+    # Deliberately unpinned: this fixture's whole point is an unguarded
+    # from_pretrained call (see module docstring). Suppress bandit B615
+    # rather than pin, because pinning would be a no-op on a fixture
+    # that never runs.
+    return AutoModelForCausalLM.from_pretrained(model_id)  # nosec B615
