@@ -48,11 +48,13 @@ model = HookedTransformer.from_pretrained(MODEL, device="cpu")
 print(f"  d_model={model.cfg.d_model}  n_layers={model.cfg.n_layers}")
 
 # --- 2. SAELens load ---
-from sae_lens import SAE
 import sys
 from pathlib import Path
+
+from sae_lens import SAE
+
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "tooling"))
-from net import safe_urlopen  # noqa: E402
+from net import safe_urlopen
 
 sae = SAE.from_pretrained(release=SAE_RELEASE, sae_id=SAE_ID, device="cpu")
 print(f"  SAE loaded: d_in={sae.cfg.d_in}  d_sae={sae.cfg.d_sae}")

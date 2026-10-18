@@ -44,8 +44,9 @@ import sys
 import urllib.error
 import urllib.request
 from pathlib import Path
+
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from net import safe_urlopen  # noqa: E402
+from net import safe_urlopen
 
 API = "https://api.github.com"
 STATE_PATH = "status/auditor_state.json"

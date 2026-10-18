@@ -52,8 +52,9 @@ import time
 import urllib.error
 import urllib.request
 from pathlib import Path
+
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from net import safe_urlopen  # noqa: E402
+from net import safe_urlopen
 
 # Byte size of one parameter per dtype. `int8` is a quantised weight-only load;
 # activations stay fp32, which is why its saving is smaller than the name implies.

@@ -28,12 +28,13 @@ experiments/README.md exemption).
 """
 import json
 import os
+import sys
 import time
 import urllib.request
-import sys
 from pathlib import Path
+
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "tooling"))
-from net import safe_urlopen  # noqa: E402
+from net import safe_urlopen
 
 N_PAIRED = 1500
 MAX_LEN = 100          # server-enforced cap
