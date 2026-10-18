@@ -24,7 +24,7 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parent))          # import view
 sys.path.insert(0, str(HERE.parent.parent))   # repo root for ledger
 
-import view  # noqa: E402
+import view
 
 FIXTURE_LEDGER = HERE / "fixture_ledger.jsonl"
 FIXTURE_CACHE = HERE / "fixture_issue_state.json"

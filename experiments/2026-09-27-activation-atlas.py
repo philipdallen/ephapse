@@ -64,8 +64,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 import numpy as np
@@ -268,7 +267,7 @@ def main(argv: list[str] | None = None) -> int:
 
     provenance = {
         **meta,
-        "generated_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "generated_utc": datetime.now(UTC).isoformat(timespec="seconds"),
         "layout_rule": "rows are units ordered by descending mean |activation|; columns are prompts",
         "prompts": PROMPTS,
         "artifacts": {
@@ -287,7 +286,7 @@ def main(argv: list[str] | None = None) -> int:
     print(f"similarity   : {sim_path}")
     print(f"provenance   : {OUT_DIR / 'provenance.json'}")
     print(f"  shape      : {activations.shape} (prompts x features)")
-    print(f"  layout     : rows by descending mean |activation|")
+    print("  layout     : rows by descending mean |activation|")
     print("\nHand to rorschach:")
     print(f"  python examples/neural_field.py {atlas_path}")
     return 0

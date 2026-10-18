@@ -65,7 +65,7 @@ STATUS_PREFIX = "status:"
 
 
 def utcnow() -> dt.datetime:
-    return dt.datetime.now(dt.timezone.utc)
+    return dt.datetime.now(dt.UTC)
 
 
 def parse_utc(value: str) -> dt.datetime | None:

@@ -39,7 +39,7 @@ import re
 import subprocess
 import sys
 import urllib.request
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from net import safe_urlopen  # noqa: E402
@@ -122,7 +122,7 @@ def parse_claim(text: str) -> tuple[str, datetime] | None:
     ts = parts[1] if len(parts) > 1 else ""
     try:
         when = datetime.strptime(ts, "%Y-%m-%dT%H:%M:%SZ").replace(
-            tzinfo=timezone.utc)
+            tzinfo=UTC)
     except ValueError:
         return None
     return run_id, when
@@ -145,7 +145,7 @@ def is_live(text: str, now: datetime | None = None,
     if parsed is None:
         return False          # unparseable ⇒ cannot block anyone
     _, when = parsed
-    now = now or datetime.now(timezone.utc)
+    now = now or datetime.now(UTC)
     if (now - when) <= STALE_AFTER:
         return True
     if last_activity is not None and (now - last_activity) <= STALE_AFTER:
@@ -203,7 +203,7 @@ def cmd_claim(args) -> int:
         # --- write, commit, push: the push is the compare-and-swap --------
         path = repo / rel
         path.parent.mkdir(parents=True, exist_ok=True)
-        now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+        now = datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
         path.write_text(f"{run_id} {now}\n", encoding="utf-8")
 
         run(["add", rel], cwd=repo)
@@ -285,7 +285,7 @@ def last_activity_for(repo: Path, run_id: str, issue: int,
 def _parse_ts(ts: str) -> datetime | None:
     try:
         return datetime.strptime(ts, "%Y-%m-%dT%H:%M:%SZ").replace(
-            tzinfo=timezone.utc)
+            tzinfo=UTC)
     except (ValueError, TypeError):
         return None
 
@@ -314,7 +314,7 @@ def cmd_status(args) -> int:
         return EXIT_ERROR
 
     owner, when = parsed
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     heartbeat = last_activity_for(repo, owner, args.issue, token=args.token)
     held = is_live(text, now=now, last_activity=heartbeat)
 

@@ -39,7 +39,7 @@ import re
 import sys
 import urllib.error
 import urllib.request
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from net import safe_urlopen  # noqa: E402
@@ -75,8 +75,14 @@ class Claim:
     *ordering*. It was still being used for *liveness*; this closes that.
     """
 
-    __slots__ = ("comment_id", "server_time", "declared_time", "run_id",
-                 "agent", "issue")
+    __slots__ = (
+        "agent",
+        "comment_id",
+        "declared_time",
+        "issue",
+        "run_id",
+        "server_time",
+    )
 
     def __init__(self, comment_id: int, server_time: datetime,
                  declared_time: datetime | None, run_id: str, agent: str,
@@ -100,9 +106,9 @@ def _parse(ts: str) -> datetime:
     """Parse a GitHub UTC timestamp. Unparseable values sort as 'very old'."""
     try:
         return datetime.strptime(ts, "%Y-%m-%dT%H:%M:%SZ").replace(
-            tzinfo=timezone.utc)
+            tzinfo=UTC)
     except (ValueError, TypeError):
-        return datetime.min.replace(tzinfo=timezone.utc)
+        return datetime.min.replace(tzinfo=UTC)
 
 
 def parse_claims(issues: list[dict], comments_by_issue: dict[str, list[dict]],
@@ -166,7 +172,7 @@ def activity_by_run(issues: list[dict],
 
 def live_claims(claims: list[Claim], now: datetime | None = None) -> list[Claim]:
     """Drop claims older than the stale window (protocol § 1)."""
-    now = now or datetime.now(timezone.utc)
+    now = now or datetime.now(UTC)
     return [c for c in claims if c.age(now) <= STALE_AFTER]
 
 
@@ -178,7 +184,7 @@ def audit(issues: list[dict], comments_by_issue: dict[str, list[dict]],
     the window closed (the § 1 heartbeat). Age is measured from GitHub's
     `created_at`, never from the timestamp the agent typed.
     """
-    now = now or datetime.now(timezone.utc)
+    now = now or datetime.now(UTC)
     all_claims = parse_claims(issues, comments_by_issue, now)
     activity = activity_by_run(issues, comments_by_issue)
     by_issue: dict[int, list[Claim]] = {}
@@ -257,7 +263,7 @@ def describe_issue(verdict: dict, now: datetime | None = None) -> str:
     an issue. Both must therefore say *which* timestamp decided liveness and
     whether a heartbeat extended it.
     """
-    now = now or datetime.now(timezone.utc)
+    now = now or datetime.now(UTC)
     if not verdict["claims"]:
         return "unclaimed"
     c = verdict["winner"]

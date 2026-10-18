@@ -114,8 +114,8 @@ def logitdiff(logits, pid, pn):
 
 
 def main():
-    from transformer_lens import HookedTransformer
     from sae_lens import SAE
+    from transformer_lens import HookedTransformer
 
     print("=== issue #7: interchange-intervention causal positive control ===")
     print(f"model={MODEL} sae={SAE_RELEASE} hook={HOOK} country_pos={COUNTRY_POS}")

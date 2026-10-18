@@ -63,8 +63,8 @@ def activity(fn, label, tok):
 
 
 if __name__ == "__main__":
-    from transformer_lens import HookedTransformer
     from sae_lens import SAE
+    from transformer_lens import HookedTransformer
 
     with open(CORPUS) as f:
         d = json.load(f)

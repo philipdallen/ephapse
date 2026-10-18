@@ -30,9 +30,8 @@ import json
 import re
 import sys
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Optional
 
 REPO = Path(__file__).resolve().parent.parent
 DEFAULT_LEDGER = REPO / "program" / "ledger.jsonl"
@@ -54,7 +53,7 @@ OUTCOME_CLASSES = (
     "requirement-emerged",
 )
 
-RUNG_RANGE = range(0, 6)          # spec §3.3 / TEST_VALIDATION_SPEC.md §5
+RUNG_RANGE = range(6)          # spec §3.3 / TEST_VALIDATION_SPEC.md §5
 RUN_ID_RE = re.compile(r"^\d{8}-\d{4}-[A-Za-z0-9]{4}$")
 ISSUE_REF_RE = re.compile(r"#(\d+)")
 
@@ -71,7 +70,7 @@ class LedgerError(Exception):
     """A record that cannot be accepted (as opposed to a usage error)."""
 
 
-def load_kind_vocabulary(path: Optional[Path] = None) -> tuple[str, ...]:
+def load_kind_vocabulary(path: Path | None = None) -> tuple[str, ...]:
     """Read the kind values from the single source (DEC-035), prefix stripped."""
     if path is None:
         path = KIND_VOCABULARY_FILE
@@ -89,7 +88,7 @@ def load_kind_vocabulary(path: Optional[Path] = None) -> tuple[str, ...]:
     return values
 
 
-def next_record_id(existing: "list[LedgerRecord]") -> str:
+def next_record_id(existing: list[LedgerRecord]) -> str:
     """Sequential `P-001`, `P-002`, … — stable, orderable, unique."""
     n = 0
     for r in existing:
@@ -101,7 +100,7 @@ def next_record_id(existing: "list[LedgerRecord]") -> str:
     return f"P-{n + 1:03d}"
 
 
-def _findings_record_lines(findings_path: Optional[Path] = None) -> set[int]:
+def _findings_record_lines(findings_path: Path | None = None) -> set[int]:
     """1-based physical line numbers in `findings.jsonl` that hold a record.
 
     The ledger header defines a `findings` entry as a 1-based line number in
@@ -124,7 +123,7 @@ def _findings_record_lines(findings_path: Optional[Path] = None) -> set[int]:
     }
 
 
-def _resolve_result_path(entry: object, root: Optional[Path] = None) -> Optional[str]:
+def _resolve_result_path(entry: object, root: Path | None = None) -> str | None:
     """Return the rejection reason for a `results` entry, or None when it exists.
 
     Repo-relative entries resolve against `root` (the repo by default). An
@@ -160,8 +159,8 @@ class LedgerRecord:
     issue: int
     run_id: str
     kind: str
-    outcome: Optional[str] = None
-    rung: Optional[int] = None
+    outcome: str | None = None
+    rung: int | None = None
     results: list = field(default_factory=list)
     decisions: list = field(default_factory=list)
     findings: list = field(default_factory=list)
@@ -170,9 +169,9 @@ class LedgerRecord:
     note: str = ""
 
     # ------------------------------------------------------------ validation
-    def validate(self, kind_vocabulary: Optional[tuple[str, ...]] = None,
-                 results_root: Optional[Path] = None,
-                 findings_path: Optional[Path] = None) -> None:
+    def validate(self, kind_vocabulary: tuple[str, ...] | None = None,
+                 results_root: Path | None = None,
+                 findings_path: Path | None = None) -> None:
         """Enforce spec §4's four rules plus the schema. Raises LedgerError.
 
         `results_root` and `findings_path` locate the artifacts rule 1 checks
@@ -267,7 +266,7 @@ class LedgerRecord:
         return {k: getattr(self, k) for k in SCHEMA_KEYS}
 
     @classmethod
-    def from_json(cls, d: dict) -> "LedgerRecord":
+    def from_json(cls, d: dict) -> LedgerRecord:
         unknown = set(d) - set(SCHEMA_KEYS)
         if unknown:
             raise LedgerError(
@@ -279,7 +278,7 @@ class LedgerRecord:
         return cls(**{k: d[k] for k in SCHEMA_KEYS})
 
 
-def read_ledger(path: Optional[Path] = None) -> "list[LedgerRecord]":
+def read_ledger(path: Path | None = None) -> list[LedgerRecord]:
     """Read every record. `#` comment lines (the header) are ignored."""
     if path is None:
         path = DEFAULT_LEDGER
@@ -297,8 +296,8 @@ def read_ledger(path: Optional[Path] = None) -> "list[LedgerRecord]":
     return out
 
 
-def append_record(record: LedgerRecord, path: Optional[Path] = None,
-                  kind_vocabulary: Optional[tuple[str, ...]] = None) -> None:
+def append_record(record: LedgerRecord, path: Path | None = None,
+                  kind_vocabulary: tuple[str, ...] | None = None) -> None:
     """Validate then append one record. Never rewrites; never writes on failure."""
     if path is None:
         path = DEFAULT_LEDGER
@@ -343,7 +342,7 @@ def _cmd_append(args) -> int:
     existing = read_ledger(path)
     record = LedgerRecord(
         id=next_record_id(existing),
-        ts=args.ts or datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        ts=args.ts or datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
         issue=args.issue,
         run_id=args.run_id,
         kind=args.kind,
@@ -380,7 +379,7 @@ def _cmd_verify(args) -> int:
     return 0
 
 
-def main(argv: Optional[list[str]] = None) -> int:
+def main(argv: list[str] | None = None) -> int:
     args = _build_parser().parse_args(argv)
     handlers = {"append": _cmd_append, "list": _cmd_list, "verify": _cmd_verify}
     try:

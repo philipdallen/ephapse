@@ -92,8 +92,8 @@ def bridge(bin_a, bin_b, perm, sel):
 
 
 def main():
-    from transformer_lens import HookedTransformer
     from sae_lens import SAE
+    from transformer_lens import HookedTransformer
 
     print("=== issue #6 re-run: non-verbal robustness (bug fixes applied) ===")
     with open(CORPUS) as f:

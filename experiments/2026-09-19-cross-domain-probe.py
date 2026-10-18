@@ -221,8 +221,8 @@ def position_check(model, sae, texts, f, n_passages=40):
 
 
 def main():
-    from transformer_lens import HookedTransformer
     from sae_lens import SAE
+    from transformer_lens import HookedTransformer
 
     print("=== issue #3: cross-domain co-activation probe ===")
     with open(CORPUS) as f:

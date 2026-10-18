@@ -90,7 +90,7 @@ for idx, local_max in top:
     hook_ok = d.get("hookName") in (HOOK, None)
     rows.append((idx, local_max, np_max, ratio, d.get("hasVector"), d.get("hookName")))
     print(f"{idx:>6} {local_max:>10.3f} {np_max:>16.3f} {ratio:>8.3f} "
-          f"{str(d.get('hasVector')):>10} {str(hook_ok):>15}")
+          f"{d.get('hasVector')!s:>10} {hook_ok!s:>15}")
 
 # --- 5. decoder vector dimension check ---
 print()

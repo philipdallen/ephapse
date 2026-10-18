@@ -202,13 +202,13 @@ def run_detector(fa, fb, threshold, rng):
     survivors = [int(k) for k in rej if flat[k] > cutoff]
 
     return {"n_pairs": int(flat.size), "cutoff": cutoff,
-            "n_recovered": len(survivors), "n_fdr": int(len(rej)),
+            "n_recovered": len(survivors), "n_fdr": len(rej),
             "best": float(flat.max())}
 
 
 def main():
-    from transformer_lens import HookedTransformer
     from sae_lens import SAE
+    from transformer_lens import HookedTransformer
 
     print("=== issue #5: injected-correlation positive control ===")
     print(f"model={MODEL} hook={HOOK} N_paired={N_PAIRED} "

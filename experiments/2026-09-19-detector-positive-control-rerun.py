@@ -101,8 +101,8 @@ def run_detector(fa, fb, label, rng):
 
 
 def main():
-    from transformer_lens import HookedTransformer
     from sae_lens import SAE
+    from transformer_lens import HookedTransformer
 
     print("=== issue #5 re-run: positive control with per-feature thresholds ===")
     with open(CORPUS) as f:

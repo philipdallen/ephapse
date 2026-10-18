@@ -22,19 +22,19 @@ Both directions are asserted, per the repo's fixture rule.
 from __future__ import annotations
 
 import sys
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parent))
 
-import audit_claims as A  # noqa: E402
+import audit_claims as A
 
 FIXTURES = HERE / "fixtures"
 
 # Fixed clock for the synthetic (non-fixture) cases below. The fixture-based
 # tests use each fixture's own declared `_evaluate_at` instead.
-NOW = datetime(2026, 9, 19, 11, 0, 0, tzinfo=timezone.utc)
+NOW = datetime(2026, 9, 19, 11, 0, 0, tzinfo=UTC)
 
 
 def _load(name: str):
@@ -294,7 +294,7 @@ def test_35_claim_is_live_accepts_a_heartbeat():
     """claim.py's is_live must honour the same heartbeat rule as the auditor."""
     import claim as C
     old = "20260919-0930-bbbb 2026-09-19T09:30:00Z"
-    fresh = datetime(2026, 9, 19, 10, 50, 0, tzinfo=timezone.utc)
+    fresh = datetime(2026, 9, 19, 10, 50, 0, tzinfo=UTC)
     assert not C.is_live(old, now=NOW), "90 min old with no activity is stale"
     assert C.is_live(old, now=NOW, last_activity=fresh), \
         "recent activity must keep the lock"

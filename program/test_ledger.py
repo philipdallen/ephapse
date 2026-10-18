@@ -10,7 +10,6 @@ Run: python3 -m pytest program/test_ledger.py
 """
 from __future__ import annotations
 
-import json
 import sys
 from pathlib import Path
 
@@ -20,7 +19,7 @@ HERE = Path(__file__).resolve().parent
 REPO = HERE.parent
 sys.path.insert(0, str(HERE))
 
-import ledger as L  # noqa: E402
+import ledger as L
 
 RUN = "20260922-0431-eph3"
 TS = "2026-09-22T00:00:00Z"

@@ -70,9 +70,8 @@ import time
 import numpy as np
 import torch
 from datasets import load_dataset
-
-from scipy.stats import poisson
 from sae_lens import SAE
+from scipy.stats import poisson
 from transformer_lens import HookedTransformer
 
 # ---------------------------------------------------------------- parameters
@@ -210,7 +209,7 @@ def main():
     n_low = int((s[order] <= 50).sum())
     print(f"  planted-active features: {len(order)}; "
           f"with background support <= 50: {n_low}")
-    results["n_planted_active"] = int(len(order))
+    results["n_planted_active"] = len(order)
     results["n_planted_active_low_support"] = n_low
     if len(order) < 2 * GROUP_SIZE:
         print(f"  WARNING: only {len(order)} planted-active features; "

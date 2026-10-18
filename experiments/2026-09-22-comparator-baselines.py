@@ -139,8 +139,8 @@ def supervised_arm(acts_train, labels_train, acts_test, labels_test,
 
 
 def main():
-    from transformer_lens import HookedTransformer
     from sae_lens import SAE
+    from transformer_lens import HookedTransformer
 
     with open(CORPUS) as f:
         d = json.load(f)

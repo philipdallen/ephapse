@@ -11,7 +11,6 @@ bare forward pass, and what cache size per prompt does it hold?
 
 Run: python3 experiments/2026-09-18-sandbox-baseline-hooked.py
 """
-import os
 import resource
 import time
 

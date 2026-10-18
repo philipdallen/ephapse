@@ -59,25 +59,14 @@ ASTRO_ADJ = ["distant", "faint", "stellar", "galactic", "cosmic", "dense",
 
 def cook_passage(rng):
     # glue tokens: "A" and "," only
-    return ("A {adj} {n1} , {n2} {v1} , the {adj2} {n3} {v2} , "
-            "{n4} {v3} , {n5} {n6}").format(
-        adj=rng.choice(COOK_ADJ), n1=rng.choice(COOK_NOUN),
-        n2=rng.choice(COOK_NOUN), v1=rng.choice(COOK_VERB),
-        adj2=rng.choice(COOK_ADJ), n3=rng.choice(COOK_NOUN),
-        v2=rng.choice(COOK_VERB), n4=rng.choice(COOK_NOUN),
-        v3=rng.choice(COOK_VERB), n5=rng.choice(COOK_NOUN),
-        n6=rng.choice(COOK_NOUN))
+    return (f"A {rng.choice(COOK_ADJ)} {rng.choice(COOK_NOUN)} , {rng.choice(COOK_NOUN)} {rng.choice(COOK_VERB)} , the {rng.choice(COOK_ADJ)} {rng.choice(COOK_NOUN)} {rng.choice(COOK_VERB)} , "
+            f"{rng.choice(COOK_NOUN)} {rng.choice(COOK_VERB)} , {rng.choice(COOK_NOUN)} {rng.choice(COOK_NOUN)}")
 
 
 def astro_passage(rng):
     # glue tokens: ":" ";" "->" "(" ")" only - disjoint from cooking's glue
-    return ("{n1} : {adj} {n2} ; {n3} {v1} -> {adj2} {n4} ; "
-            "{n5} {v2} ( {n6} )").format(
-        n1=rng.choice(ASTRO_NOUN), adj=rng.choice(ASTRO_ADJ),
-        n2=rng.choice(ASTRO_NOUN), n3=rng.choice(ASTRO_NOUN),
-        v1=rng.choice(ASTRO_VERB), adj2=rng.choice(ASTRO_ADJ),
-        n4=rng.choice(ASTRO_NOUN), n5=rng.choice(ASTRO_NOUN),
-        v2=rng.choice(ASTRO_VERB), n6=rng.choice(ASTRO_NOUN))
+    return (f"{rng.choice(ASTRO_NOUN)} : {rng.choice(ASTRO_ADJ)} {rng.choice(ASTRO_NOUN)} ; {rng.choice(ASTRO_NOUN)} {rng.choice(ASTRO_VERB)} -> {rng.choice(ASTRO_ADJ)} {rng.choice(ASTRO_NOUN)} ; "
+            f"{rng.choice(ASTRO_NOUN)} {rng.choice(ASTRO_VERB)} ( {rng.choice(ASTRO_NOUN)} )")
 
 
 def token_disjointness(a, b, tok):
