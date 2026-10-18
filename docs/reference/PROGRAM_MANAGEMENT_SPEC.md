@@ -44,7 +44,7 @@ Ephapse's process discipline is strong at the **task** level and absent at the
 | No program view | Reading the state means reading 26 DECs (1,217 lines), 15 issues, and 4 findings. There is no single surface. |
 | No unforeseen-requirement protocol | #23, #24, and #25 were each discovered *while doing other work* and filed ad hoc. #24 found two live false-negative holes **in #11's landed, reviewed, gate-passing work**. |
 | No results→plan feedback | A null result should change what is attempted next. Nothing routes it. |
-| No health metric | Gate count is "38 ids in the spec, 22 wired" — true only because a human counted. Nothing computes it. (DEC-039 mandated `tooling/gates/gate_inventory.py` for the specified total; issue #88 extended it to derive the wired total from `run_all.py`'s live registry.) |
+| No health metric | Gate count is "38 ids in the spec, 24 wired" — true only because a human counted. Nothing computes it. (DEC-039 mandated `tooling/gates/gate_inventory.py` for the specified total; issue #88 extended it to derive the wired total from `run_all.py`'s live registry.) |
 
 None of these is a correctness bug. All of them are the reason a growing program
 becomes unreadable, and they compound: without an issue-type axis, gate #15
