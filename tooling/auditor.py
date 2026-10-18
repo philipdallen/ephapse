@@ -215,7 +215,8 @@ class GitHub:
 # --------------------------------------------------------------------------
 
 def git(args: list[str], cwd: Path) -> str:
-    p = subprocess.run(["git"] + args, cwd=cwd, capture_output=True, text=True)
+    p = subprocess.run(["git"] + args, check=False, cwd=cwd,
+                       capture_output=True, text=True)
     return p.stdout if p.returncode == 0 else ""
 
 
@@ -389,7 +390,8 @@ def check_gate_health(root: Path) -> list[Finding]:
             "gate-runner")]
 
     cmd, label = entry
-    proc = subprocess.run(cmd, cwd=root, capture_output=True, text=True, timeout=1800)
+    proc = subprocess.run(cmd, check=False, cwd=root, capture_output=True,
+                          text=True, timeout=1800)
     if proc.returncode == 0:
         return []
 
@@ -430,7 +432,8 @@ def _is_gitignored(root: Path, target: str) -> bool:
     produced at run time and gitignored by design -- the correct thing to write,
     not drift. Reporting it would bury the real findings.
     """
-    r = subprocess.run(["git", "check-ignore", "-q", "--", target], cwd=root)
+    r = subprocess.run(["git", "check-ignore", "-q", "--", target],
+                       check=False, cwd=root)
     return r.returncode == 0
 
 

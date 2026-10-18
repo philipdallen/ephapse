@@ -105,7 +105,8 @@ KIND_RE = re.compile(r"^kind:")
 
 
 def gh(*args: str, check: bool = True) -> str:
-    proc = subprocess.run(["gh", *args], capture_output=True, text=True)
+    proc = subprocess.run(["gh", *args], check=False,
+                          capture_output=True, text=True)
     if check and proc.returncode != 0:
         raise RuntimeError(f"gh {' '.join(args)} failed: {proc.stderr.strip()}")
     return proc.stdout

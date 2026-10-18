@@ -103,8 +103,8 @@ def run(args: list[str], cwd: Path | None = None, check: bool = True,
     env.setdefault("GIT_ASKPASS", "true")      # never launch a prompt helper
     if env_extra:
         env.update(env_extra)
-    proc = subprocess.run(["git", *args], cwd=cwd, capture_output=True,
-                          text=True, env=env)
+    proc = subprocess.run(["git", *args], check=False, cwd=cwd,
+                          capture_output=True, text=True, env=env)
     if check and proc.returncode != 0:
         raise GitError(f"git {' '.join(args)} failed ({proc.returncode}): "
                        f"{proc.stderr.strip() or proc.stdout.strip()}")

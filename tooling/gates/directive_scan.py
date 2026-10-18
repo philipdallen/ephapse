@@ -313,7 +313,7 @@ def _adoption_commit() -> str | None:
         out = subprocess.run(
             ["git", "log", "--diff-filter=A", "--format=%H", "--",
              "docs/DIRECTIVE_PROTOCOL.md"],
-            cwd=REPO, capture_output=True, text=True, timeout=30,
+            check=False, cwd=REPO, capture_output=True, text=True, timeout=30,
         )
     except (OSError, subprocess.SubprocessError):
         return None
@@ -336,7 +336,7 @@ def git_log_trailers() -> list[Finding]:
     try:
         out = subprocess.run(
             ["git", "log", f"{adoption}..HEAD", "--format=%h%x00%s%x00%b%x1e"],
-            cwd=REPO, capture_output=True, text=True, timeout=30,
+            check=False, cwd=REPO, capture_output=True, text=True, timeout=30,
         )
     except (OSError, subprocess.SubprocessError):
         return []
