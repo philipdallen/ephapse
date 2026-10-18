@@ -268,7 +268,7 @@ def last_activity_for(repo: Path, run_id: str, issue: int,
     try:
         with urllib.request.urlopen(req, timeout=20) as r:
             comments = json.load(r)
-    except Exception:
+    except Exception:  # noqa: BLE001 - deliberate: heartbeat is best-effort; None falls back to file age
         return None
     newest: datetime | None = None
     for c in comments:

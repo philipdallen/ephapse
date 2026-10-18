@@ -58,7 +58,7 @@ def fetch(dataset, config, split, offset, length, tries=6):
             wait = 4 * (2 ** t)
             print(f"      retry {t + 1}/{tries} in {wait}s (HTTP {e.code})")
             time.sleep(wait)
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001 - deliberate: retry wrapper; re-raises RuntimeError below
             wait = 4 * (2 ** t)
             print(f"      retry {t + 1}/{tries} in {wait}s ({type(e).__name__})")
             time.sleep(wait)

@@ -82,7 +82,7 @@ sae_status = "not attempted"
 try:
     from sae_lens import SAE  # noqa: F401
     sae_status = "sae_lens importable"
-except Exception as e:  # pragma: no cover
+except Exception as e:  # noqa: BLE001 - deliberate: probe reports import failure  # pragma: no cover
     sae_status = f"sae_lens import failed: {type(e).__name__}"
 print(f"  SAE path: {sae_status}")
 log("after SAE import")

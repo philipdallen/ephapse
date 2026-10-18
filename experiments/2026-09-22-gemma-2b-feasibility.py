@@ -92,7 +92,7 @@ def load_model():
               f"d_vocab={model.cfg.d_vocab}")
         print(f"  peak RSS after load  : {rss_gb():.2f} GB")
         return {"kind": "tl", "model": model, "tok": model.tokenizer, "load_s": load_s}
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001 - deliberate: falls back to the transformers path
         print(f"  transformer_lens path failed after {time.time() - t0:.1f}s: "
               f"{type(e).__name__}: {str(e)[:160]}")
 
@@ -114,7 +114,7 @@ def load_model():
         print(f"  peak RSS after load  : {rss_gb():.2f} GB")
         return {"kind": "hf", "model": model, "tok": tok, "load_s": load_s,
                 "n_layers": cfg.num_hidden_layers}
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001 - deliberate: returns None so the caller reports infeasibility
         print(f"  LOAD FAILED after {time.time() - t0:.1f}s")
         print(f"  exception: {type(e).__name__}: {str(e)[:400]}")
         return None
@@ -183,13 +183,13 @@ def sae_stage(modelw=None):
     print(f"=== 3. SAE load: {SAE_RELEASE} / {SAE_ID} ===")
     try:
         from sae_lens import SAE
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001 - deliberate: import failure is the measurement
         print(f"  sae_lens import failed: {type(e).__name__}: {e}")
         return
     t0 = time.time()
     try:
         sae = SAE.from_pretrained(release=SAE_RELEASE, sae_id=SAE_ID, device="cpu")
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001 - deliberate: load failure is the measurement
         print(f"  SAE LOAD FAILED after {time.time() - t0:.1f}s")
         print(f"  exception: {type(e).__name__}: {str(e)[:400]}")
         return

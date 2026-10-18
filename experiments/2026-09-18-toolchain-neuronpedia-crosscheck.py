@@ -78,7 +78,7 @@ for idx, local_max in top:
     try:
         with urllib.request.urlopen(req, timeout=30) as r:
             d = json.load(r)
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001 - deliberate: per-row fetch failure is recorded, loop continues
         print(f"{idx:>6} {local_max:>10.3f}  FETCH FAILED: {type(e).__name__}")
         continue
     np_max = d.get("maxActApprox")
