@@ -861,6 +861,62 @@ def test_self_test_cleans_up_on_failure(tmp_path):
     assert not (root / "docs" / "CHAOS_CANARY.md").exists()
 
 
+def test_count_claim_matches_true_counts():
+    for s in ["7 gates", "23 tests", "38 ids", "37 gates", "6 tests",
+              "19 tests", "11 tests", "5 checks", "12 suites", "452 tests"]:
+        assert aud.COUNT_CLAIM.search(s), f"should match: {s!r}"
+
+
+def test_count_claim_excludes_documented_false_positives():
+    # From the 2026-10-18 doc-hygiene sweep: issue refs, identifiers, tier/gate
+    # labels, and version strings are not count claims.
+    for s in ["#70 gates", "#30 tests", "DEC-022 gates", "DEC-017 gate",
+              "Tier-1 gate", "Tier-1 gates", "Gate 2 check item",
+              "Gate 4 checks", "Rung 8 test case", "Fix 3/4 gate",
+              "v2 tests", "#3 tests"]:
+        assert not aud.COUNT_CLAIM.search(s), f"should not match: {s!r}"
+
+
+def test_sibling_repos_includes_portfolio_ops():
+    assert "portfolio-ops" in aud.SIBLING_REPOS
+
+
+def test_cross_repo_path_prefix_is_suppressed():
+    # A sibling repo name *inside* the reference: the prose window cannot see it.
+    assert aud._is_cross_repo_path("portfolio-ops/ACCESS_AND_IDENTITIES.md")
+    assert not aud._is_cross_repo_path("docs/AUDITOR.md")
+
+
+def test_dangling_refs_ignore_append_only_docs(tmp_path):
+    (tmp_path / "docs" / "history").mkdir(parents=True)
+    (tmp_path / "docs" / "history" / "OLD.md").write_text("see `gone-file.md`\n")
+    (tmp_path / "docs" / "LIVE.md").write_text("see `gone-file.md`\n")
+    body = aud.check_dangling_doc_refs(tmp_path)[0].body
+    assert "docs/LIVE.md" in body
+    assert "docs/history/OLD.md" not in body
+
+
+def test_count_drift_needs_a_named_subject(tmp_path):
+    docs = tmp_path / "docs"
+    docs.mkdir()
+    # Different subjects, different counts -> both correct, no drift.
+    (docs / "A.md").write_text("`test_a.py` runs 11 tests\n")
+    (docs / "B.md").write_text("`test_b.py` runs 23 tests\n")
+    assert aud.check_doc_count_drift(tmp_path) == []
+    # Same subject, different counts -> drift.
+    (docs / "B.md").write_text("`test_a.py` runs 23 tests\n")
+    assert [f.signature() for f in aud.check_doc_count_drift(tmp_path)] == [
+        "[auditor:doc-count-drift] test-count"]
+
+
+def test_count_drift_ignores_append_only_docs(tmp_path):
+    docs = tmp_path / "docs" / "decisions"
+    docs.mkdir(parents=True)
+    (docs / "LOG.md").write_text("`test_a.py` runs 11 tests\n")
+    (tmp_path / "docs" / "A.md").write_text("`test_a.py` runs 23 tests\n")
+    assert aud.check_doc_count_drift(tmp_path) == []
+
+
 if __name__ == "__main__":
     fails = 0
     for name, fn in sorted(globals().items()):

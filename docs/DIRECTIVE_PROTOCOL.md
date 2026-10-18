@@ -49,7 +49,7 @@ write the DEC after the fact. If a DEC is written late, say so in the entry
 **Directive (verbatim):** "<the human's words, quoted, with link to the message or comment>"
 **Decision:** ...
 **Rationale:** ...
-**Consideration:** link to the memo (`docs/decisions/considerations/DEC-NNN.md`)
+**Consideration:** link to the memo (docs/decisions/considerations/DEC-NNN.md)
 **Ratified:** link to the human's `RATIFY DEC-NNN` comment, with its timestamp
 **Spawns:** #NN, #NN   (filled in as issues are filed)
 **Acceptance:** observable end state that would tell us the decision worked
@@ -97,7 +97,7 @@ fails (exit 1) when:
 - a commit on `main` has no `Directive:` trailer (warning for the first two
   weeks, violation after).
 
-Add it to the start-of-session sweep next to `pass_scan.py` (§Claiming step 1a).
+Add it to the start-of-session sweep next to PleaNP's `pass_scan.py` (§Claiming step 1a).
 A queue with directive violations is not claimable.
 
 ## 1a. Consideration step
@@ -121,7 +121,7 @@ keywords above and the Orchestrator must justify any Tier 0 or 1 that matches.
 ### The consideration memo
 
 A research task, filed under the `Proposed` DEC, sized like any other task.
-Deliverable is `docs/decisions/considerations/DEC-NNN.md` with:
+Deliverable is a decision memo under docs/decisions/considerations/ with:
 
 1. **Direction restated** in one sentence, next to the verbatim quote, so
    misreadings surface before work starts.
@@ -220,7 +220,7 @@ human answer becomes a logged decision.
    `status:blocked-needs-input`, opens the comment with a `NEEDS:` line, and
    moves on.
 2. The blocker is itself a task in the human's queue: label it `needs:human`
-   so `needs-audit.sh` lists it.
+   so the planned needs-audit.sh script lists it.
 3. The human answers on the issue.
 4. **The Orchestrator, not the worker, records the answer** as a new DEC with
    `Origin: blocker-resolution`, the human's answer quoted verbatim, and the
@@ -401,11 +401,11 @@ Deviations, confirmed against this repo rather than copied from the proposal:
   and `directive_scan.py` now reports a `status:blocked-needs-input` issue that
   lacks it (`blocker-needs-human`), so § 3 step 2 is checked rather than trusted.
 
-- **`pass_scan.py` does not exist here** and no gate tool has an offline
+- **PleaNP's `pass_scan.py` does not exist here** and no gate tool has an offline
   `--json-file` mode, so `directive_scan.py` follows the `check_docs_coherence.py`
   pattern: a standalone entry point plus `run_all.py` registration, no
   `--json-file` flag. This is the challenge's **C7** — the frozen body still says
-  "next to `pass_scan.py`"; the body is ratified and cannot be edited, so the
+  "next to pass_scan.py"; the body is ratified and cannot be edited, so the
   dead anchor is corrected here and the wiring lands next to the real
   start-of-session tools (`claim.py status`, `audit_claims.py`).
 
