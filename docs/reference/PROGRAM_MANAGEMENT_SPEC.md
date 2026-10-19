@@ -13,8 +13,9 @@ program, and what does it need next?"* — it tracks the work.
 The two are deliberately separate. A repo can have perfect artifacts and no
 idea what it is doing; it can have a clear plan and invalid evidence. Ephapse
 currently has the second problem in its primitive form and the first problem
-solved: 38 gate ids are specified and 22 are wired (both figures per
-`tooling/gates/gate_inventory.py`), 26 decisions are logged, and the
+solved: 38 gate ids are specified and 24 are wired (both figures per
+`tooling/gates/gate_inventory.py`; wired total re-measured 2026-10-19), 41
+decisions are logged, and the
 issue queue does not reliably say what is open.
 
 **Read first.** `MULTI_AGENT_WORKFLOW.md` (claiming, run-ids, dependencies) and

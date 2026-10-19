@@ -131,8 +131,8 @@ second among the rest — it unblocks #32 and #33.
 - **#24** — two false-negative holes in the G-R1/G-R2 gates: the infrastructure
   exemption is granted by prose (any file can excuse itself), and there is no
   attribution escape, which **blocks #15 from repairing the tree honestly**.
-- **#25** — `findings.jsonl` carries an undeclared key; the real log fails G-E1.
-  **This is the one currently failing test** (§5).
+- **#25** — `findings.jsonl` carried an undeclared key; the real log failed G-E1.
+  **Resolved** — #25 closed `status:done` and the suite is green (§5).
 - **#36** — the claim lock only covers sessions that use it.
 
 ## 5. Known breakage and hygiene debt
@@ -141,25 +141,26 @@ second among the rest — it unblocks #32 and #33.
 
 | Item | State |
 |---|---|
-| Tier-0 gates | **24 wired** (per `tooling/gates/gate_inventory.py`; do not hand-copy — recount 2026-10-18 raised 22 → 24; passing count not re-measured here) |
+| Tier-0 gates | **24 wired** (per `tooling/gates/gate_inventory.py`; do not hand-copy — recount 2026-10-18 raised 22 → 24) |
 | Gate ids specified in the validation spec | 38 |
-| Test suite | **67 passed, 1 failed** |
-| The failure | `test_real_findings_file_passes_the_registered_findings_gates` → **#25** (pre-existing, owned by that issue) |
-| **CI** | **Not wired.** No `.github/workflows/`. Gates run only when a session invokes them manually → **#13** |
+| Test suite | **154 passed, 2 skipped** (`python3 -m pytest tooling/gates/tests/ -q`, re-measured 2026-10-19) |
+| The failure | none — the #25 failure (`test_real_findings_file_passes_the_registered_findings_gates`) is resolved; #25 closed `status:done` and the suite is green |
+| **CI** | **Wired.** Five workflows under `.github/workflows/` (`ci.yml`, `auditor.yml`, `codeql.yml`, `hub_sweep.yml`, `proposal-issue.yml`); #13 closed `status:done` |
 | Label hygiene | **G-M1 passes: 0 findings** — the #29 backfill (run `20260921-0217-a7k4`) closed the 21 findings the cache then reported |
 | `kind:` coverage | Every open issue carries exactly one `kind:`; `kind:hygiene` added to the vocabulary by DEC-037 |
-| Open issues | **42**, of which **22 are claimable** (`status:available`) |
+| Open issues | **21**, of which **3 are claimable** (`status:available`; re-measured 2026-10-19) |
 
 **The gate-count discrepancy is resolved (#38, DEC-039; wired half #88).** Four
-documents said 37, `PROGRAM_MANAGEMENT_SPEC.md` said 38, and the registry wires
-**22**. The spec's § 3 inventory enumerates **38** distinct ids (**29** tier-0
+documents said 37, `PROGRAM_MANAGEMENT_SPEC.md` said 38, and the registry then
+wired **22**. The spec's § 3 inventory enumerates **38** distinct ids (**29** tier-0
 capable, **9** tier-1), so "37" was the stale figure — a hand-count that drifted
 one behind the table, and the tier-1 prose was also one low. DEC-039's "11 wired"
 was likewise stale (the G-C series, G-E3/E4/E5/E8, G-M3, and G-R4 landed after
 it); #88 derives the wired count from `run_all.py`'s live registry so the figure
 cannot re-drift. `tooling/gates/gate_inventory.py` now emits both totals from
 their sources. This was exactly the docs-coherence drift **G-R4** exists to
-catch, occurring in the window before G-R4 is wired (#20).
+catch, and it was caught in the window before G-R4 was wired; G-R4 is now wired
+and #20 is closed `status:done`.
 
 **Two tooling facts a session needs:**
 
@@ -210,8 +211,8 @@ Lean-side validation layer (that is Maith's).
 ## 7. How to verify any dispatched work
 
 1. **`python3 tooling/gates/run_all.py`** — must exit 0 with every gate `PASS`.
-2. **`python3 -m pytest tooling/gates/tests/ -q`** — 67 pass expected; the #25
-   failure is the known exception.
+2. **`python3 -m pytest tooling/gates/tests/ -q`** — 154 passed, 2 skipped expected
+   (re-measured 2026-10-19); the #25 failure is resolved and the suite is green.
 3. **Delete a fixture** — the corresponding gate must report `BROKEN`. This is the
    only way to show a gate actually works; a gate that cannot fail is not a check.
 4. **For experiment work:** the positive control must run **before** the result,
