@@ -1,0 +1,1459 @@
+{
+  "run_id": "20261019-1533-d9y9",
+  "issue": 153,
+  "model": "unsloth/gemma-2-2b",
+  "model_revision": "25319945f7fd83b8b903e12081777b7eef2ba993",
+  "dtype": "bfloat16",
+  "sae_release": "gemma-scope-2b-pt-res-canonical",
+  "statistic": "standardized per-feature co-activation z",
+  "null_model": "pairing permutation, N_PERM=400",
+  "correction": "family-wise max-statistic (95th pct of max per-feature z)",
+  "corpus": {
+    "n_per_domain": 120,
+    "seed": 11,
+    "varied": false
+  },
+  "axes": {
+    "min_support": [
+      3,
+      5,
+      10
+    ],
+    "co_chance_cap": [
+      0.5,
+      0.7
+    ],
+    "firing_rule": [
+      "gt0",
+      "pct95"
+    ],
+    "seed": [
+      3,
+      17,
+      29
+    ],
+    "hook": [
+      "blocks.12.hook_resid_post",
+      "blocks.13.hook_resid_post"
+    ]
+  },
+  "reference_145": {
+    "best_z": 3.695,
+    "cutoff": 4.664,
+    "n_survivors": 0
+  },
+  "reference_cell": {
+    "cell_id": "g-11-5-0.5-gt0-12",
+    "seed": 11,
+    "min_support": 5,
+    "co_chance_cap": 0.5,
+    "firing_rule": "gt0",
+    "hook": "blocks.12.hook_resid_post",
+    "band": [
+      0.041666666666666664,
+      0.7071067811865476
+    ],
+    "n_family": 1108,
+    "best_z": 3.6951993782484673,
+    "cutoff": 4.66028768310207,
+    "n_survivors": 0,
+    "survivor_ids": [],
+    "top_feature": 11433,
+    "top_rate": 0.058333333333333334,
+    "top_perm_mean": 0.018645833333333386
+  },
+  "n_cells": 73,
+  "n_cells_with_survivors": 0,
+  "decision": "null SURVIVES (all cells 0 survivors)",
+  "notes": [],
+  "cells": [
+    {
+      "cell_id": "g-3-3-0.5-gt0-12",
+      "seed": 3,
+      "min_support": 3,
+      "co_chance_cap": 0.5,
+      "firing_rule": "gt0",
+      "hook": "blocks.12.hook_resid_post",
+      "band": [
+        0.025,
+        0.7071067811865476
+      ],
+      "n_family": 1409,
+      "best_z": 5.753749142482941,
+      "cutoff": 6.024919670186093,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 2355,
+      "top_rate": 0.016666666666666666,
+      "top_perm_mean": 0.0009166666666666673
+    },
+    {
+      "cell_id": "g-17-3-0.5-gt0-12",
+      "seed": 17,
+      "min_support": 3,
+      "co_chance_cap": 0.5,
+      "firing_rule": "gt0",
+      "hook": "blocks.12.hook_resid_post",
+      "band": [
+        0.025,
+        0.7071067811865476
+      ],
+      "n_family": 1409,
+      "best_z": 5.108850778414595,
+      "cutoff": 6.093681732193702,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 10005,
+      "top_rate": 0.016666666666666666,
+      "top_perm_mean": 0.0011875000000000015
+    },
+    {
+      "cell_id": "g-29-3-0.5-gt0-12",
+      "seed": 29,
+      "min_support": 3,
+      "co_chance_cap": 0.5,
+      "firing_rule": "gt0",
+      "hook": "blocks.12.hook_resid_post",
+      "band": [
+        0.025,
+        0.7071067811865476
+      ],
+      "n_family": 1409,
+      "best_z": 5.653014885865816,
+      "cutoff": 5.893352227904648,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 2355,
+      "top_rate": 0.016666666666666666,
+      "top_perm_mean": 0.0010000000000000009
+    },
+    {
+      "cell_id": "g-3-3-0.7-gt0-12",
+      "seed": 3,
+      "min_support": 3,
+      "co_chance_cap": 0.7,
+      "firing_rule": "gt0",
+      "hook": "blocks.12.hook_resid_post",
+      "band": [
+        0.025,
+        0.8366600265340756
+      ],
+      "n_family": 1507,
+      "best_z": 5.753749142482941,
+      "cutoff": 6.024919670186093,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 2355,
+      "top_rate": 0.016666666666666666,
+      "top_perm_mean": 0.0009166666666666673
+    },
+    {
+      "cell_id": "g-17-3-0.7-gt0-12",
+      "seed": 17,
+      "min_support": 3,
+      "co_chance_cap": 0.7,
+      "firing_rule": "gt0",
+      "hook": "blocks.12.hook_resid_post",
+      "band": [
+        0.025,
+        0.8366600265340756
+      ],
+      "n_family": 1507,
+      "best_z": 5.108850778414595,
+      "cutoff": 6.093681732193702,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 10005,
+      "top_rate": 0.016666666666666666,
+      "top_perm_mean": 0.0011875000000000015
+    },
+    {
+      "cell_id": "g-29-3-0.7-gt0-12",
+      "seed": 29,
+      "min_support": 3,
+      "co_chance_cap": 0.7,
+      "firing_rule": "gt0",
+      "hook": "blocks.12.hook_resid_post",
+      "band": [
+        0.025,
+        0.8366600265340756
+      ],
+      "n_family": 1507,
+      "best_z": 5.653014885865816,
+      "cutoff": 5.893352227904648,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 2355,
+      "top_rate": 0.016666666666666666,
+      "top_perm_mean": 0.0010000000000000009
+    },
+    {
+      "cell_id": "g-3-5-0.5-gt0-12",
+      "seed": 3,
+      "min_support": 5,
+      "co_chance_cap": 0.5,
+      "firing_rule": "gt0",
+      "hook": "blocks.12.hook_resid_post",
+      "band": [
+        0.041666666666666664,
+        0.7071067811865476
+      ],
+      "n_family": 1108,
+      "best_z": 3.7104796804310483,
+      "cutoff": 4.760255728219175,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 11433,
+      "top_rate": 0.058333333333333334,
+      "top_perm_mean": 0.018291666666666723
+    },
+    {
+      "cell_id": "g-17-5-0.5-gt0-12",
+      "seed": 17,
+      "min_support": 5,
+      "co_chance_cap": 0.5,
+      "firing_rule": "gt0",
+      "hook": "blocks.12.hook_resid_post",
+      "band": [
+        0.041666666666666664,
+        0.7071067811865476
+      ],
+      "n_family": 1108,
+      "best_z": 3.9304750512521958,
+      "cutoff": 4.6862864313716805,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 11433,
+      "top_rate": 0.058333333333333334,
+      "top_perm_mean": 0.01743750000000004
+    },
+    {
+      "cell_id": "g-29-5-0.5-gt0-12",
+      "seed": 29,
+      "min_support": 5,
+      "co_chance_cap": 0.5,
+      "firing_rule": "gt0",
+      "hook": "blocks.12.hook_resid_post",
+      "band": [
+        0.041666666666666664,
+        0.7071067811865476
+      ],
+      "n_family": 1108,
+      "best_z": 3.69540443832069,
+      "cutoff": 4.637694215850362,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 10938,
+      "top_rate": 0.21666666666666667,
+      "top_perm_mean": 0.1409791666666663
+    },
+    {
+      "cell_id": "g-11-5-0.5-gt0-12",
+      "seed": 11,
+      "min_support": 5,
+      "co_chance_cap": 0.5,
+      "firing_rule": "gt0",
+      "hook": "blocks.12.hook_resid_post",
+      "band": [
+        0.041666666666666664,
+        0.7071067811865476
+      ],
+      "n_family": 1108,
+      "best_z": 3.6951993782484673,
+      "cutoff": 4.66028768310207,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 11433,
+      "top_rate": 0.058333333333333334,
+      "top_perm_mean": 0.018645833333333386
+    },
+    {
+      "cell_id": "g-3-5-0.7-gt0-12",
+      "seed": 3,
+      "min_support": 5,
+      "co_chance_cap": 0.7,
+      "firing_rule": "gt0",
+      "hook": "blocks.12.hook_resid_post",
+      "band": [
+        0.041666666666666664,
+        0.8366600265340756
+      ],
+      "n_family": 1200,
+      "best_z": 3.7104796804310483,
+      "cutoff": 4.760255728219175,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 11433,
+      "top_rate": 0.058333333333333334,
+      "top_perm_mean": 0.018291666666666723
+    },
+    {
+      "cell_id": "g-17-5-0.7-gt0-12",
+      "seed": 17,
+      "min_support": 5,
+      "co_chance_cap": 0.7,
+      "firing_rule": "gt0",
+      "hook": "blocks.12.hook_resid_post",
+      "band": [
+        0.041666666666666664,
+        0.8366600265340756
+      ],
+      "n_family": 1200,
+      "best_z": 3.9304750512521958,
+      "cutoff": 4.6862864313716805,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 11433,
+      "top_rate": 0.058333333333333334,
+      "top_perm_mean": 0.01743750000000004
+    },
+    {
+      "cell_id": "g-29-5-0.7-gt0-12",
+      "seed": 29,
+      "min_support": 5,
+      "co_chance_cap": 0.7,
+      "firing_rule": "gt0",
+      "hook": "blocks.12.hook_resid_post",
+      "band": [
+        0.041666666666666664,
+        0.8366600265340756
+      ],
+      "n_family": 1200,
+      "best_z": 3.69540443832069,
+      "cutoff": 4.637694215850362,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 10938,
+      "top_rate": 0.21666666666666667,
+      "top_perm_mean": 0.1409791666666663
+    },
+    {
+      "cell_id": "g-3-10-0.5-gt0-12",
+      "seed": 3,
+      "min_support": 10,
+      "co_chance_cap": 0.5,
+      "firing_rule": "gt0",
+      "hook": "blocks.12.hook_resid_post",
+      "band": [
+        0.08333333333333333,
+        0.7071067811865476
+      ],
+      "n_family": 759,
+      "best_z": 3.7104796804310483,
+      "cutoff": 4.198823838725265,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 11433,
+      "top_rate": 0.058333333333333334,
+      "top_perm_mean": 0.018291666666666723
+    },
+    {
+      "cell_id": "g-17-10-0.5-gt0-12",
+      "seed": 17,
+      "min_support": 10,
+      "co_chance_cap": 0.5,
+      "firing_rule": "gt0",
+      "hook": "blocks.12.hook_resid_post",
+      "band": [
+        0.08333333333333333,
+        0.7071067811865476
+      ],
+      "n_family": 759,
+      "best_z": 3.9304750512521958,
+      "cutoff": 4.004645523244161,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 11433,
+      "top_rate": 0.058333333333333334,
+      "top_perm_mean": 0.01743750000000004
+    },
+    {
+      "cell_id": "g-29-10-0.5-gt0-12",
+      "seed": 29,
+      "min_support": 10,
+      "co_chance_cap": 0.5,
+      "firing_rule": "gt0",
+      "hook": "blocks.12.hook_resid_post",
+      "band": [
+        0.08333333333333333,
+        0.7071067811865476
+      ],
+      "n_family": 759,
+      "best_z": 3.69540443832069,
+      "cutoff": 4.063124435946921,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 10938,
+      "top_rate": 0.21666666666666667,
+      "top_perm_mean": 0.1409791666666663
+    },
+    {
+      "cell_id": "g-3-10-0.7-gt0-12",
+      "seed": 3,
+      "min_support": 10,
+      "co_chance_cap": 0.7,
+      "firing_rule": "gt0",
+      "hook": "blocks.12.hook_resid_post",
+      "band": [
+        0.08333333333333333,
+        0.8366600265340756
+      ],
+      "n_family": 845,
+      "best_z": 3.7104796804310483,
+      "cutoff": 4.198823838725265,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 11433,
+      "top_rate": 0.058333333333333334,
+      "top_perm_mean": 0.018291666666666723
+    },
+    {
+      "cell_id": "g-17-10-0.7-gt0-12",
+      "seed": 17,
+      "min_support": 10,
+      "co_chance_cap": 0.7,
+      "firing_rule": "gt0",
+      "hook": "blocks.12.hook_resid_post",
+      "band": [
+        0.08333333333333333,
+        0.8366600265340756
+      ],
+      "n_family": 845,
+      "best_z": 3.9304750512521958,
+      "cutoff": 4.0265927076543635,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 11433,
+      "top_rate": 0.058333333333333334,
+      "top_perm_mean": 0.01743750000000004
+    },
+    {
+      "cell_id": "g-29-10-0.7-gt0-12",
+      "seed": 29,
+      "min_support": 10,
+      "co_chance_cap": 0.7,
+      "firing_rule": "gt0",
+      "hook": "blocks.12.hook_resid_post",
+      "band": [
+        0.08333333333333333,
+        0.8366600265340756
+      ],
+      "n_family": 845,
+      "best_z": 3.69540443832069,
+      "cutoff": 4.063124435946921,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 10938,
+      "top_rate": 0.21666666666666667,
+      "top_perm_mean": 0.1409791666666663
+    },
+    {
+      "cell_id": "g-3-3-0.5-pct95-12",
+      "seed": 3,
+      "min_support": 3,
+      "co_chance_cap": 0.5,
+      "firing_rule": "pct95",
+      "hook": "blocks.12.hook_resid_post",
+      "band": [
+        0.025,
+        0.7071067811865476
+      ],
+      "n_family": 338,
+      "best_z": 4.761351894673038,
+      "cutoff": 6.55029139708303,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 10358,
+      "top_rate": 0.016666666666666666,
+      "top_perm_mean": 0.0011875000000000013
+    },
+    {
+      "cell_id": "g-17-3-0.5-pct95-12",
+      "seed": 17,
+      "min_support": 3,
+      "co_chance_cap": 0.5,
+      "firing_rule": "pct95",
+      "hook": "blocks.12.hook_resid_post",
+      "band": [
+        0.025,
+        0.7071067811865476
+      ],
+      "n_family": 338,
+      "best_z": 5.329818642182158,
+      "cutoff": 6.410840418773532,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 10358,
+      "top_rate": 0.016666666666666666,
+      "top_perm_mean": 0.0010833333333333346
+    },
+    {
+      "cell_id": "g-29-3-0.5-pct95-12",
+      "seed": 29,
+      "min_support": 3,
+      "co_chance_cap": 0.5,
+      "firing_rule": "pct95",
+      "hook": "blocks.12.hook_resid_post",
+      "band": [
+        0.025,
+        0.7071067811865476
+      ],
+      "n_family": 338,
+      "best_z": 4.891852130661769,
+      "cutoff": 6.238750446928543,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 10358,
+      "top_rate": 0.016666666666666666,
+      "top_perm_mean": 0.0013541666666666682
+    },
+    {
+      "cell_id": "g-3-3-0.7-pct95-12",
+      "seed": 3,
+      "min_support": 3,
+      "co_chance_cap": 0.7,
+      "firing_rule": "pct95",
+      "hook": "blocks.12.hook_resid_post",
+      "band": [
+        0.025,
+        0.8366600265340756
+      ],
+      "n_family": 338,
+      "best_z": 4.761351894673038,
+      "cutoff": 6.55029139708303,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 10358,
+      "top_rate": 0.016666666666666666,
+      "top_perm_mean": 0.0011875000000000013
+    },
+    {
+      "cell_id": "g-17-3-0.7-pct95-12",
+      "seed": 17,
+      "min_support": 3,
+      "co_chance_cap": 0.7,
+      "firing_rule": "pct95",
+      "hook": "blocks.12.hook_resid_post",
+      "band": [
+        0.025,
+        0.8366600265340756
+      ],
+      "n_family": 338,
+      "best_z": 5.329818642182158,
+      "cutoff": 6.410840418773532,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 10358,
+      "top_rate": 0.016666666666666666,
+      "top_perm_mean": 0.0010833333333333346
+    },
+    {
+      "cell_id": "g-29-3-0.7-pct95-12",
+      "seed": 29,
+      "min_support": 3,
+      "co_chance_cap": 0.7,
+      "firing_rule": "pct95",
+      "hook": "blocks.12.hook_resid_post",
+      "band": [
+        0.025,
+        0.8366600265340756
+      ],
+      "n_family": 338,
+      "best_z": 4.891852130661769,
+      "cutoff": 6.238750446928543,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 10358,
+      "top_rate": 0.016666666666666666,
+      "top_perm_mean": 0.0013541666666666682
+    },
+    {
+      "cell_id": "g-3-5-0.5-pct95-12",
+      "seed": 3,
+      "min_support": 5,
+      "co_chance_cap": 0.5,
+      "firing_rule": "pct95",
+      "hook": "blocks.12.hook_resid_post",
+      "band": [
+        0.041666666666666664,
+        0.7071067811865476
+      ],
+      "n_family": 138,
+      "best_z": 3.758175322087109,
+      "cutoff": 5.316024864712015,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 13744,
+      "top_rate": 0.016666666666666666,
+      "top_perm_mean": 0.002020833333333333
+    },
+    {
+      "cell_id": "g-17-5-0.5-pct95-12",
+      "seed": 17,
+      "min_support": 5,
+      "co_chance_cap": 0.5,
+      "firing_rule": "pct95",
+      "hook": "blocks.12.hook_resid_post",
+      "band": [
+        0.041666666666666664,
+        0.7071067811865476
+      ],
+      "n_family": 138,
+      "best_z": 3.6488323431076224,
+      "cutoff": 5.139974990280076,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 13744,
+      "top_rate": 0.016666666666666666,
+      "top_perm_mean": 0.0021666666666666653
+    },
+    {
+      "cell_id": "g-29-5-0.5-pct95-12",
+      "seed": 29,
+      "min_support": 5,
+      "co_chance_cap": 0.5,
+      "firing_rule": "pct95",
+      "hook": "blocks.12.hook_resid_post",
+      "band": [
+        0.041666666666666664,
+        0.7071067811865476
+      ],
+      "n_family": 138,
+      "best_z": 3.473517060319948,
+      "cutoff": 5.219754212715952,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 5472,
+      "top_rate": 0.016666666666666666,
+      "top_perm_mean": 0.0023749999999999995
+    },
+    {
+      "cell_id": "g-3-5-0.7-pct95-12",
+      "seed": 3,
+      "min_support": 5,
+      "co_chance_cap": 0.7,
+      "firing_rule": "pct95",
+      "hook": "blocks.12.hook_resid_post",
+      "band": [
+        0.041666666666666664,
+        0.8366600265340756
+      ],
+      "n_family": 138,
+      "best_z": 3.758175322087109,
+      "cutoff": 5.316024864712015,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 13744,
+      "top_rate": 0.016666666666666666,
+      "top_perm_mean": 0.002020833333333333
+    },
+    {
+      "cell_id": "g-17-5-0.7-pct95-12",
+      "seed": 17,
+      "min_support": 5,
+      "co_chance_cap": 0.7,
+      "firing_rule": "pct95",
+      "hook": "blocks.12.hook_resid_post",
+      "band": [
+        0.041666666666666664,
+        0.8366600265340756
+      ],
+      "n_family": 138,
+      "best_z": 3.6488323431076224,
+      "cutoff": 5.139974990280076,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 13744,
+      "top_rate": 0.016666666666666666,
+      "top_perm_mean": 0.0021666666666666653
+    },
+    {
+      "cell_id": "g-29-5-0.7-pct95-12",
+      "seed": 29,
+      "min_support": 5,
+      "co_chance_cap": 0.7,
+      "firing_rule": "pct95",
+      "hook": "blocks.12.hook_resid_post",
+      "band": [
+        0.041666666666666664,
+        0.8366600265340756
+      ],
+      "n_family": 138,
+      "best_z": 3.473517060319948,
+      "cutoff": 5.219754212715952,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 5472,
+      "top_rate": 0.016666666666666666,
+      "top_perm_mean": 0.0023749999999999995
+    },
+    {
+      "cell_id": "g-3-10-0.5-pct95-12",
+      "seed": 3,
+      "min_support": 10,
+      "co_chance_cap": 0.5,
+      "firing_rule": "pct95",
+      "hook": "blocks.12.hook_resid_post",
+      "band": [
+        0.08333333333333333,
+        0.7071067811865476
+      ],
+      "n_family": 0,
+      "not_runnable": "empty family (band lo=0.0833 excludes all features under this rule)"
+    },
+    {
+      "cell_id": "g-17-10-0.5-pct95-12",
+      "seed": 17,
+      "min_support": 10,
+      "co_chance_cap": 0.5,
+      "firing_rule": "pct95",
+      "hook": "blocks.12.hook_resid_post",
+      "band": [
+        0.08333333333333333,
+        0.7071067811865476
+      ],
+      "n_family": 0,
+      "not_runnable": "empty family (band lo=0.0833 excludes all features under this rule)"
+    },
+    {
+      "cell_id": "g-29-10-0.5-pct95-12",
+      "seed": 29,
+      "min_support": 10,
+      "co_chance_cap": 0.5,
+      "firing_rule": "pct95",
+      "hook": "blocks.12.hook_resid_post",
+      "band": [
+        0.08333333333333333,
+        0.7071067811865476
+      ],
+      "n_family": 0,
+      "not_runnable": "empty family (band lo=0.0833 excludes all features under this rule)"
+    },
+    {
+      "cell_id": "g-3-10-0.7-pct95-12",
+      "seed": 3,
+      "min_support": 10,
+      "co_chance_cap": 0.7,
+      "firing_rule": "pct95",
+      "hook": "blocks.12.hook_resid_post",
+      "band": [
+        0.08333333333333333,
+        0.8366600265340756
+      ],
+      "n_family": 0,
+      "not_runnable": "empty family (band lo=0.0833 excludes all features under this rule)"
+    },
+    {
+      "cell_id": "g-17-10-0.7-pct95-12",
+      "seed": 17,
+      "min_support": 10,
+      "co_chance_cap": 0.7,
+      "firing_rule": "pct95",
+      "hook": "blocks.12.hook_resid_post",
+      "band": [
+        0.08333333333333333,
+        0.8366600265340756
+      ],
+      "n_family": 0,
+      "not_runnable": "empty family (band lo=0.0833 excludes all features under this rule)"
+    },
+    {
+      "cell_id": "g-29-10-0.7-pct95-12",
+      "seed": 29,
+      "min_support": 10,
+      "co_chance_cap": 0.7,
+      "firing_rule": "pct95",
+      "hook": "blocks.12.hook_resid_post",
+      "band": [
+        0.08333333333333333,
+        0.8366600265340756
+      ],
+      "n_family": 0,
+      "not_runnable": "empty family (band lo=0.0833 excludes all features under this rule)"
+    },
+    {
+      "cell_id": "g-3-3-0.5-gt0-13",
+      "seed": 3,
+      "min_support": 3,
+      "co_chance_cap": 0.5,
+      "firing_rule": "gt0",
+      "hook": "blocks.13.hook_resid_post",
+      "band": [
+        0.025,
+        0.7071067811865476
+      ],
+      "n_family": 1037,
+      "best_z": 3.872981426208354,
+      "cutoff": 5.7688322615672485,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 12281,
+      "top_rate": 0.008333333333333333,
+      "top_perm_mean": 0.0005208333333333333
+    },
+    {
+      "cell_id": "g-17-3-0.5-gt0-13",
+      "seed": 17,
+      "min_support": 3,
+      "co_chance_cap": 0.5,
+      "firing_rule": "gt0",
+      "hook": "blocks.13.hook_resid_post",
+      "band": [
+        0.025,
+        0.7071067811865476
+      ],
+      "n_family": 1037,
+      "best_z": 3.6449556634788296,
+      "cutoff": 5.696577424770686,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 12281,
+      "top_rate": 0.008333333333333333,
+      "top_perm_mean": 0.0005833333333333333
+    },
+    {
+      "cell_id": "g-29-3-0.5-gt0-13",
+      "seed": 29,
+      "min_support": 3,
+      "co_chance_cap": 0.5,
+      "firing_rule": "gt0",
+      "hook": "blocks.13.hook_resid_post",
+      "band": [
+        0.025,
+        0.7071067811865476
+      ],
+      "n_family": 1037,
+      "best_z": 3.906579886817691,
+      "cutoff": 6.026925425575491,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 12701,
+      "top_rate": 0.016666666666666666,
+      "top_perm_mean": 0.0020624999999999992
+    },
+    {
+      "cell_id": "g-3-3-0.7-gt0-13",
+      "seed": 3,
+      "min_support": 3,
+      "co_chance_cap": 0.7,
+      "firing_rule": "gt0",
+      "hook": "blocks.13.hook_resid_post",
+      "band": [
+        0.025,
+        0.8366600265340756
+      ],
+      "n_family": 1107,
+      "best_z": 3.872981426208354,
+      "cutoff": 5.7688322615672485,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 12281,
+      "top_rate": 0.008333333333333333,
+      "top_perm_mean": 0.0005208333333333333
+    },
+    {
+      "cell_id": "g-17-3-0.7-gt0-13",
+      "seed": 17,
+      "min_support": 3,
+      "co_chance_cap": 0.7,
+      "firing_rule": "gt0",
+      "hook": "blocks.13.hook_resid_post",
+      "band": [
+        0.025,
+        0.8366600265340756
+      ],
+      "n_family": 1107,
+      "best_z": 3.6449556634788296,
+      "cutoff": 5.696577424770686,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 12281,
+      "top_rate": 0.008333333333333333,
+      "top_perm_mean": 0.0005833333333333333
+    },
+    {
+      "cell_id": "g-29-3-0.7-gt0-13",
+      "seed": 29,
+      "min_support": 3,
+      "co_chance_cap": 0.7,
+      "firing_rule": "gt0",
+      "hook": "blocks.13.hook_resid_post",
+      "band": [
+        0.025,
+        0.8366600265340756
+      ],
+      "n_family": 1107,
+      "best_z": 3.906579886817691,
+      "cutoff": 6.026925425575491,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 12701,
+      "top_rate": 0.016666666666666666,
+      "top_perm_mean": 0.0020624999999999992
+    },
+    {
+      "cell_id": "g-3-5-0.5-gt0-13",
+      "seed": 3,
+      "min_support": 5,
+      "co_chance_cap": 0.5,
+      "firing_rule": "gt0",
+      "hook": "blocks.13.hook_resid_post",
+      "band": [
+        0.041666666666666664,
+        0.7071067811865476
+      ],
+      "n_family": 812,
+      "best_z": 3.702996849420705,
+      "cutoff": 4.628457904509497,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 13101,
+      "top_rate": 0.058333333333333334,
+      "top_perm_mean": 0.018208333333333392
+    },
+    {
+      "cell_id": "g-17-5-0.5-gt0-13",
+      "seed": 17,
+      "min_support": 5,
+      "co_chance_cap": 0.5,
+      "firing_rule": "gt0",
+      "hook": "blocks.13.hook_resid_post",
+      "band": [
+        0.041666666666666664,
+        0.7071067811865476
+      ],
+      "n_family": 812,
+      "best_z": 3.5431946615945957,
+      "cutoff": 4.672514507131728,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 13101,
+      "top_rate": 0.058333333333333334,
+      "top_perm_mean": 0.019020833333333386
+    },
+    {
+      "cell_id": "g-29-5-0.5-gt0-13",
+      "seed": 29,
+      "min_support": 5,
+      "co_chance_cap": 0.5,
+      "firing_rule": "gt0",
+      "hook": "blocks.13.hook_resid_post",
+      "band": [
+        0.041666666666666664,
+        0.7071067811865476
+      ],
+      "n_family": 812,
+      "best_z": 3.7904327055683367,
+      "cutoff": 4.793066591678671,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 13101,
+      "top_rate": 0.058333333333333334,
+      "top_perm_mean": 0.018291666666666727
+    },
+    {
+      "cell_id": "g-3-5-0.7-gt0-13",
+      "seed": 3,
+      "min_support": 5,
+      "co_chance_cap": 0.7,
+      "firing_rule": "gt0",
+      "hook": "blocks.13.hook_resid_post",
+      "band": [
+        0.041666666666666664,
+        0.8366600265340756
+      ],
+      "n_family": 880,
+      "best_z": 3.702996849420705,
+      "cutoff": 4.628457904509497,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 13101,
+      "top_rate": 0.058333333333333334,
+      "top_perm_mean": 0.018208333333333392
+    },
+    {
+      "cell_id": "g-17-5-0.7-gt0-13",
+      "seed": 17,
+      "min_support": 5,
+      "co_chance_cap": 0.7,
+      "firing_rule": "gt0",
+      "hook": "blocks.13.hook_resid_post",
+      "band": [
+        0.041666666666666664,
+        0.8366600265340756
+      ],
+      "n_family": 880,
+      "best_z": 3.5431946615945957,
+      "cutoff": 4.672514507131728,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 13101,
+      "top_rate": 0.058333333333333334,
+      "top_perm_mean": 0.019020833333333386
+    },
+    {
+      "cell_id": "g-29-5-0.7-gt0-13",
+      "seed": 29,
+      "min_support": 5,
+      "co_chance_cap": 0.7,
+      "firing_rule": "gt0",
+      "hook": "blocks.13.hook_resid_post",
+      "band": [
+        0.041666666666666664,
+        0.8366600265340756
+      ],
+      "n_family": 880,
+      "best_z": 3.7904327055683367,
+      "cutoff": 4.793066591678671,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 13101,
+      "top_rate": 0.058333333333333334,
+      "top_perm_mean": 0.018291666666666727
+    },
+    {
+      "cell_id": "g-3-10-0.5-gt0-13",
+      "seed": 3,
+      "min_support": 10,
+      "co_chance_cap": 0.5,
+      "firing_rule": "gt0",
+      "hook": "blocks.13.hook_resid_post",
+      "band": [
+        0.08333333333333333,
+        0.7071067811865476
+      ],
+      "n_family": 524,
+      "best_z": 3.702996849420705,
+      "cutoff": 3.9465837597115043,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 13101,
+      "top_rate": 0.058333333333333334,
+      "top_perm_mean": 0.018208333333333392
+    },
+    {
+      "cell_id": "g-17-10-0.5-gt0-13",
+      "seed": 17,
+      "min_support": 10,
+      "co_chance_cap": 0.5,
+      "firing_rule": "gt0",
+      "hook": "blocks.13.hook_resid_post",
+      "band": [
+        0.08333333333333333,
+        0.7071067811865476
+      ],
+      "n_family": 524,
+      "best_z": 3.5431946615945957,
+      "cutoff": 3.9138828217209625,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 13101,
+      "top_rate": 0.058333333333333334,
+      "top_perm_mean": 0.019020833333333386
+    },
+    {
+      "cell_id": "g-29-10-0.5-gt0-13",
+      "seed": 29,
+      "min_support": 10,
+      "co_chance_cap": 0.5,
+      "firing_rule": "gt0",
+      "hook": "blocks.13.hook_resid_post",
+      "band": [
+        0.08333333333333333,
+        0.7071067811865476
+      ],
+      "n_family": 524,
+      "best_z": 3.7904327055683367,
+      "cutoff": 3.980961372591078,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 13101,
+      "top_rate": 0.058333333333333334,
+      "top_perm_mean": 0.018291666666666727
+    },
+    {
+      "cell_id": "g-3-10-0.7-gt0-13",
+      "seed": 3,
+      "min_support": 10,
+      "co_chance_cap": 0.7,
+      "firing_rule": "gt0",
+      "hook": "blocks.13.hook_resid_post",
+      "band": [
+        0.08333333333333333,
+        0.8366600265340756
+      ],
+      "n_family": 588,
+      "best_z": 3.702996849420705,
+      "cutoff": 3.947867679844404,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 13101,
+      "top_rate": 0.058333333333333334,
+      "top_perm_mean": 0.018208333333333392
+    },
+    {
+      "cell_id": "g-17-10-0.7-gt0-13",
+      "seed": 17,
+      "min_support": 10,
+      "co_chance_cap": 0.7,
+      "firing_rule": "gt0",
+      "hook": "blocks.13.hook_resid_post",
+      "band": [
+        0.08333333333333333,
+        0.8366600265340756
+      ],
+      "n_family": 588,
+      "best_z": 3.5431946615945957,
+      "cutoff": 3.938592801157169,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 13101,
+      "top_rate": 0.058333333333333334,
+      "top_perm_mean": 0.019020833333333386
+    },
+    {
+      "cell_id": "g-29-10-0.7-gt0-13",
+      "seed": 29,
+      "min_support": 10,
+      "co_chance_cap": 0.7,
+      "firing_rule": "gt0",
+      "hook": "blocks.13.hook_resid_post",
+      "band": [
+        0.08333333333333333,
+        0.8366600265340756
+      ],
+      "n_family": 588,
+      "best_z": 3.7904327055683367,
+      "cutoff": 4.0571849130856075,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 13101,
+      "top_rate": 0.058333333333333334,
+      "top_perm_mean": 0.018291666666666727
+    },
+    {
+      "cell_id": "g-3-3-0.5-pct95-13",
+      "seed": 3,
+      "min_support": 3,
+      "co_chance_cap": 0.5,
+      "firing_rule": "pct95",
+      "hook": "blocks.13.hook_resid_post",
+      "band": [
+        0.025,
+        0.7071067811865476
+      ],
+      "n_family": 281,
+      "best_z": 3.3911634915633035,
+      "cutoff": 6.077504795971274,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 1172,
+      "top_rate": 0.008333333333333333,
+      "top_perm_mean": 0.0006666666666666666
+    },
+    {
+      "cell_id": "g-17-3-0.5-pct95-13",
+      "seed": 17,
+      "min_support": 3,
+      "co_chance_cap": 0.5,
+      "firing_rule": "pct95",
+      "hook": "blocks.13.hook_resid_post",
+      "band": [
+        0.025,
+        0.7071067811865476
+      ],
+      "n_family": 281,
+      "best_z": 3.7927037032688964,
+      "cutoff": 6.164411602969887,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 1172,
+      "top_rate": 0.008333333333333333,
+      "top_perm_mean": 0.0005416666666666666
+    },
+    {
+      "cell_id": "g-29-3-0.5-pct95-13",
+      "seed": 29,
+      "min_support": 3,
+      "co_chance_cap": 0.5,
+      "firing_rule": "pct95",
+      "hook": "blocks.13.hook_resid_post",
+      "band": [
+        0.025,
+        0.7071067811865476
+      ],
+      "n_family": 281,
+      "best_z": 3.644955663478837,
+      "cutoff": 6.287298451285632,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 1172,
+      "top_rate": 0.008333333333333333,
+      "top_perm_mean": 0.0005833333333333333
+    },
+    {
+      "cell_id": "g-3-3-0.7-pct95-13",
+      "seed": 3,
+      "min_support": 3,
+      "co_chance_cap": 0.7,
+      "firing_rule": "pct95",
+      "hook": "blocks.13.hook_resid_post",
+      "band": [
+        0.025,
+        0.8366600265340756
+      ],
+      "n_family": 281,
+      "best_z": 3.3911634915633035,
+      "cutoff": 6.077504795971274,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 1172,
+      "top_rate": 0.008333333333333333,
+      "top_perm_mean": 0.0006666666666666666
+    },
+    {
+      "cell_id": "g-17-3-0.7-pct95-13",
+      "seed": 17,
+      "min_support": 3,
+      "co_chance_cap": 0.7,
+      "firing_rule": "pct95",
+      "hook": "blocks.13.hook_resid_post",
+      "band": [
+        0.025,
+        0.8366600265340756
+      ],
+      "n_family": 281,
+      "best_z": 3.7927037032688964,
+      "cutoff": 6.164411602969887,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 1172,
+      "top_rate": 0.008333333333333333,
+      "top_perm_mean": 0.0005416666666666666
+    },
+    {
+      "cell_id": "g-29-3-0.7-pct95-13",
+      "seed": 29,
+      "min_support": 3,
+      "co_chance_cap": 0.7,
+      "firing_rule": "pct95",
+      "hook": "blocks.13.hook_resid_post",
+      "band": [
+        0.025,
+        0.8366600265340756
+      ],
+      "n_family": 281,
+      "best_z": 3.644955663478837,
+      "cutoff": 6.287298451285632,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 1172,
+      "top_rate": 0.008333333333333333,
+      "top_perm_mean": 0.0005833333333333333
+    },
+    {
+      "cell_id": "g-3-5-0.5-pct95-13",
+      "seed": 3,
+      "min_support": 5,
+      "co_chance_cap": 0.5,
+      "firing_rule": "pct95",
+      "hook": "blocks.13.hook_resid_post",
+      "band": [
+        0.041666666666666664,
+        0.7071067811865476
+      ],
+      "n_family": 140,
+      "best_z": 3.368539004520032,
+      "cutoff": 5.125172609982183,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 11128,
+      "top_rate": 0.016666666666666666,
+      "top_perm_mean": 0.0024374999999999996
+    },
+    {
+      "cell_id": "g-17-5-0.5-pct95-13",
+      "seed": 17,
+      "min_support": 5,
+      "co_chance_cap": 0.5,
+      "firing_rule": "pct95",
+      "hook": "blocks.13.hook_resid_post",
+      "band": [
+        0.041666666666666664,
+        0.7071067811865476
+      ],
+      "n_family": 140,
+      "best_z": 3.6537805293322307,
+      "cutoff": 5.307149652066946,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 11128,
+      "top_rate": 0.016666666666666666,
+      "top_perm_mean": 0.0021041666666666656
+    },
+    {
+      "cell_id": "g-29-5-0.5-pct95-13",
+      "seed": 29,
+      "min_support": 5,
+      "co_chance_cap": 0.5,
+      "firing_rule": "pct95",
+      "hook": "blocks.13.hook_resid_post",
+      "band": [
+        0.041666666666666664,
+        0.7071067811865476
+      ],
+      "n_family": 140,
+      "best_z": 3.140471008651296,
+      "cutoff": 5.207180760016849,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 11128,
+      "top_rate": 0.016666666666666666,
+      "top_perm_mean": 0.002833333333333331
+    },
+    {
+      "cell_id": "g-3-5-0.7-pct95-13",
+      "seed": 3,
+      "min_support": 5,
+      "co_chance_cap": 0.7,
+      "firing_rule": "pct95",
+      "hook": "blocks.13.hook_resid_post",
+      "band": [
+        0.041666666666666664,
+        0.8366600265340756
+      ],
+      "n_family": 140,
+      "best_z": 3.368539004520032,
+      "cutoff": 5.125172609982183,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 11128,
+      "top_rate": 0.016666666666666666,
+      "top_perm_mean": 0.0024374999999999996
+    },
+    {
+      "cell_id": "g-17-5-0.7-pct95-13",
+      "seed": 17,
+      "min_support": 5,
+      "co_chance_cap": 0.7,
+      "firing_rule": "pct95",
+      "hook": "blocks.13.hook_resid_post",
+      "band": [
+        0.041666666666666664,
+        0.8366600265340756
+      ],
+      "n_family": 140,
+      "best_z": 3.6537805293322307,
+      "cutoff": 5.307149652066946,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 11128,
+      "top_rate": 0.016666666666666666,
+      "top_perm_mean": 0.0021041666666666656
+    },
+    {
+      "cell_id": "g-29-5-0.7-pct95-13",
+      "seed": 29,
+      "min_support": 5,
+      "co_chance_cap": 0.7,
+      "firing_rule": "pct95",
+      "hook": "blocks.13.hook_resid_post",
+      "band": [
+        0.041666666666666664,
+        0.8366600265340756
+      ],
+      "n_family": 140,
+      "best_z": 3.140471008651296,
+      "cutoff": 5.207180760016849,
+      "n_survivors": 0,
+      "survivor_ids": [],
+      "top_feature": 11128,
+      "top_rate": 0.016666666666666666,
+      "top_perm_mean": 0.002833333333333331
+    },
+    {
+      "cell_id": "g-3-10-0.5-pct95-13",
+      "seed": 3,
+      "min_support": 10,
+      "co_chance_cap": 0.5,
+      "firing_rule": "pct95",
+      "hook": "blocks.13.hook_resid_post",
+      "band": [
+        0.08333333333333333,
+        0.7071067811865476
+      ],
+      "n_family": 0,
+      "not_runnable": "empty family (band lo=0.0833 excludes all features under this rule)"
+    },
+    {
+      "cell_id": "g-17-10-0.5-pct95-13",
+      "seed": 17,
+      "min_support": 10,
+      "co_chance_cap": 0.5,
+      "firing_rule": "pct95",
+      "hook": "blocks.13.hook_resid_post",
+      "band": [
+        0.08333333333333333,
+        0.7071067811865476
+      ],
+      "n_family": 0,
+      "not_runnable": "empty family (band lo=0.0833 excludes all features under this rule)"
+    },
+    {
+      "cell_id": "g-29-10-0.5-pct95-13",
+      "seed": 29,
+      "min_support": 10,
+      "co_chance_cap": 0.5,
+      "firing_rule": "pct95",
+      "hook": "blocks.13.hook_resid_post",
+      "band": [
+        0.08333333333333333,
+        0.7071067811865476
+      ],
+      "n_family": 0,
+      "not_runnable": "empty family (band lo=0.0833 excludes all features under this rule)"
+    },
+    {
+      "cell_id": "g-3-10-0.7-pct95-13",
+      "seed": 3,
+      "min_support": 10,
+      "co_chance_cap": 0.7,
+      "firing_rule": "pct95",
+      "hook": "blocks.13.hook_resid_post",
+      "band": [
+        0.08333333333333333,
+        0.8366600265340756
+      ],
+      "n_family": 0,
+      "not_runnable": "empty family (band lo=0.0833 excludes all features under this rule)"
+    },
+    {
+      "cell_id": "g-17-10-0.7-pct95-13",
+      "seed": 17,
+      "min_support": 10,
+      "co_chance_cap": 0.7,
+      "firing_rule": "pct95",
+      "hook": "blocks.13.hook_resid_post",
+      "band": [
+        0.08333333333333333,
+        0.8366600265340756
+      ],
+      "n_family": 0,
+      "not_runnable": "empty family (band lo=0.0833 excludes all features under this rule)"
+    },
+    {
+      "cell_id": "g-29-10-0.7-pct95-13",
+      "seed": 29,
+      "min_support": 10,
+      "co_chance_cap": 0.7,
+      "firing_rule": "pct95",
+      "hook": "blocks.13.hook_resid_post",
+      "band": [
+        0.08333333333333333,
+        0.8366600265340756
+      ],
+      "n_family": 0,
+      "not_runnable": "empty family (band lo=0.0833 excludes all features under this rule)"
+    }
+  ]
+}

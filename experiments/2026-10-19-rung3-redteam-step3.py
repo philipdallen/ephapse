@@ -194,6 +194,18 @@ def main():
                                                           and rule == "gt0"
                                                           and L == 12) else [])
                     for seed in seeds:
+                        # §0: a cell that cannot run is reported, not dropped.
+                        if sel.size < 2:
+                            row = {"cell_id": cell_id(seed, sup, cap, rule, L),
+                                   "seed": seed, "min_support": sup,
+                                   "co_chance_cap": cap, "firing_rule": rule,
+                                   "hook": f"blocks.{L}.hook_resid_post",
+                                   "band": [lo, hi], "n_family": int(sel.size),
+                                   "not_runnable": f"empty family (band lo="
+                                   f"{lo:.4f} excludes all features under this rule)"}
+                            rows.append(row)
+                            print(f"  {row['cell_id']:<26} not_runnable: {row['not_runnable']}")
+                            continue
                         r = evaluate(bc, ba, sel, n, seed)
                         row = {"cell_id": cell_id(seed, sup, cap, rule, L),
                                "seed": seed, "min_support": sup,
@@ -217,8 +229,8 @@ def main():
               f"best_z={ref['best_z']:.3f} cutoff={ref['cutoff']:.3f} "
               f"survivors={ref['n_survivors']}")
 
-    total_survivors = sum(r["n_survivors"] for r in rows)
-    survivors_any = [r["cell_id"] for r in rows if r["n_survivors"] > 0]
+    total_survivors = sum(r.get("n_survivors", 0) for r in rows)
+    survivors_any = [r["cell_id"] for r in rows if r.get("n_survivors", 0) > 0]
     decision = ("null SURVIVES (all cells 0 survivors)" if not survivors_any
                 else f"null RE-OPENED -- survivors in {survivors_any}")
 
