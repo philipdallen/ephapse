@@ -4,7 +4,7 @@
 > reviewed by a human yet. The scaffolding is deliberately minimal — see
 > "What not to build yet" below.
 >
-> What *has* landed, as of 2026-09-19: the detector is validated against an
+> What *has* landed, as of 2026-10-19: the detector is validated against an
 > injected positive control (DEC-017/018/024), the target model is settled at
 > `pythia-70m-deduped` (DEC-014), the validation layer is adopted (DEC-021),
 > and a first probe found a **weak but non-trivial** verbal↔symbolic
@@ -12,10 +12,19 @@
 > cross-domain probe then ran and returned a **clean null**: the positive
 > control recovers, the two input sets share zero tokenizer ids, and no
 > feature co-activates across them above the family-wise cutoff (DEC-027).
-> Single-feature causal intervention is site- and scale-dependent — real on
-> the logit scale at a feature's own token, invisible on a probability scale
-> at the output (DEC-020/DEC-025), so rung-3 causal claims are not currently
-> reachable. See `findings.jsonl` and `experiments/README.md` for the run log.
+> Supervised comparator baselines now run beside the SAE (DEC-034): at 70M,
+> across matched / shuffled-null / paraphrase arms, difference-in-means read
+> 0.7561 / 0.5687 / 0.4069 AUROC and the linear probe 0.5854 / 0.5996 / 0.4481 —
+> the bridge survived in neither, so the rung-2 null is **not** an SAE artifact
+> but a both-comparators miss. Single-feature causal intervention is site- and
+> scale-dependent — real on the logit scale at a feature's own token, invisible
+> on a probability scale at the output (DEC-020/DEC-025), so rung-3 causal
+> claims are not currently reachable. **Rung 3** (sensitivity at scale,
+> `gemma-2-2b`) is the single live rung: the probe harness and selectivity band
+> (#143) and the positive control (#144) are done, and the real cross-domain arm
+> with its findings record (#145) is the open step. `docs/NEXT_STEPS.md` is the
+> live-status source; `findings.jsonl` and `experiments/README.md` carry the
+> run log.
 
 Ephapse probes open-weight model internals — activations, sparse-autoencoder
 features, circuits — to find **cross-domain co-activation**: cases where
@@ -263,13 +272,22 @@ tooling/claims/              — claim lock (git-ref CAS) + collision audit
 
 ## Where the method stands
 
+**Live status lives in `docs/NEXT_STEPS.md`** — it is the single source for the
+current rung, the live chain, and the claimable queue, and it is refreshed as
+work lands rather than at document-write time. Read it first; the paragraph
+below is the durable framing, not the current state, so it cannot silently
+stale.
+
 The claim-level ladder is in `TEST_VALIDATION_SPEC.md` §5; the **project-level**
 ladder is `docs/ROADMAP.md`, adopted in DEC-033. It is a *verdict-revision*
 ladder rather than PleaNP's construction ladder, because the method has already
 returned a verdict: rungs 0–2 are done (validated, surface-controlled, clean
 null), rung 3 (sensitivity at scale) is the single live rung and is **feasible**
 (`gemma-2-2b` has 316 SAEs), rung 4 depends on it, rung 5 is an explicitly
-human step with no falsifier, and rung 6 is the Maith handoff.
+human step with no falsifier, and rung 6 is the Maith handoff. Rung 3 is
+mid-chain: the probe harness and selectivity band (#143) and the positive
+control (#144) are closed, and the real cross-domain arm with its findings
+record (#145) is the open step.
 
 **Foreclosed at every rung, so it is not re-argued:** this project does not
 certify novelty and does not produce commercial assets. An external spec
