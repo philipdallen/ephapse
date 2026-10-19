@@ -1,0 +1,60 @@
+{
+  "run_id": "20261019-1120-eph2",
+  "issue": 152,
+  "model": "unsloth/gemma-2-2b",
+  "model_revision": "25319945f7fd83b8b903e12081777b7eef2ba993",
+  "dtype": "bfloat16",
+  "sae": "layer_12/width_16k/canonical",
+  "sae_release": "gemma-scope-2b-pt-res-canonical",
+  "hook": "blocks.12.hook_resid_post",
+  "corpus": {
+    "n_per_domain": 120,
+    "seed": 11
+  },
+  "statistic": "standardized per-feature co-activation z",
+  "null_model": "pairing permutation, N_PERM=400",
+  "correction": "family-wise max-statistic (95th pct of max per-feature z)",
+  "seed": 11,
+  "min_support": 5,
+  "co_chance_cap": 0.5,
+  "band_rule": "lo=MIN_SUPPORT/n; hi=sqrt(CO_CHANCE_CAP)",
+  "reference_145": {
+    "best_z": 3.695,
+    "cutoff": 4.664,
+    "n_survivors": 0
+  },
+  "real": {
+    "gt0": {
+      "n_family": 1108,
+      "best_z": 3.6951993782484673,
+      "cutoff_z": 4.66028768310207,
+      "n_survivors": 0,
+      "survivor_features": [],
+      "top_feature": 11433,
+      "top_rate": 0.058333333333333334,
+      "top_perm_mean": 0.018645833333333386,
+      "raw_best_rate": 0.475,
+      "raw_cutoff": 0.5166666666666667,
+      "band": [
+        0.041666666666666664,
+        0.7071067811865476
+      ]
+    },
+    "pct95": {
+      "n_family": 138,
+      "best_z": 4.05503316894624,
+      "cutoff_z": 5.269275644451978,
+      "n_survivors": 0,
+      "survivor_features": [],
+      "top_feature": 13744,
+      "top_rate": 0.016666666666666666,
+      "top_perm_mean": 0.0016874999999999995,
+      "raw_best_rate": 0.016666666666666666,
+      "raw_cutoff": 0.025,
+      "band": [
+        0.041666666666666664,
+        0.7071067811865476
+      ]
+    }
+  }
+}
