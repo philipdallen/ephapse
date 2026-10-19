@@ -38,6 +38,7 @@ MODEL_PATH = ("/home/openhands/.cache/huggingface/hub/models--unsloth--gemma-2-2
 SAE_RELEASE = "gemma-scope-2b-pt-res-canonical"
 SAE_ID = "layer_12/width_16k/canonical"
 HOOK = "blocks.12.hook_resid_post"
+LAYER = 12
 DTYPE = torch.bfloat16
 
 N_PER_DOMAIN = 120
@@ -63,14 +64,23 @@ def build_corpus():
     return cook, astro
 
 
-def encode(model, sae, texts):
+def encode(model, tok, sae, texts):
+    # Hook `blocks.12.hook_resid_post` = residual stream after block 12, i.e.
+    # hidden_states[13] in HF convention (index 0 is the embedding output).
+    # TransformerLens 3.9.0 cannot load Gemma2, so read it from the plain
+    # transformers forward pass instead.
     out = []
     with torch.no_grad():
         for i in range(0, len(texts), BATCH):
-            _, c = model.run_with_cache(texts[i:i + BATCH],
-                                        names_filter=lambda n: n == HOOK)
-            out.append(sae.encode(c[HOOK]).amax(dim=1).float().cpu().numpy())
-            del c
+            enc = tok(texts[i:i + BATCH], return_tensors="pt", padding=True)
+            hs = model(**enc, output_hidden_states=True).hidden_states[LAYER + 1]
+            mask = enc["attention_mask"].bool()
+            f = sae.encode(hs.float().reshape(-1, hs.shape[-1]))
+            f = f.reshape(hs.shape[0], hs.shape[1], -1)
+            # Padding positions are not real tokens; exclude them from the max.
+            f = f.masked_fill(~mask.unsqueeze(-1), float("-inf"))
+            out.append(f.amax(dim=1).float().cpu().numpy())
+            del hs, f
     return np.concatenate(out, axis=0)
 
 
@@ -128,7 +138,6 @@ def evaluate(bin_a, bin_b, sel, n):
 
 def main():
     from sae_lens import SAE
-    from transformer_lens import HookedTransformer
 
     print("=== issue #152: independent real-arm reimplementation ===")
     cook, astro = build_corpus()
@@ -137,8 +146,13 @@ def main():
     print(f"corpus: cooking={len(cook)} astronomy={len(astro)}")
 
     print("loading model (bf16, CPU)...")
-    model = HookedTransformer.from_pretrained(MODEL_PATH, device="cpu",
-                                              dtype=DTYPE)
+    # TransformerLens 3.9.0 cannot load Gemma2 (NotImplementedError), so use the
+    # plain transformers forward pass; `blocks.12.hook_resid_post` is read as
+    # hidden_states[LAYER + 1] in encode(). The gated official checkpoint is
+    # replaced by the architecture-identical public mirror (see #39).
+    from transformers import AutoModelForCausalLM, AutoTokenizer
+    tok = AutoTokenizer.from_pretrained(MODEL_PATH)
+    model = AutoModelForCausalLM.from_pretrained(MODEL_PATH, dtype=DTYPE)
     model.eval()
     print("loading SAE...")
     sae = SAE.from_pretrained(release=SAE_RELEASE, sae_id=SAE_ID, device="cpu")
@@ -146,9 +160,9 @@ def main():
           f"hook={sae.cfg.metadata.hook_name}")
 
     print("encoding cooking...")
-    fc = encode(model, sae, cook)
+    fc = encode(model, tok, sae, cook)
     print("encoding astronomy...")
-    fa = encode(model, sae, astro)
+    fa = encode(model, tok, sae, astro)
 
     results = {}
     for rule in ("gt0", "pct95"):
