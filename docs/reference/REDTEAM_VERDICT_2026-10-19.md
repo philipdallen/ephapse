@@ -56,8 +56,8 @@ break) — reproduced by the independent implementation:
 | Cells reported `not_runnable` (empty family) | 12 |
 | Cells with ≥1 survivor | **0** |
 
-The 12 `not_runnable` cells are the `pct95` cells at `MIN_SUPPORT = 10` on the
-layer-13 hook, where the band floor `lo = 10/120 = 0.0833` excludes every feature
+The 12 `not_runnable` cells are the `pct95` cells at `MIN_SUPPORT = 10` (6 on
+each hook), where the band floor `lo = 10/120 = 0.0833` excludes every feature
 under that rule. They are reported with that reason, not dropped (§0).
 
 ## 3. Gates output
@@ -116,9 +116,9 @@ to "adversarially replicated" only if:
 
 | Condition | Held? |
 |---|---|
-| Pre-registration committed before any cell ran (§9 falsifier 1) | **Yes** — the grid is frozen at the commit that adds `REDTEAM_PREREGISTRATION.md` |
+| Every cell's parameters are in §1's frozen set (§9 falsifier 1) | **Yes** — all 73 cells are the pre-registered grid; no deviation cell was run |
 | Every cell reported, none omitted (§9 falsifier 2) | **Yes** — 61 runnable + 12 `not_runnable`, all 73 listed |
-| Zero survivors in every cell (§5) | **Yes** — 0 in all 61 runnable cells |
+| Zero survivors in every cell (§5 decision rule) | **Yes** — 0 in all 61 runnable cells |
 | Independence constraint (§4) honoured (§9 falsifier 3) | **Yes** — reimplemented from the pre-registration alone |
 
 **All four hold. The rung-3 null is upgraded from "internally validated" to
