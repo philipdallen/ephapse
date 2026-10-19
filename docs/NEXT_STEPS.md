@@ -116,7 +116,7 @@ judgment or a measured environment blocker — or held `on-hold` by the auditor
 |---|---|---|
 | Needs a human decision | #17, #18, #21, #23 | Scoping questions and the irreducible human step (`kind:decision`/`kind:gap`) |
 | Blocked / needs input | #36, #102, #136 | Claim-lock defect, a missing DEC reference, and shared-trio divergence |
-| Auditor digests (on-hold) | #45, #113–#116, #118–#120, #139, #140 | Held for the human by design; never claimable |
+| Held for the human (`on-hold` / `auditor:proposed`) | #45, #113–#116, #118–#120, #139, #140 | Auditor digests and tooling-drift, held by design; never claimable |
 
 ### Open defects worth prioritizing
 
