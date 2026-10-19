@@ -76,6 +76,9 @@ rule, since no agent can apply it consistently.
 | 2026-09-19 | `2026-09-19-detector-positive-control-rerun.py` | #5 | #5 re-run with per-feature thresholds. **Does NOT replicate** — max-NPMI cannot separate the injected pair from noise |
 | 2026-09-19 | `gen_cross_domain.py` | #3 | Generate 120 cooking / 120 astronomy passages with a **mechanically verified zero-token-id intersection** (separate vocab *and* glue tokens); median 18-19 tokens |
 | 2026-09-19 | `2026-09-19-cross-domain-probe.py` | #3 | Cross-domain co-activation probe. **Positive control recovers** (planted token, best z 11.30 vs cutoff 4.47); real run **0 survivors** (best z 3.10 vs 4.41) — a clean, interpretable null. Retires the raw co-activation-rate family-max cutoff (DEC-027) |
+| 2026-09-22 | `2026-09-22-comparator-baselines.py` | #37 | DEC-034 comparators on the #6 corpus: SAE bridge statistic beside difference-in-means and linear-probe AUROC, on matched / shuffled-null / paraphrase arms. SAE stays the primary reading; comparators are a sensitivity check |
+| 2026-09-27 | `2026-09-27-activation-atlas.py` | #82 | Feature-response atlas: pythia-70m-deduped layer-3 residual matrix rendered to PNG (+ co-activation map) with provenance, for the rorschach handoff. Positive control **PASSES** (injected block recovered in feature space). No statistic computed — a record, not a finding |
+| 2026-10-19 | `2026-10-19-rung3-probe.py` | #143 | Rung-3 harness adapted to the frozen parameters (`gemma-2-2b` mirror, `layer_12/width_16k/canonical` at `blocks.12.hook_resid_post`, bf16/fp32 CPU): loads model + SAE, regenerates the DEC-011 disjoint corpus with the gemma tokenizer (0 shared ids), and derives the §2 selectivity band from the measured per-domain firing-rate histogram. **Band `[0.0417, 0.7071]`, family 1109/16384**; 8630 cooking / 9466 astronomy features fire. Step 1 only — no control, no null, no finding |
 
 Note: the first two are the pre-existing exceptions to the naming convention
 above (they omit the `null`/`correction` headers deliberately). Future files
@@ -100,8 +103,6 @@ NP_SAE      = "3-res-sm"
 
 Decoder directions come from local `sae.W_dec`. Neuronpedia does **not**
 serve vectors (DEC-015).
-| 2026-09-22 | `2026-09-22-comparator-baselines.py` | #37 | DEC-034 comparators on the #6 corpus: SAE bridge statistic beside difference-in-means and linear-probe AUROC, on matched / shuffled-null / paraphrase arms. SAE stays the primary reading; comparators are a sensitivity check |
-| 2026-09-27 | `2026-09-27-activation-atlas.py` | #82 | Feature-response atlas: pythia-70m-deduped layer-3 residual matrix rendered to PNG (+ co-activation map) with provenance, for the rorschach handoff. Positive control **PASSES** (injected block recovered in feature space). No statistic computed — a record, not a finding |
 ```
 python3 experiments/2026-09-22-comparator-baselines.py
 ```

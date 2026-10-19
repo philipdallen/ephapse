@@ -114,7 +114,7 @@ def build_corpus(tok):
           f"0 shared tokenizer ids (gemma tokenizer, add_special_tokens=False)")
     print(f"  median tokens: cooking {sorted(la)[len(la) // 2]} "
           f"astronomy {sorted(lb)[len(lb) // 2]}")
-    return cook, astro
+    return cook, astro, [sorted(la)[len(la) // 2], sorted(lb)[len(lb) // 2]]
 
 
 @torch.no_grad()
@@ -150,7 +150,7 @@ def derive_band(hist_rates, n_passages):
 def main():
     print("=== #143 rung-3 step 1: harness + selectivity band ===")
     model, tok = load_model()
-    cook, astro = build_corpus(tok)
+    cook, astro, med = build_corpus(tok)
 
     from sae_lens import SAE
     t0 = time.time()
@@ -160,16 +160,29 @@ def main():
           f"hook={sae.cfg.metadata.hook_name}")
 
     t0 = time.time()
-    fc = encode(model, sae, tok, cook)
-    fa = encode(model, sae, tok, astro)
+    cache = OUT.replace(".json", "-acts.npz")
+    if os.path.exists(cache):
+        z = np.load(cache)
+        fc, fa = z["fc"], z["fa"]
+        print(f"loaded cached activations from {cache}")
+    else:
+        fc = encode(model, sae, tok, cook)
+        fa = encode(model, sae, tok, astro)
+        np.savez_compressed(cache, fc=fc, fa=fa)
     print(f"encoded {len(cook)}+{len(astro)} passages in {time.time() - t0:.1f}s; "
           f"peak_rss={rss_gb():.2f} GB")
 
     # Per-domain firing rates under the primary `gt0` rule (DEC-027).
     rc, ra = (fc > 0).mean(axis=0), (fa > 0).mean(axis=0)
-    # Histogram over the union of nonzero rates (both domains), 50 bins on [0,1].
+    np.savez_compressed(OUT.replace(".json", "-firing.npz"),
+                        cooking=rc, astronomy=ra)
+
+    # Per-domain firing-rate histograms, 50 bins on [0, 1], over all features.
+    BINS, RANGE = 50, (0.0, 1.0)
+    hist_c, edges = np.histogram(rc, bins=BINS, range=RANGE)
+    hist_a, _ = np.histogram(ra, bins=BINS, range=RANGE)
+    # The band rule reads the firing distribution, so pool both domains' rates.
     all_rates = np.concatenate([rc, ra])
-    hist, edges = np.histogram(all_rates, bins=50, range=(0.0, 1.0))
 
     lo, hi = derive_band(all_rates[all_rates > 0], N_PER_DOMAIN)
     sel = np.where((rc >= lo) & (rc <= hi) & (ra >= lo) & (ra <= hi))[0]
@@ -189,9 +202,15 @@ def main():
         "sae": {"release": SAE_RELEASE, "sae_id": SAE_ID, "hook": HOOK,
                 "d_in": int(sae.cfg.d_in), "d_sae": int(sae.cfg.d_sae)},
         "corpus": {"n_per_domain": N_PER_DOMAIN, "seed": SEED,
-                   "token_disjoint": True, "median_tokens": None},
+                   "token_disjoint": True, "median_tokens": med},
         "firing_rule": "gt0",
-        "histogram": {"bin_edges": edges.tolist(), "counts": hist.tolist()},
+        "histogram": {
+            "bin_edges": edges.tolist(),
+            "cooking": hist_c.tolist(),
+            "astronomy": hist_a.tolist(),
+            "note": "per-domain firing-rate histograms, 50 bins on [0,1], over "
+                    "all features; the band rule pools the two rate vectors",
+        },
         "band": {"lo": lo, "hi": hi, "family_size": int(sel.size),
                  "lo_rule": f"smallest rate with count >= {MIN_SUPPORT} over "
                             f"{N_PER_DOMAIN} passages",
