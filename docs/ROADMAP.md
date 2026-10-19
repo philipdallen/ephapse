@@ -197,18 +197,38 @@ are measurements to take rather than blockers to report.
 | **#40** | Re-derive and pre-register the detector statistic for the new SAE | answers "what exactly do we compute" |
 | — | The probe itself | **not filed** — its DoD cannot be written before #40 pins the statistic |
 
-**A cross-cut this rung does not yet record: the comparator baselines (DEC-034).**
-#37 adds supervised baselines (difference-in-means, linear probe) alongside the
-SAE, because RAVEL's ceiling measures *isolation*, not *detection*, and on
-detection a vanilla SAE scores 0.695 mean AUROC against 0.942 for
-difference-in-means (AxBench, arXiv:2501.17148). That is a change to the
-**apparatus**, not a rung, and it cuts across rungs 1–3: if a probe detects a
-paraphrase-invariant bridge the SAE misses, the bottleneck moves from *model
-scale* to *instrument* — a different verdict-revision than this rung tests.
+### Comparator cross-cut — the instrument-vs-scale verdict-revision (DEC-034)
 
-That possibility is not yet in the ladder. It should be folded in when #37 lands,
-because it would mean rung 3 is testing the wrong explanation for the null.
-Recorded here rather than left to be rediscovered.
+**Recorded as a rung-3 reading, not a rung.** DEC-034 adds supervised baselines
+(difference-in-means, linear probe) alongside the SAE, because RAVEL's ceiling
+measures *isolation*, not *detection*, and on detection a vanilla SAE scores
+0.695 mean AUROC against 0.942 for difference-in-means (AxBench,
+arXiv:2501.17148). That is a change to the **apparatus**, and it cuts across
+rungs 1–3: if a probe detects a paraphrase-invariant bridge the SAE misses, the
+bottleneck moves from *model scale* to *instrument* — a verdict-revision this
+rung must record rather than assume away.
+
+**The premise is already adopted.** #37 closed `status:done`:
+`tooling/gates/comparators.py` plus 10 passing tests (`pytest -k comparator`)
+landed, and the gating measurement ran
+(`experiments/2026-09-22-comparator-baselines.py/.json`). DEC-034 is the premise
+of this subsection, not something relitigated here.
+
+**Current state — the 2026-09-22 70M baseline (both-miss).** At 70M, across
+matched / shuffled-null / paraphrase arms, difference-in-means read 0.7561 /
+0.5687 / 0.4069 AUROC and the linear probe 0.5854 / 0.5996 / 0.4481; the bridge
+survived in neither. Both comparators missed alongside the SAE, which per DEC-034
+*strengthens* the rung-2 null against the SAE-artifact objection instead of
+retiring the scale explanation. A comparator is a **sensitivity check on the
+detector, never a substrate replacement** — a probe yields a direction, not an
+enumerable feature with a decoder vector (`tooling/gates/comparators.py` header).
+
+**At rung-3 scale the cross-cut remains future work, read against this
+baseline.** Whether the comparator re-run at `gemma-2-2b` splits instrument from
+scale is not yet measured; the 70M both-miss above is the reading any rung-3
+result is compared against. #145 carries the rung-3 verdict caveat for the 2B
+scale; this subsection records only the ladder-level cross-cut and does not
+duplicate the chain.
 
 ---
 
