@@ -1,0 +1,431 @@
+{
+  "run_id": "20261019-0101-05fv",
+  "issue": 144,
+  "step": "rung3-step2",
+  "model": "unsloth/gemma-2-2b",
+  "model_official": "google/gemma-2-2b",
+  "model_revision": "25319945f7fd83b8b903e12081777b7eef2ba993",
+  "dtype": "torch.bfloat16",
+  "device": "cpu",
+  "sae": {
+    "release": "gemma-scope-2b-pt-res-canonical",
+    "sae_id": "layer_12/width_16k/canonical",
+    "hook": "blocks.12.hook_resid_post",
+    "d_in": 2304,
+    "d_sae": 16384
+  },
+  "corpus": {
+    "n_per_domain": 120,
+    "seed": 11,
+    "token_disjoint": true
+  },
+  "firing_rule": "gt0",
+  "plant": {
+    "token": "Zorblat",
+    "rate": 0.1,
+    "grid": [
+      0.0,
+      0.001,
+      0.005,
+      0.01,
+      0.02,
+      0.05,
+      0.1,
+      0.2,
+      0.4
+    ],
+    "construction": "append token to paired passage in both domains; per-passage max activation is monotone under appending, so clean + appended encodings are mixed per rate",
+    "n_injected_max": 48,
+    "planted_feature": 13942,
+    "planted_feature_selection": "argmax over features of min(margin_cooking, margin_astronomy) at the highest grid rate (highest power)"
+  },
+  "band": {
+    "lo": 0.041666666666666664,
+    "hi": 0.7071067811865476,
+    "note": "re-derived from the same corpus; step-1 reported [0.0417, 0.7071]"
+  },
+  "statistic": "standardized per-feature matched-pairing co-activation z",
+  "null_model": "pairing permutation, N_PERM=400",
+  "correction": "family-wise max-statistic on the standardized statistic (95th pct over permutations of max per-feature z)",
+  "per_rate": {
+    "0.0": {
+      "rate": 0.0,
+      "n_injected": 0,
+      "note": "clean arm; no injection, no constructibility"
+    },
+    "0.001": {
+      "rate": 0.001,
+      "n_injected": 2,
+      "planted_feature": 13942,
+      "constructibility_margin": {
+        "cooking": 23.78091049194336,
+        "astronomy": 25.34514617919922,
+        "both_positive": true
+      },
+      "planted_firing_rate_injected": {
+        "cooking": 0.016666666666666666,
+        "astronomy": 0.30833333333333335
+      },
+      "planted_in_band_both_domains": false,
+      "planted_firing_rate_clean": {
+        "cooking": 0.0,
+        "astronomy": 0.2916666666666667
+      },
+      "planted_rate_shift": {
+        "cooking": 0.016666666666666666,
+        "astronomy": 0.016666666666666663
+      },
+      "n_family": 1111,
+      "best_z": 3.6951993782484673,
+      "cutoff_z": 4.663989683264135,
+      "n_survivors": 0,
+      "survivor_features": [],
+      "top_feature": 11433,
+      "top_rate": 0.058333333333333334,
+      "planted_z": null,
+      "planted_recovered": false,
+      "planted_note": "planted feature outside the selectivity band",
+      "top_feature_constructibility_margin": {
+        "cooking": -0.793986976146698,
+        "astronomy": -0.3238722085952759,
+        "both_positive": false
+      }
+    },
+    "0.005": {
+      "rate": 0.005,
+      "n_injected": 2,
+      "planted_feature": 13942,
+      "constructibility_margin": {
+        "cooking": 23.78091049194336,
+        "astronomy": 25.34514617919922,
+        "both_positive": true
+      },
+      "planted_firing_rate_injected": {
+        "cooking": 0.016666666666666666,
+        "astronomy": 0.30833333333333335
+      },
+      "planted_in_band_both_domains": false,
+      "planted_firing_rate_clean": {
+        "cooking": 0.0,
+        "astronomy": 0.2916666666666667
+      },
+      "planted_rate_shift": {
+        "cooking": 0.016666666666666666,
+        "astronomy": 0.016666666666666663
+      },
+      "n_family": 1111,
+      "best_z": 3.6951993782484673,
+      "cutoff_z": 4.663989683264135,
+      "n_survivors": 0,
+      "survivor_features": [],
+      "top_feature": 11433,
+      "top_rate": 0.058333333333333334,
+      "planted_z": null,
+      "planted_recovered": false,
+      "planted_note": "planted feature outside the selectivity band",
+      "top_feature_constructibility_margin": {
+        "cooking": -0.793986976146698,
+        "astronomy": -0.3238722085952759,
+        "both_positive": false
+      }
+    },
+    "0.01": {
+      "rate": 0.01,
+      "n_injected": 2,
+      "planted_feature": 13942,
+      "constructibility_margin": {
+        "cooking": 23.78091049194336,
+        "astronomy": 25.34514617919922,
+        "both_positive": true
+      },
+      "planted_firing_rate_injected": {
+        "cooking": 0.016666666666666666,
+        "astronomy": 0.30833333333333335
+      },
+      "planted_in_band_both_domains": false,
+      "planted_firing_rate_clean": {
+        "cooking": 0.0,
+        "astronomy": 0.2916666666666667
+      },
+      "planted_rate_shift": {
+        "cooking": 0.016666666666666666,
+        "astronomy": 0.016666666666666663
+      },
+      "n_family": 1111,
+      "best_z": 3.6951993782484673,
+      "cutoff_z": 4.663989683264135,
+      "n_survivors": 0,
+      "survivor_features": [],
+      "top_feature": 11433,
+      "top_rate": 0.058333333333333334,
+      "planted_z": null,
+      "planted_recovered": false,
+      "planted_note": "planted feature outside the selectivity band",
+      "top_feature_constructibility_margin": {
+        "cooking": -0.793986976146698,
+        "astronomy": -0.3238722085952759,
+        "both_positive": false
+      }
+    },
+    "0.02": {
+      "rate": 0.02,
+      "n_injected": 2,
+      "planted_feature": 13942,
+      "constructibility_margin": {
+        "cooking": 23.78091049194336,
+        "astronomy": 25.34514617919922,
+        "both_positive": true
+      },
+      "planted_firing_rate_injected": {
+        "cooking": 0.016666666666666666,
+        "astronomy": 0.30833333333333335
+      },
+      "planted_in_band_both_domains": false,
+      "planted_firing_rate_clean": {
+        "cooking": 0.0,
+        "astronomy": 0.2916666666666667
+      },
+      "planted_rate_shift": {
+        "cooking": 0.016666666666666666,
+        "astronomy": 0.016666666666666663
+      },
+      "n_family": 1111,
+      "best_z": 3.6951993782484673,
+      "cutoff_z": 4.663989683264135,
+      "n_survivors": 0,
+      "survivor_features": [],
+      "top_feature": 11433,
+      "top_rate": 0.058333333333333334,
+      "planted_z": null,
+      "planted_recovered": false,
+      "planted_note": "planted feature outside the selectivity band",
+      "top_feature_constructibility_margin": {
+        "cooking": -0.793986976146698,
+        "astronomy": -0.3238722085952759,
+        "both_positive": false
+      }
+    },
+    "0.05": {
+      "rate": 0.05,
+      "n_injected": 6,
+      "planted_feature": 13942,
+      "constructibility_margin": {
+        "cooking": 23.8111629486084,
+        "astronomy": 25.643117904663086,
+        "both_positive": true
+      },
+      "planted_firing_rate_injected": {
+        "cooking": 0.05,
+        "astronomy": 0.3416666666666667
+      },
+      "planted_in_band_both_domains": true,
+      "planted_firing_rate_clean": {
+        "cooking": 0.0,
+        "astronomy": 0.2916666666666667
+      },
+      "planted_rate_shift": {
+        "cooking": 0.05,
+        "astronomy": 0.04999999999999999
+      },
+      "n_family": 1130,
+      "best_z": 9.652649121222757,
+      "cutoff_z": 4.66028768310207,
+      "n_survivors": 7,
+      "survivor_features": [
+        3612,
+        3747,
+        6926,
+        9937,
+        10662,
+        11213,
+        16000
+      ],
+      "top_feature": 10662,
+      "top_rate": 0.05,
+      "planted_z": 3.592750341201702,
+      "planted_rate": 0.05,
+      "planted_perm_mean": 0.016145833333333363,
+      "planted_recovered": false,
+      "top_feature_constructibility_margin": {
+        "cooking": 16.32698631286621,
+        "astronomy": 16.768220901489258,
+        "both_positive": true
+      }
+    },
+    "0.1": {
+      "rate": 0.1,
+      "n_injected": 12,
+      "planted_feature": 13942,
+      "constructibility_margin": {
+        "cooking": 23.686368942260742,
+        "astronomy": 25.571718215942383,
+        "both_positive": true
+      },
+      "planted_firing_rate_injected": {
+        "cooking": 0.1,
+        "astronomy": 0.38333333333333336
+      },
+      "planted_in_band_both_domains": true,
+      "planted_firing_rate_clean": {
+        "cooking": 0.0,
+        "astronomy": 0.2916666666666667
+      },
+      "planted_rate_shift": {
+        "cooking": 0.1,
+        "astronomy": 0.09166666666666667
+      },
+      "n_family": 1132,
+      "best_z": 10.140315153512805,
+      "cutoff_z": 4.644647752464251,
+      "n_survivors": 13,
+      "survivor_features": [
+        3612,
+        3747,
+        5773,
+        6926,
+        7354,
+        9259,
+        9937,
+        10662,
+        11213,
+        11333,
+        13942,
+        15614,
+        16000
+      ],
+      "top_feature": 10662,
+      "top_rate": 0.1,
+      "planted_z": 4.664026263531555,
+      "planted_rate": 0.1,
+      "planted_perm_mean": 0.038125000000000055,
+      "planted_recovered": true,
+      "top_feature_constructibility_margin": {
+        "cooking": 16.09938621520996,
+        "astronomy": 17.330032348632812,
+        "both_positive": true
+      }
+    },
+    "0.2": {
+      "rate": 0.2,
+      "n_injected": 24,
+      "planted_feature": 13942,
+      "constructibility_margin": {
+        "cooking": 23.734413146972656,
+        "astronomy": 25.27670669555664,
+        "both_positive": true
+      },
+      "planted_firing_rate_injected": {
+        "cooking": 0.2,
+        "astronomy": 0.4583333333333333
+      },
+      "planted_in_band_both_domains": true,
+      "planted_firing_rate_clean": {
+        "cooking": 0.0,
+        "astronomy": 0.2916666666666667
+      },
+      "planted_rate_shift": {
+        "cooking": 0.2,
+        "astronomy": 0.16666666666666663
+      },
+      "n_family": 1136,
+      "best_z": 10.720274893925998,
+      "cutoff_z": 4.644647752464251,
+      "n_survivors": 17,
+      "survivor_features": [
+        1125,
+        2246,
+        3612,
+        3747,
+        5671,
+        5773,
+        6926,
+        7354,
+        8152,
+        9259,
+        9937,
+        10662,
+        11213,
+        11333,
+        13942,
+        15614,
+        16000
+      ],
+      "top_feature": 10662,
+      "top_rate": 0.2,
+      "planted_z": 6.127141942849895,
+      "planted_rate": 0.2,
+      "planted_perm_mean": 0.08954166666666666,
+      "planted_recovered": true,
+      "top_feature_constructibility_margin": {
+        "cooking": 15.653202056884766,
+        "astronomy": 17.070497512817383,
+        "both_positive": true
+      }
+    },
+    "0.4": {
+      "rate": 0.4,
+      "n_injected": 48,
+      "planted_feature": 13942,
+      "constructibility_margin": {
+        "cooking": 23.669618606567383,
+        "astronomy": 25.283432006835938,
+        "both_positive": true
+      },
+      "planted_firing_rate_injected": {
+        "cooking": 0.4,
+        "astronomy": 0.5916666666666667
+      },
+      "planted_in_band_both_domains": true,
+      "planted_firing_rate_clean": {
+        "cooking": 0.0,
+        "astronomy": 0.2916666666666667
+      },
+      "planted_rate_shift": {
+        "cooking": 0.4,
+        "astronomy": 0.3
+      },
+      "n_family": 1148,
+      "best_z": 10.547118763009694,
+      "cutoff_z": 4.66028768310207,
+      "n_survivors": 24,
+      "survivor_features": [
+        2246,
+        3612,
+        3747,
+        5226,
+        5671,
+        5773,
+        6926,
+        7354,
+        7627,
+        8152,
+        8227,
+        9259,
+        9676,
+        9937,
+        10013,
+        10662,
+        11213,
+        11333,
+        13869,
+        13942,
+        14239,
+        15614,
+        15958,
+        16000
+      ],
+      "top_feature": 10662,
+      "top_rate": 0.4,
+      "planted_z": 7.273296552295405,
+      "planted_rate": 0.4,
+      "planted_perm_mean": 0.2346458333333332,
+      "planted_recovered": true,
+      "top_feature_constructibility_margin": {
+        "cooking": 15.283049583435059,
+        "astronomy": 16.434228897094727,
+        "both_positive": true
+      }
+    }
+  },
+  "verdict": "recovered"
+}
