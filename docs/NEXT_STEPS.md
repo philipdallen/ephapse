@@ -2,7 +2,8 @@
 
 **Written:** 2026-09-19, at commit `7727d98` on `dev`; **updated** at `f0581ec`
 plus the rung-3 filings (#39, #40); **§2/§3/§4/§8/§9 refreshed** 2026-10-19
-against the live rung-3 chain (#143 → #144 → #145).
+against the live rung-3 chain (#143 → #144 → #145); **§4/§5 refreshed**
+2026-10-20 against the composition line (#158 → #159/#160/#161).
 **Audience:** a high-level orchestrator dispatching agent sessions.
 **Purpose:** what the project is, where it stands, what to work on next, and what
 not to do.
@@ -36,7 +37,7 @@ construction ladder, because this method has already returned a verdict.
 | 0 | Can the detector detect? | **Done** — yes, with a recovering positive control |
 | 1 | Is the signal more than surface form? | **Done** — weakly positive (6 survivors vs 0 on a *constructed* pair) |
 | 2 | Does it fire across unrelated domains? | **Done — clean null** (DEC-027) |
-| 3 | Is the null a scale artifact? | **Live — chain running.** #143 (harness) and #144 (positive control) done; #145 (real arm) claimable |
+| 3 | Is the null a scale artifact? | **Done — chain complete.** #143 (harness), #144 (positive control) and #145 (real arm) all closed `status:done` |
 | 4 | Is a per-feature causal claim reachable? | Depends on 3 |
 | 5 | Would a candidate be *interesting*? | Human step, **no falsifier** |
 | 6 | Handoff to Maith | Not reached — no candidate exists |
@@ -48,26 +49,27 @@ absorption is the primary alternative explanation.
 
 ## 3. The next action, and it is filed
 
-**Rung 3: re-run the rung-2 probe at larger scale.**
+**The rung-3 chain is complete; the live line is now the composition probe.**
 
-This is the only live rung and it is the highest-value work in the repo. It
-converts "we could not see it at 70M" into "we could not see it at scale *X*",
-which is either a materially stronger negative or the discovery the project
-exists to find.
-
-**It is filed as a right-sized chain of three steps**, after #142 (the original
-probe issue) was superseded and split:
+Rung 3 re-ran the rung-2 probe at larger scale, converting "we could not see it at
+70M" into "we could not see it at scale *X*". It is filed as a right-sized chain of
+three steps, after #142 (the original probe issue) was superseded and split:
 
 | Issue | What | Status |
 |---|---|---|
 | **#143** | Step 1 — probe harness + selectivity band at `gemma-2-2b` | **closed** `status:done` |
 | **#144** | Step 2 — positive control at `gemma-2-2b` (before the real run) | **closed** `status:done` |
-| **#145** | Step 3 — real cross-domain arm + findings record at `gemma-2-2b` | **claimable now** (`status:available`, `kind:experiment`) |
+| **#145** | Step 3 — real cross-domain arm + findings record at `gemma-2-2b` | **closed** `status:done` |
+
+The composition-emergence line (DEC-043) is the successor and is now the live
+work: #158 was split into #159 (prior-art verification) → #160 (tokenization
+precondition) → #161 (the Phase 1 probe run). Both prerequisites are closed; #161
+is claimable. See §4 for the current table.
 
 That sequencing is deliberate, and the split preserves it. The probe could not be
 specified before its statistic was pre-registered, and the statistic could not be
 chosen before the SAE and its hook were known. The two prerequisites that pinned
-those parameters are now closed: **#39** (CPU feasibility for `gemma-2-2b`) and
+those parameters are closed: **#39** (CPU feasibility for `gemma-2-2b`) and
 **#40** (statistic re-derivation, pre-registered for the new SAE). Filing the
 probe before them would have produced an issue whose Definition of Done could not
 be written; that is why #142 was split rather than claimed whole.
@@ -95,16 +97,31 @@ because of this.
 
 ## 4. The work queue
 
-### Claimable now (3 issues)
+### Claimable now (4 issues)
 
 | # | Kind | What |
 |---|---|---|
-| **#145** | experiment | **Rung 3 step 3** — real cross-domain arm + findings record at `gemma-2-2b` (the top action, §3) |
-| #148 | gap | Fold the DEC-034 comparator cross-cut into the `ROADMAP.md` rung-3 ladder |
-| #149 | hygiene | Refresh the stale README status blockquote for October rung-3 |
+| **#161** | experiment | **Composition probe step 3/3** — run the Phase 1 probe at `pythia-70m` and record the G1–G4 verdicts (step 2/3, #160, is closed `status:done`) |
+| #162 | gap | Decide the record shape for gate-style verdicts (G1–G4, F1–F4) — must land before the probe writes one |
+| #164 | gap | Backfill `program/ledger.jsonl` (stale since 2026-09-22) |
+| #165 | gap | Resolve `COMPOSITION_PREREGISTRATION.md` §11 preconditions |
 
-**Sequencing note:** #145 first — it is the top action and the last step of the
-live rung-3 chain. #148 and #149 are docs-only and can run in parallel.
+**Sequencing note:** #161 is the probe run itself. #162 must land first — the
+`findings.jsonl` schema is single-event and a gate verdict does not fit it, so
+the run would otherwise improvise a format. #164 and #165 are backfill and
+docs-only and can run in parallel.
+
+**The composition line, and where #158 went.** #158 (composition emergence
+Phase 1) is **closed** — it was split into a right-sized chain, #159
+(prior-art verification, §12) → #160 (tokenization precondition, §3) → #161
+(the probe run). Both prerequisites are closed `status:done`, so **#161 is the
+live head of the line**. The pre-registration itself is `PR #157`, still open
+against `main`; it is not in the repo until that merges. Phase 2 is not filed
+and is gated on gates G1–G4 firing clean (§8 of the pre-registration).
+
+**What left this table.** #145, #148 and #149 — the rung-3 step 3 and the two
+docs follow-ups — are all closed `status:done`. The rung-3 chain is complete;
+the live line is the composition probe.
 
 ### Blocked or held (no agent should pick these up)
 
@@ -116,7 +133,8 @@ judgment or a measured environment blocker — or held `on-hold` by the auditor
 |---|---|---|
 | Needs a human decision | #17, #18, #21, #23 | Scoping questions and the irreducible human step (`kind:decision`/`kind:gap`) |
 | Blocked / needs input | #36, #102, #136 | Claim-lock defect, a missing DEC reference, and shared-trio divergence |
-| Held for the human (`on-hold` / `auditor:proposed`) | #45, #113–#116, #118–#120, #139, #140 | Auditor digests and tooling-drift, held by design; never claimable |
+| Held for the human (`on-hold` / `auditor:proposed`) | #45, #114–#120, #139, #140, #155, #156 | Auditor digests and tooling-drift, held by design; never claimable |
+| No labels (not claimable) | #117 | A Dependabot bump PR, not issue work |
 
 ### Open defects worth prioritizing
 
@@ -136,7 +154,7 @@ judgment or a measured environment blocker — or held `on-hold` by the auditor
 | **CI** | **Wired.** Five workflows under `.github/workflows/` (`ci.yml`, `auditor.yml`, `codeql.yml`, `hub_sweep.yml`, `proposal-issue.yml`); #13 closed `status:done` |
 | Label hygiene | **G-M1 passes: 0 findings** — the #29 backfill (run `20260921-0217-a7k4`) closed the 21 findings the cache then reported |
 | `kind:` coverage | Every open issue carries exactly one `kind:`; `kind:hygiene` added to the vocabulary by DEC-037 |
-| Open issues | **21**, of which **3 are claimable** (`status:available`; re-measured 2026-10-19) |
+| Open issues | **23**, of which **4 are claimable** (`status:available`) plus 1 `status:claimed`; re-measured 2026-10-20. Of the 23, 11 are auditor digests or held `on-hold`/`auditor:proposed` and 7 are `status:blocked-needs-input` |
 
 **The gate-count discrepancy is resolved (#38, DEC-039; wired half #88).** Four
 documents said 37, `PROGRAM_MANAGEMENT_SPEC.md` said 38, and the registry then
@@ -210,18 +228,18 @@ Lean-side validation layer (that is Maith's).
 
 ## 8. If only one thing gets dispatched
 
-**#145 — rung 3 step 3** (§3): the real cross-domain arm at `gemma-2-2b` and its
-findings record. It is the last step of the live rung-3 chain — #143 (harness) and
-#144 (positive control) are done — and it is the only live rung in the project.
-Its two prerequisites, #39 (feasibility) and #40 (statistic), are closed.
+**#161 — composition probe step 3/3** (§4): run the Phase 1 probe at
+`pythia-70m` exactly as frozen in `COMPOSITION_PREREGISTRATION.md` and record the
+G1–G4 verdicts. It is the head of the live composition line (DEC-043); both
+prerequisites, #159 and #160, are closed `status:done`. Note that #162 must land
+first — the `findings.jsonl` schema does not yet carry gate-style verdicts.
 
-If a second: **#148** (fold the DEC-034 comparator cross-cut into the `ROADMAP.md`
-rung-3 ladder). It is docs-only and records the instrument-vs-scale verdict
-revision that the landed 70M baseline already supports.
+If a second: **#162** (decide the record shape for gate-style verdicts). It is the
+one thing standing between #161 and a run that must not improvise a format.
 
-If a third: **#149** (refresh the README status blockquote). Also docs-only, and
-it removes the highest-visibility staleness in the repo — a visitor currently
-reads a month-old state on the front page.
+If a third: **#164** (backfill `program/ledger.jsonl`, stale since 2026-09-22). It
+is mechanical and restores recovery-time traversability for the whole rung-3 and
+composition history.
 
 ---
 
@@ -242,6 +260,7 @@ document is one vintage:
 | **Three status-line drifts** fixed (`ROADMAP.md` said "proposal" after DEC-033 adopted it; two assessment docs still said "input to" their DECs); the class is now scoped into **#20** (G-R4) | this session |
 | DEC count is now **35** (was 33) | measured |
 | **§2/§3/§4/§8 refreshed** for the live rung-3 chain: #142 superseded and split into #143 → #144 → #145; #143/#144 closed `status:done`, #145 claimable; prerequisites #39/#40 closed | this session (run `20261019-0241-qxzi`) |
+| **§2/§3/§4/§5/§8 re-synced** against live issue state (issue #166): rung-3 chain now complete (#143/#144/#145 all closed); claimable table rebuilt for the composition line (#161/#162/#164/#165); §8 re-pointed from #145 to #161; open-issue counts re-measured 23 / 4 claimable | this session (run `20261020-0240-blo6`) |
 
 **One consequence for the ladder.** DEC-034's comparator baselines are a change to
 the *apparatus*, not a rung. They cut across rungs 1–3: a probe that detects a
@@ -249,7 +268,7 @@ paraphrase-invariant bridge the SAE misses would move the bottleneck from model
 scale to *instrument*, which is a different verdict-revision than rung 3 tests.
 The roadmap has not yet been updated to record that cross-cut — #37 has since
 landed (the 70M baseline is both-miss), and folding it into the `ROADMAP.md`
-rung-3 ladder is filed as **#148**.
+rung-3 ladder was filed as **#148** (now closed `status:done`).
 
 ---
 
