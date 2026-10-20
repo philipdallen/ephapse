@@ -59,6 +59,8 @@ import numpy as np
 import torch
 
 MODEL = "pythia-70m-deduped"
+# Pinned HF repo sha (2023-07-09); see docs/reference/COMPOSITION_PREREGISTRATION_VERIFICATION.md
+MODEL_REVISION = "e93a9faa9c77e5d09219f6c868bfc7a1bd65593c"
 SAE_RELEASE = "pythia-70m-deduped-res-sm"
 HOOK = "blocks.3.hook_resid_post"
 LAYER = 3
@@ -236,7 +238,7 @@ def main():
     print(f"statistic=standardized per-feature co-activation z; null=pairing "
           f"permutation N_PERM={N_PERM}; correction=family-wise max-statistic")
 
-    model = HookedTransformer.from_pretrained(MODEL, device="cpu")
+    model = HookedTransformer.from_pretrained(MODEL, revision=MODEL_REVISION, device="cpu")
     sae = SAE.from_pretrained(release=SAE_RELEASE, sae_id=HOOK, device="cpu")
     Wdec = sae.W_dec.detach().cpu()
 
