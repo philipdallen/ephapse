@@ -1,6 +1,8 @@
 # experiments
 
-One file per experiment, named `<YYYY-MM-DD>-<slug>.py` (or `.ipynb`).
+One file per experiment, named `<YYYY-MM-DD>-<slug>.py` (or `.ipynb`). Its result
+lands beside it as `<YYYY-MM-DD>-<slug>-results.json` — see
+[Results artifacts](#results-artifacts).
 
 Every experiment file starts with a header comment carrying six mandatory
 fields. Copy this block verbatim and fill it in:
@@ -21,6 +23,43 @@ A file missing any of the six fields is not runnable as evidence. The rule is
 enforced by `tooling/gates/validate_experiments.py` (G-R1) — that gate's rule
 definition is the single source of truth; this section describes it and is tied
 to it, it does not replace it.
+
+---
+
+## Results artifacts
+
+A run's output lands in `experiments/`, beside the script that produced it, as a
+single JSON file named by the same date and slug as the script:
+
+```
+experiments/<YYYY-MM-DD>-<slug>.py            # the script
+experiments/<YYYY-MM-DD>-<slug>-results.json  # its result
+```
+
+The `-results.json` suffix is what distinguishes a result from the other JSON in
+this directory. `<slug>` is copied verbatim from the script, so the pair sorts
+adjacent and a reader can find the result from the script's name alone. A script
+that writes no result file (an infrastructure measurement, a corpus generator)
+has no companion; the rule names the shape when there is one, it does not require
+one.
+
+Two deviations already exist in the tree and are recorded, not repaired:
+
+- **Re-runs of one script** append a run tag before the extension —
+  `2026-09-18-injected-positive-control-results-initial.json`, `-v2`, `-v3`,
+  `-v4`. The base name still points at the script; the tag separates the runs.
+- **`2026-09-22-comparator-baselines.json`** carries no `-results` suffix. It is
+  the pre-existing exception; new artifacts follow the convention above.
+
+A frozen **input** is not a result and is not named this way:
+`composition_phase1_word_lists.json` is the committed word list a probe reads, so
+it keeps a plain descriptive name.
+
+The result file carries the run's provenance as JSON keys — at minimum `run_id`,
+`issue`, and the model/SAE identifiers the run used — so a result is
+self-describing without the script. The six-field header rule above is a rule
+about the `.py` script's docstring; the JSON result has no header comment and is
+not checked by G-R1.
 
 ---
 
