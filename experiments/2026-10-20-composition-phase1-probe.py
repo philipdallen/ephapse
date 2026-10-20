@@ -17,6 +17,41 @@
 Pre-registration: docs/reference/COMPOSITION_PREREGISTRATION.md (PR #157 branch).
 Statistics frozen in §4; gates G1-G4 in §8; falsifiers F1-F4 in §7. No axis,
 class, or threshold outside the pre-registration; deviations are reported.
+
+GATE-DECL
+{
+  "statistic": {
+    "name": "class-mean feature-level emergence e(c) = |F(c) \\(F(a) u F(b))| / |F(c)|",
+    "family": "gt0 feature-set difference over target span, majority of 3 carriers",
+    "threshold": "family-wise 95th pct of max class mean over 400 label permutations",
+    "n_perm": 400,
+    "note": "primary is difference-of-sets emergence; secondary is co-firing pair emergence ep(c). Not the NPMI family."
+  },
+  "control": {
+    "idiom_positive_control": true,
+    "idiom_bar": "95th pct of the 18 mismatched-pair emergence values (direct, no permutation)",
+    "synonym_noise_floor": "95th pct of 10 synonym-pair Jaccard distances (conjunctive sanity bound)",
+    "mismatched_null": "adjective + unrelated noun; null base rate every class is judged against",
+    "computes_planted_presence": false,
+    "records_both_groups": true,
+    "note": "three controls, three jobs (pre-registration §5): idiom=positive, synonym=calibration, mismatched=null"
+  },
+  "readings": [
+    {"name": "class_mean_emergence_e", "depends_on_effect": true},
+    {"name": "idiom_bar_pass", "depends_on_effect": true},
+    {"name": "discovery_clear", "gated_by": "class_mean_emergence_e > cutoff and > synonym_floor"}
+  ],
+  "comparability": {
+    "model": "pythia-70m-deduped",
+    "revision": "e93a9faa9c77e5d09219f6c868bfc7a1bd65593c",
+    "hook": "blocks.3.hook_resid_post",
+    "threshold": "family-wise 95th pct max class mean over 400 permutations",
+    "n": 82,
+    "correction": "family-wise max-statistic, no BH-FDR (DEC-016)"
+  },
+  "tests": []
+}
+END-GATE-DECL
 """
 from __future__ import annotations
 
