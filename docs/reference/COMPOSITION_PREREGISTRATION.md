@@ -2,7 +2,7 @@
 
 **Directive:** DEC-043 (`docs/decisions/LOG.md`). **Ratified by Phil in chat,
 2026-10-19** (out-of-band ratification per the DEC-041/DEC-042 precedent).
-Phase 1 probe issue: ephapse #NNN. The Phase 1 probe traces to DEC-043, per the
+Phase 1 probe issue: ephapse #158. The Phase 1 probe traces to DEC-043, per the
 directive-first protocol; Phase 2 is authorized only if Phase 1's gates G1-G4
 pass (§8) and will be filed as a separate issue then.
 
