@@ -1,0 +1,27 @@
+{
+  "_source": "docs/reference/COMPOSITION_PREREGISTRATION.md (PR #157 branch docs/composition-preregistration), Appendix A",
+  "_note": "Frozen verbatim on adoption. Transcribed in ephapse #160 (step 2/3 of the #158 decomposition) because the pre-registration is still an open PR, not yet on main.",
+  "_frozen_utc": "2026-10-20T02:30:00Z",
+  "carriers": {
+    "adj_noun": [
+      "The report mentioned the TARGET here yesterday.",
+      "She wrote down the TARGET on the form.",
+      "They discussed the TARGET after lunch."
+    ],
+    "verb_object": [
+      "They discussed TARGET after lunch.",
+      "She finished TARGET before noon.",
+      "He described TARGET in detail."
+    ]
+  },
+  "adj_noun": {
+    "idioms": ["red herring", "white elephant", "black sheep", "green room", "blue moon", "silver lining", "cold shoulder", "hot potato", "wet blanket", "dead ringer", "dark horse", "red tape", "white lie", "cold turkey", "sour grapes", "blue chip", "green light", "big fish"],
+    "common": ["blue car", "red apple", "wooden table", "glass window", "hot coffee", "cold water", "big dog", "small house", "new book", "old tree", "fast train", "slow river", "green field", "black cat", "white snow", "warm bread", "fresh paint", "dry sand"],
+    "novel": ["grateful toaster", "sleepy arithmetic", "fragile thunder", "polite avalanche", "anxious trombone", "bitter telescope", "curious pebble", "purple democracy", "wooden thunder", "sleepy trombone", "grateful arithmetic", "anxious pebble", "fragile democracy", "polite toaster", "bitter avalanche", "curious thunder", "purple arithmetic", "silent telescope"],
+    "mismatched": ["blue democracy", "wooden thunder", "grateful pebble", "anxious toaster", "sleepy trombone", "fragile arithmetic", "polite avalanche", "bitter telescope", "curious thunder", "silent pebble", "purple toaster", "red democracy", "hot arithmetic", "green trombone", "black pebble", "white arithmetic", "dry telescope", "loud democracy"]
+  },
+  "verb_object": {
+    "verb_object": ["eating apples", "reading books", "driving cars", "writing letters", "building houses", "drinking water", "opening doors", "closing windows", "planting trees", "catching fish"]
+  },
+  "synonym_pairs": [["car", "automobile"], ["sofa", "couch"], ["happy", "glad"], ["fast", "quick"], ["big", "large"], ["small", "little"], ["begin", "commence"], ["end", "finish"], ["buy", "purchase"], ["street", "road"]]
+}
