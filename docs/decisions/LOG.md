@@ -2446,9 +2446,10 @@ Changes after this point are amendments requiring a new directive, not silent
 edits. Prior-art verification against primary sources (§12) and the Phase 2
 frequency-source naming (§9) remain preconditions on the probe, as written.
 
-**Spawns:** Phase 1 probe issue (filed as ephapse #NNN under
-`Directive: DEC-043`, `status:available`, `kind:experiment`; number recorded on
-the ratification branch). Nothing further is filed by this DEC.
+**Spawns:** Phase 1 probe issue ephapse #158, filed under
+`Directive: DEC-043` with `status:available` and `kind:experiment`. Nothing
+further is filed by this DEC; Phase 2 will be its own issue if and only if
+G1-G4 pass.
 
 **Acceptance:** the falsifiers F1-F4 are the observable checks on this
 decision. F1 (idiom bar fails): instrument failure, the line closes at Phase 1,
