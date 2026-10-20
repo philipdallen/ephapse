@@ -95,13 +95,14 @@ because of this.
 
 ## 4. The work queue
 
-### Claimable now (3 issues)
+### Claimable now (4 issues)
 
 | # | Kind | What |
 |---|---|---|
 | **#145** | experiment | **Rung 3 step 3** — real cross-domain arm + findings record at `gemma-2-2b` (the top action, §3) |
 | #148 | gap | Fold the DEC-034 comparator cross-cut into the `ROADMAP.md` rung-3 ladder |
 | #149 | hygiene | Refresh the stale README status blockquote for October rung-3 |
+| **#158** | experiment | **Composition emergence probe — Phase 1** (constructed set) at `pythia-70m`. Ratified DEC-043; pre-registered in `docs/reference/COMPOSITION_PREREGISTRATION.md` (this PR). Phase 2 is not filed and is gated on gates G1–G4 firing clean |
 
 **Sequencing note:** #145 first — it is the top action and the last step of the
 live rung-3 chain. #148 and #149 are docs-only and can run in parallel.
