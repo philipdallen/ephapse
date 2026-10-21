@@ -4,7 +4,7 @@
 > reviewed by a human yet. The scaffolding is deliberately minimal — see
 > "What not to build yet" below.
 >
-> What *has* landed, as of 2026-10-19: the detector is validated against an
+> What *has* landed, as of 2026-10-20: the detector is validated against an
 > injected positive control (DEC-017/018/024), the target model is settled at
 > `pythia-70m-deduped` (DEC-014), the validation layer is adopted (DEC-021),
 > and a first probe found a **weak but non-trivial** verbal↔symbolic
@@ -19,10 +19,18 @@
 > but a both-comparators miss. Single-feature causal intervention is site- and
 > scale-dependent — real on the logit scale at a feature's own token, invisible
 > on a probability scale at the output (DEC-020/DEC-025), so rung-3 causal
-> claims are not currently reachable. **Rung 3** (sensitivity at scale,
-> `gemma-2-2b`) is the single live rung: the probe harness and selectivity band
-> (#143) and the positive control (#144) are done, and the real cross-domain arm
-> with its findings record (#145) is the open step. `docs/NEXT_STEPS.md` is the
+> claims are not currently reachable. **Rung 3 is complete**: the probe harness
+> and selectivity band (#143), the positive control (#144), and the real
+> cross-domain arm (#145) all closed `status:done`, and the real arm returned a
+> **null at 2B** that is interpretable, because the positive control recovered
+> (best cross-domain z = 3.7, below the family-wise cutoff; findings record for
+> #145). The successor line, **composition emergence** (DEC-043), ran Phase 1
+> and **closed on an instrument-failure verdict**: the pre-registered gates F1
+> and F4 fired because the idiom positive control was not recovered (gate G1
+> failed, mean emergence 0.2562 against the 0.6231 bar), so the probe could not
+> test the hypothesis at this layer. That is an instrument result, not a null
+> on composition (findings record 2026-10-20; `docs/NEXT_STEPS.md` section 4).
+> `docs/NEXT_STEPS.md` is the
 > live-status source; `findings.jsonl` and `experiments/README.md` carry the
 > run log.
 
@@ -282,12 +290,15 @@ The claim-level ladder is in `TEST_VALIDATION_SPEC.md` §5; the **project-level*
 ladder is `docs/ROADMAP.md`, adopted in DEC-033. It is a *verdict-revision*
 ladder rather than PleaNP's construction ladder, because the method has already
 returned a verdict: rungs 0–2 are done (validated, surface-controlled, clean
-null), rung 3 (sensitivity at scale) is the single live rung and is **feasible**
-(`gemma-2-2b` has 316 SAEs), rung 4 depends on it, rung 5 is an explicitly
-human step with no falsifier, and rung 6 is the Maith handoff. Rung 3 is
-mid-chain: the probe harness and selectivity band (#143) and the positive
-control (#144) are closed, and the real cross-domain arm with its findings
-record (#145) is the open step.
+null), rung 3 (sensitivity at scale) is **complete**: the probe harness and
+selectivity band (#143), the positive control (#144), and the real cross-domain
+arm (#145) all closed `status:done`, and the real arm returned an interpretable
+null at `gemma-2-2b` (the positive control recovered; no feature cleared the
+family-wise cutoff). Rung 4 depends on rung 3, rung 5 is an explicitly human
+step with no falsifier, and rung 6 is the Maith handoff. The composition-
+emergence line (DEC-043) ran after rung 3 and closed at Phase 1 on an
+instrument-failure verdict (see the header note). `docs/NEXT_STEPS.md` is the
+live-status source.
 
 **Foreclosed at every rung, so it is not re-argued:** this project does not
 certify novelty and does not produce commercial assets. An external spec
