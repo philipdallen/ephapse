@@ -1,5 +1,7 @@
 # Ephapse
 
+In one paragraph: Ephapse looks inside open-weight AI models for a specific accident, two unrelated inputs switching on the same internal feature. If that crossover happened systematically, the overlaps might point at connections nobody was looking for, so the project treats them as candidate mathematical hypotheses, nothing stronger. Most probes so far have come back null, and the nulls are worth anything only because the detector is first shown to catch a planted signal. The detailed status, with decision numbers and run records, is in the note below and in `docs/NEXT_STEPS.md`.
+
 > **Proof-of-concept stage.** No co-activation event has been found and
 > reviewed by a human yet. The scaffolding is deliberately minimal — see
 > "What not to build yet" below.
