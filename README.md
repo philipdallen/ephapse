@@ -364,3 +364,7 @@ adjudicates claims remains out of bounds until there is a candidate to check.
 
 Read `docs/AGENT_HANDOFF.md` first, then `docs/MULTI_AGENT_WORKFLOW.md` for
 the claiming protocol. Development happens on the single `main` branch.
+
+## Cite this work
+
+Citation metadata is in [CITATION.cff](CITATION.cff); GitHub renders a "Cite this repository" button from it. A matching [.zenodo.json](.zenodo.json) is ready for archival once the owner enables the Zenodo integration.

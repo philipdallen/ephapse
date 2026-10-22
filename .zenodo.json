@@ -1,0 +1,17 @@
+{
+  "title": "Ephapse: probing open-weight model internals for cross-domain co-activation",
+  "upload_type": "software",
+  "creators": [
+    {
+      "name": "Allen, Philip"
+    }
+  ],
+  "license": "MIT",
+  "keywords": [
+    "mechanistic interpretability",
+    "sparse autoencoders",
+    "cross-domain co-activation",
+    "open-weight language models",
+    "circuits"
+  ]
+}

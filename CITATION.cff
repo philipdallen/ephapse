@@ -1,0 +1,15 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "Ephapse: probing open-weight model internals for cross-domain co-activation"
+type: software
+authors:
+  - family-names: Allen
+    given-names: Philip
+repository-code: "https://github.com/philipdallen/ephapse"
+license: MIT
+keywords:
+  - mechanistic interpretability
+  - sparse autoencoders
+  - cross-domain co-activation
+  - open-weight language models
+  - circuits
