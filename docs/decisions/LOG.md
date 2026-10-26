@@ -2397,3 +2397,65 @@ is part of the pilot, not a separate direction.
 a fixture proving the check can fire; the gate suite still passes 24/24; and the
 live-queue scan remains clean. The pilot's own acceptance (DEC-041) is unchanged
 and still measured over the next N directives.
+
+## DEC-043 — Ratify the composition emergence pre-registration (new probe line)
+
+**Date:** 2026-10-19
+**Status:** Active
+**Tier:** 1
+**Scope:** Experiment (new probe line)
+**Origin:** human
+**Directive (verbatim):** source "chat with Muse, 2026-10-19":
+
+> "let's just merge the composition emergence."
+
+**Direction restated.** Authorize a new Ephapse probe line testing composition
+emergence: whether a two-word composite ("blue car") fires SAE features present
+in neither constituent alone, per the frozen definitions, statistics, and
+gates in `docs/reference/COMPOSITION_PREREGISTRATION.md`. Phase 1 (small
+constructed set) is authorized as a task now. Phase 2 (corpus sweep) is
+authorized only if Phase 1's gates G1-G4 all pass, and will be filed as a
+separate issue then; no Phase 2 issue is filed by this DEC.
+
+**Why this number.** DEC-043 was the cited-but-absent number: issue #95 carried
+`Directive: DEC-043` before any such decision existed, and issue #102 records
+that protocol violation. This DEC fills the number with a real, logged
+decision. It does not retroactively validate #95's citation; that remains a
+violation recorded in #102.
+
+**Consideration.** The draft pre-registration serves as the Tier 1
+consideration memo: it restates the direction (sections 1-2), records conflicts
+(explicitly none with the cross-domain bridging claim; a result here neither
+confirms nor threatens it), weighs options (feature-level vs pair-level
+statistics, constructed set vs corpus sweep; the owner directed all variants,
+staged as Phase 1 then Phase 2), states reversibility (a probe line is cheap to
+reverse: nothing merges to main from probe runs except findings), and carries
+falsifiers F1-F4 as its acceptance. Tier 1 requires memo then ratify, no
+waiting period, no independent challenge.
+
+**Ratified:** 2026-10-19 by the owner in chat. Out-of-band ratification follows
+the DEC-041/DEC-042 precedent: with the single shared account, an in-band
+`RATIFY` comment is indistinguishable from agent authorship, so the owner's
+chat instruction is the ratification, recorded here rather than hidden. The
+24-hour floor does not apply to Tier 1.
+
+**Frozen by this DEC.** The definitions, statistics, stimulus classes,
+falsifiers F1-F4, and Phase 2 specification in
+`docs/reference/COMPOSITION_PREREGISTRATION.md` are frozen as of ratification.
+Changes after this point are amendments requiring a new directive, not silent
+edits. Prior-art verification against primary sources (§12) and the Phase 2
+frequency-source naming (§9) remain preconditions on the probe, as written.
+
+**Spawns:** Phase 1 probe issue ephapse #158, filed under
+`Directive: DEC-043` with `status:available` and `kind:experiment`. Nothing
+further is filed by this DEC; Phase 2 will be its own issue if and only if
+G1-G4 pass.
+
+**Acceptance:** the falsifiers F1-F4 are the observable checks on this
+decision. F1 (idiom bar fails): instrument failure, the line closes at Phase 1,
+recorded as a correct-but-negative instrument verdict. F2 (clean null with
+validated instrument): composition is additive at 70M layer 3, preservable
+negative. F3 (familiarity confound): Phase 2 does not run on the composition
+claim. F4 (noise dominance): stop before Phase 2. Any falsifier firing with the
+recorded verdict means this decision was well-specified, not that it was wrong.
+
