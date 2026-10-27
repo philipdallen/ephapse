@@ -184,18 +184,24 @@ method found nothing.
 reproduces. Either outcome is a result. A reproduction at larger scale is
 *stronger* evidence than rung 2, not a failure.
 
-**Status:** not started. **Feasible, not blocked** — SAE coverage exists for
-`gemma-2-2b` (316 SAEs in the Gemma Scope residual release). The open question is
-CPU feasibility at 2B and re-deriving the statistic for a new SAE, both of which
-are measurements to take rather than blockers to report.
+**Status:** **Done — the rung-2 null reproduced at 2B** (#143 → #144 → #145, all
+closed `status:done`). SAE coverage for `gemma-2-2b` (316 SAEs in the Gemma Scope
+residual release) made the rung feasible, not blocked; the two prerequisites below
+pinned CPU feasibility and the re-derived statistic before the probe ran. The
+positive control recovered (best cross-domain z = 3.7, below the family-wise
+cutoff) and the real cross-domain arm returned a **null at 2B** — an interpretable
+null rather than an instrument failure, which is what the control-first rule
+exists to distinguish. Findings record: #145.
 
-**Filed as two prerequisite issues** (plus the probe, deliberately not yet filed):
+**Prerequisites (both closed `status:done`), then the probe chain:**
 
 | Issue | What | Why separate |
 |---|---|---|
 | **#39** | CPU feasibility for `gemma-2-2b` — load, RSS, latency, SAE load, reconstruction error | answers "can we run it" |
 | **#40** | Re-derive and pre-register the detector statistic for the new SAE | answers "what exactly do we compute" |
-| — | The probe itself | **not filed** — its DoD cannot be written before #40 pins the statistic |
+| **#143** | Step 1 — probe harness + selectivity band at `gemma-2-2b` | the instrument, before any result |
+| **#144** | Step 2 — positive control at `gemma-2-2b` (before the real run) | the control-first rule (DEC-027) |
+| **#145** | Step 3 — real cross-domain arm + findings record at `gemma-2-2b` | the result, and its verdict caveat |
 
 ### Comparator cross-cut — the instrument-vs-scale verdict-revision (DEC-034)
 
@@ -258,7 +264,9 @@ per-feature verdict. Then the repo's ceiling is the **aggregate** dose-response
 ladder (DEC-020), which is a smaller but honest claim, and rung 5 becomes the
 only remaining one.
 
-**Status:** not started. Depends on rung 3's scale decision.
+**Status:** not started. Rung 3's scale decision is now settled — the rung-3 null
+reproduced at `gemma-2-2b` (#143/#144/#145, all closed `status:done`) — so the
+scale rung 4 builds on is fixed at 2B.
 
 ---
 
