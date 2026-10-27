@@ -68,8 +68,10 @@ because the repo has under-claimed it (DEC-034).
 
 1. **The candidate generator.** Cross-domain co-activation as a source of
    candidate mathematical hypotheses. This is the *scientific* goal. It has
-   returned a clean null at 70M so far (`docs/ROADMAP.md` rungs 0–2), and the
-   live question is whether that null survives at larger scale (rung 3).
+   returned a clean null at 70M so far (`docs/ROADMAP.md` rungs 0–2); rung 3
+   (sensitivity at scale) is now **complete** and the null **reproduced at
+   `gemma-2-2b`** (#143 → #144 → #145, all closed `status:done`), so the scale
+   explanation for the null is retired at 2B, not left open.
 2. **The validation layer.** A two-tier, fixture-gated method for telling
    **instrument failure** from **phenomenon absence** —
    `instrument-validated` / `instrument-failed` / `phenomenon-null` /
