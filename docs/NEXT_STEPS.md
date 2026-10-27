@@ -132,9 +132,11 @@ Phase 1) is **closed** — it was split into a right-sized chain, #159
 (prior-art verification, §12) → #160 (tokenization precondition, §3) → #161
 (the probe run), all three closed `status:done`. **The line closed at Phase 1 on
 an instrument-failure verdict** (F1/F4 fired; G1 failed), so there is no live head
-and no Phase 2. The pre-registration itself is `PR #157`, still open against
-`main`; it is not in the repo until that merges. Phase 2 is not filed and is gated
-on gates G1–G4 firing clean (§8 of the pre-registration) — do not file or revive it.
+and no Phase 2. The pre-registration itself is
+`docs/reference/COMPOSITION_PREREGISTRATION.md`, on `main` (PR #157 has since
+merged, so DEC-043 and the pre-registration are both in the repo). Phase 2 is not
+filed and is gated on gates G1–G4 firing clean (§8 of the pre-registration) — do
+not file or revive it.
 
 **What left this table.** #145, #148 and #149 — the rung-3 step 3 and the two
 docs follow-ups — are closed `status:done`, as is the whole composition chain
