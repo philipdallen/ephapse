@@ -175,7 +175,7 @@ judgment or a measured environment blocker — or held `on-hold` by the auditor:
 | **CI** | **Wired.** Five workflows under `.github/workflows/` (`ci.yml`, `auditor.yml`, `codeql.yml`, `hub_sweep.yml`, `proposal-issue.yml`); #13 closed `status:done` |
 | Label hygiene | **G-M1 now reports 21 findings**, all on unlabelled `on-hold` auditor digests (#45, #139, #155, #156, #170, #174, #181–#184, #190) — held items carry no `status:`/`kind:` label by design. The #29 backfill cleared the 21 findings the cache then reported; the count has since returned via the daily digests. Never fix by labelling `on-hold` — see the note below |
 | `kind:` coverage | Every *claimable* open issue carries exactly one `kind:`; `kind:hygiene` added to the vocabulary by DEC-037 (the unlabelled `on-hold` digests above are the exception, by design) |
-| Open issues | **24**, of which **4 are claimable** (`status:available`), **8** `status:blocked-needs-input`, and **11** held `on-hold`/`auditor:proposed` (no `status:` label); 1 is `status:claimed` (this reconciliation, #185). Re-measured 2026-10-27 |
+| Open issues | **23**, of which **4 are claimable** (`status:available`), **8** `status:blocked-needs-input`, and **11** held `on-hold`/`auditor:proposed` (no `status:` label). Re-measured 2026-10-27 after #185 closed |
 
 **The G-M1 / `on-hold` tension, stated rather than repaired.** `issue_state.py
 refresh && audit` (run 2026-10-27) reports 21 G-M1 findings, every one on an
@@ -295,7 +295,7 @@ document is one vintage:
 | DEC count is now **35** (was 33) | measured |
 | **§2/§3/§4/§8 refreshed** for the live rung-3 chain: #142 superseded and split into #143 → #144 → #145; #143/#144 closed `status:done`, #145 claimable; prerequisites #39/#40 closed | this session (run `20261019-0241-qxzi`) |
 | **§2/§3/§4/§5/§8 re-synced** against live issue state (issue #166): rung-3 chain now complete (#143/#144/#145 all closed); claimable table rebuilt for the composition line (#161/#162/#164/#165); §8 re-pointed from #145 to #161; open-issue counts re-measured 23 / 4 claimable | this session (run `20261020-0240-blo6`) |
-| **§3/§4/§5/§8 re-synced** against live issue state (#185): composition line closed at Phase 1 on an instrument-failure verdict (#159/#160/#161 closed `status:done`); claimable table rebuilt for the current pool (#186–#189); §8 re-pointed from #161 to the cleanup queue; open-issue counts re-measured 24 / 4 claimable; G-M1 / `on-hold` tension stated | this session (run `20261027-0121-w7zz`) |
+| **§3/§4/§5/§8 re-synced** against live issue state (#185): composition line closed at Phase 1 on an instrument-failure verdict (#159/#160/#161 closed `status:done`); claimable table rebuilt for the current pool (#186–#189); §8 re-pointed from #161 to the cleanup queue; open-issue counts re-measured 23 / 4 claimable (after #185 closed); G-M1 / `on-hold` tension stated | this session (run `20261027-0121-w7zz`) |
 
 **One consequence for the ladder.** DEC-034's comparator baselines are a change to
 the *apparatus*, not a rung. They cut across rungs 1–3: a probe that detects a

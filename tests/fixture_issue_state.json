@@ -1,8 +1,814 @@
 {
   "_comment": "Committed cache of GitHub issue state for G-E7 and G-M1/G-M2. Tier 0 must not touch the network, so the gates read this file. Regenerate with `python3 tooling/program/issue_state.py refresh` (reads labels AND blocked_by via GraphQL), then review the diff as part of the change.",
   "_generated": "refresh",
-  "76": {
+  "190": {
     "state": "OPEN",
+    "done": false,
+    "labels": [
+      "on-hold"
+    ],
+    "blocked_by": []
+  },
+  "189": {
+    "state": "OPEN",
+    "done": false,
+    "labels": [
+      "kind:gap",
+      "status:available"
+    ],
+    "blocked_by": []
+  },
+  "188": {
+    "state": "OPEN",
+    "done": false,
+    "labels": [
+      "kind:hygiene",
+      "status:available"
+    ],
+    "blocked_by": []
+  },
+  "187": {
+    "state": "OPEN",
+    "done": false,
+    "labels": [
+      "kind:experiment",
+      "status:available"
+    ],
+    "blocked_by": []
+  },
+  "186": {
+    "state": "OPEN",
+    "done": false,
+    "labels": [
+      "kind:gap",
+      "status:available"
+    ],
+    "blocked_by": []
+  },
+  "185": {
+    "state": "CLOSED",
+    "done": true,
+    "labels": [
+      "kind:hygiene",
+      "status:done"
+    ],
+    "blocked_by": []
+  },
+  "184": {
+    "state": "OPEN",
+    "done": false,
+    "labels": [
+      "on-hold"
+    ],
+    "blocked_by": []
+  },
+  "183": {
+    "state": "OPEN",
+    "done": false,
+    "labels": [
+      "on-hold"
+    ],
+    "blocked_by": []
+  },
+  "182": {
+    "state": "OPEN",
+    "done": false,
+    "labels": [
+      "on-hold"
+    ],
+    "blocked_by": []
+  },
+  "181": {
+    "state": "OPEN",
+    "done": false,
+    "labels": [
+      "on-hold"
+    ],
+    "blocked_by": []
+  },
+  "176": {
+    "state": "CLOSED",
+    "done": true,
+    "labels": [
+      "documentation",
+      "kind:hygiene",
+      "status:done"
+    ],
+    "blocked_by": []
+  },
+  "175": {
+    "state": "OPEN",
+    "done": false,
+    "labels": [
+      "documentation",
+      "kind:hygiene",
+      "status:blocked-needs-input"
+    ],
+    "blocked_by": []
+  },
+  "174": {
+    "state": "OPEN",
+    "done": false,
+    "labels": [
+      "on-hold"
+    ],
+    "blocked_by": []
+  },
+  "173": {
+    "state": "CLOSED",
+    "done": true,
+    "labels": [
+      "documentation",
+      "kind:hygiene",
+      "status:done"
+    ],
+    "blocked_by": []
+  },
+  "170": {
+    "state": "OPEN",
+    "done": false,
+    "labels": [
+      "on-hold"
+    ],
+    "blocked_by": []
+  },
+  "169": {
+    "state": "CLOSED",
+    "done": true,
+    "labels": [
+      "kind:protocol",
+      "status:done"
+    ],
+    "blocked_by": []
+  },
+  "168": {
+    "state": "CLOSED",
+    "done": true,
+    "labels": [
+      "kind:gate",
+      "status:done"
+    ],
+    "blocked_by": []
+  },
+  "167": {
+    "state": "CLOSED",
+    "done": true,
+    "labels": [
+      "kind:spec",
+      "status:done"
+    ],
+    "blocked_by": []
+  },
+  "166": {
+    "state": "CLOSED",
+    "done": true,
+    "labels": [
+      "kind:hygiene",
+      "status:done"
+    ],
+    "blocked_by": []
+  },
+  "165": {
+    "state": "OPEN",
+    "done": false,
+    "labels": [
+      "kind:gap",
+      "status:blocked-needs-input"
+    ],
+    "blocked_by": []
+  },
+  "164": {
+    "state": "CLOSED",
+    "done": true,
+    "labels": [
+      "kind:gap",
+      "status:done"
+    ],
+    "blocked_by": []
+  },
+  "163": {
+    "state": "CLOSED",
+    "done": false,
+    "labels": [],
+    "blocked_by": []
+  },
+  "162": {
+    "state": "CLOSED",
+    "done": false,
+    "labels": [
+      "kind:gap"
+    ],
+    "blocked_by": []
+  },
+  "161": {
+    "state": "CLOSED",
+    "done": true,
+    "labels": [
+      "kind:experiment",
+      "status:done"
+    ],
+    "blocked_by": []
+  },
+  "160": {
+    "state": "CLOSED",
+    "done": true,
+    "labels": [
+      "kind:experiment",
+      "status:done"
+    ],
+    "blocked_by": []
+  },
+  "159": {
+    "state": "CLOSED",
+    "done": true,
+    "labels": [
+      "kind:experiment",
+      "status:done"
+    ],
+    "blocked_by": []
+  },
+  "158": {
+    "state": "CLOSED",
+    "done": false,
+    "labels": [
+      "kind:experiment"
+    ],
+    "blocked_by": []
+  },
+  "156": {
+    "state": "OPEN",
+    "done": false,
+    "labels": [
+      "on-hold"
+    ],
+    "blocked_by": []
+  },
+  "155": {
+    "state": "OPEN",
+    "done": false,
+    "labels": [
+      "auditor:proposed",
+      "on-hold"
+    ],
+    "blocked_by": []
+  },
+  "154": {
+    "state": "CLOSED",
+    "done": true,
+    "labels": [
+      "kind:experiment",
+      "status:done"
+    ],
+    "blocked_by": []
+  },
+  "153": {
+    "state": "CLOSED",
+    "done": true,
+    "labels": [
+      "kind:experiment",
+      "status:done"
+    ],
+    "blocked_by": []
+  },
+  "152": {
+    "state": "CLOSED",
+    "done": true,
+    "labels": [
+      "kind:experiment",
+      "status:done"
+    ],
+    "blocked_by": []
+  },
+  "151": {
+    "state": "CLOSED",
+    "done": true,
+    "labels": [
+      "kind:spec",
+      "methodology",
+      "status:done"
+    ],
+    "blocked_by": []
+  },
+  "150": {
+    "state": "CLOSED",
+    "done": false,
+    "labels": [
+      "kind:experiment"
+    ],
+    "blocked_by": []
+  },
+  "149": {
+    "state": "CLOSED",
+    "done": true,
+    "labels": [
+      "documentation",
+      "kind:hygiene",
+      "status:done"
+    ],
+    "blocked_by": []
+  },
+  "148": {
+    "state": "CLOSED",
+    "done": true,
+    "labels": [
+      "kind:gap",
+      "status:done"
+    ],
+    "blocked_by": []
+  },
+  "147": {
+    "state": "CLOSED",
+    "done": true,
+    "labels": [
+      "kind:repair",
+      "status:done"
+    ],
+    "blocked_by": []
+  },
+  "146": {
+    "state": "CLOSED",
+    "done": true,
+    "labels": [
+      "kind:repair",
+      "status:done"
+    ],
+    "blocked_by": []
+  },
+  "145": {
+    "state": "CLOSED",
+    "done": true,
+    "labels": [
+      "kind:experiment",
+      "status:done"
+    ],
+    "blocked_by": []
+  },
+  "144": {
+    "state": "CLOSED",
+    "done": true,
+    "labels": [
+      "kind:experiment",
+      "status:done"
+    ],
+    "blocked_by": []
+  },
+  "143": {
+    "state": "CLOSED",
+    "done": true,
+    "labels": [
+      "kind:experiment",
+      "status:done"
+    ],
+    "blocked_by": []
+  },
+  "142": {
+    "state": "CLOSED",
+    "done": false,
+    "labels": [
+      "kind:experiment",
+      "status:available"
+    ],
+    "blocked_by": []
+  },
+  "140": {
+    "state": "CLOSED",
+    "done": false,
+    "labels": [
+      "on-hold"
+    ],
+    "blocked_by": []
+  },
+  "139": {
+    "state": "OPEN",
+    "done": false,
+    "labels": [
+      "auditor:proposed",
+      "on-hold"
+    ],
+    "blocked_by": []
+  },
+  "138": {
+    "state": "CLOSED",
+    "done": true,
+    "labels": [
+      "kind:experiment",
+      "status:done"
+    ],
+    "blocked_by": []
+  },
+  "137": {
+    "state": "CLOSED",
+    "done": true,
+    "labels": [
+      "kind:repair",
+      "security",
+      "status:done"
+    ],
+    "blocked_by": []
+  },
+  "136": {
+    "state": "CLOSED",
+    "done": true,
+    "labels": [
+      "kind:repair",
+      "status:done"
+    ],
+    "blocked_by": []
+  },
+  "132": {
+    "state": "CLOSED",
+    "done": true,
+    "labels": [
+      "infrastructure",
+      "kind:gate",
+      "security",
+      "status:done"
+    ],
+    "blocked_by": []
+  },
+  "130": {
+    "state": "CLOSED",
+    "done": true,
+    "labels": [
+      "kind:hygiene",
+      "security",
+      "status:done"
+    ],
+    "blocked_by": []
+  },
+  "129": {
+    "state": "CLOSED",
+    "done": false,
+    "labels": [
+      "kind:repair",
+      "security"
+    ],
+    "blocked_by": []
+  },
+  "128": {
+    "state": "CLOSED",
+    "done": true,
+    "labels": [
+      "infrastructure",
+      "kind:repair",
+      "priority:high",
+      "status:done"
+    ],
+    "blocked_by": []
+  },
+  "127": {
+    "state": "CLOSED",
+    "done": true,
+    "labels": [
+      "kind:repair",
+      "status:done"
+    ],
+    "blocked_by": []
+  },
+  "126": {
+    "state": "CLOSED",
+    "done": true,
+    "labels": [
+      "kind:repair",
+      "security",
+      "status:done"
+    ],
+    "blocked_by": []
+  },
+  "125": {
+    "state": "CLOSED",
+    "done": true,
+    "labels": [
+      "kind:repair",
+      "status:done"
+    ],
+    "blocked_by": []
+  },
+  "124": {
+    "state": "CLOSED",
+    "done": true,
+    "labels": [
+      "infrastructure",
+      "kind:gate",
+      "priority:high",
+      "status:done"
+    ],
+    "blocked_by": []
+  },
+  "123": {
+    "state": "CLOSED",
+    "done": true,
+    "labels": [
+      "kind:repair",
+      "status:done"
+    ],
+    "blocked_by": []
+  },
+  "120": {
+    "state": "CLOSED",
+    "done": false,
+    "labels": [
+      "on-hold"
+    ],
+    "blocked_by": []
+  },
+  "119": {
+    "state": "CLOSED",
+    "done": false,
+    "labels": [
+      "on-hold"
+    ],
+    "blocked_by": []
+  },
+  "118": {
+    "state": "CLOSED",
+    "done": false,
+    "labels": [
+      "on-hold"
+    ],
+    "blocked_by": []
+  },
+  "116": {
+    "state": "CLOSED",
+    "done": false,
+    "labels": [
+      "on-hold"
+    ],
+    "blocked_by": []
+  },
+  "115": {
+    "state": "CLOSED",
+    "done": false,
+    "labels": [
+      "on-hold"
+    ],
+    "blocked_by": []
+  },
+  "114": {
+    "state": "CLOSED",
+    "done": false,
+    "labels": [
+      "on-hold"
+    ],
+    "blocked_by": []
+  },
+  "113": {
+    "state": "CLOSED",
+    "done": false,
+    "labels": [
+      "on-hold"
+    ],
+    "blocked_by": []
+  },
+  "112": {
+    "state": "CLOSED",
+    "done": false,
+    "labels": [
+      "on-hold"
+    ],
+    "blocked_by": []
+  },
+  "111": {
+    "state": "CLOSED",
+    "done": false,
+    "labels": [
+      "on-hold"
+    ],
+    "blocked_by": []
+  },
+  "110": {
+    "state": "CLOSED",
+    "done": false,
+    "labels": [
+      "on-hold"
+    ],
+    "blocked_by": []
+  },
+  "108": {
+    "state": "CLOSED",
+    "done": false,
+    "labels": [
+      "on-hold"
+    ],
+    "blocked_by": []
+  },
+  "107": {
+    "state": "CLOSED",
+    "done": false,
+    "labels": [
+      "on-hold"
+    ],
+    "blocked_by": []
+  },
+  "106": {
+    "state": "CLOSED",
+    "done": false,
+    "labels": [
+      "on-hold"
+    ],
+    "blocked_by": []
+  },
+  "105": {
+    "state": "CLOSED",
+    "done": false,
+    "labels": [
+      "on-hold"
+    ],
+    "blocked_by": []
+  },
+  "104": {
+    "state": "CLOSED",
+    "done": false,
+    "labels": [
+      "on-hold"
+    ],
+    "blocked_by": []
+  },
+  "103": {
+    "state": "CLOSED",
+    "done": false,
+    "labels": [
+      "on-hold"
+    ],
+    "blocked_by": []
+  },
+  "102": {
+    "state": "OPEN",
+    "done": false,
+    "labels": [
+      "kind:defect",
+      "methodology",
+      "needs:human",
+      "status:blocked-needs-input"
+    ],
+    "blocked_by": []
+  },
+  "101": {
+    "state": "CLOSED",
+    "done": false,
+    "labels": [
+      "on-hold"
+    ],
+    "blocked_by": []
+  },
+  "95": {
+    "state": "CLOSED",
+    "done": true,
+    "labels": [
+      "kind:hygiene",
+      "security",
+      "status:done"
+    ],
+    "blocked_by": []
+  },
+  "93": {
+    "state": "CLOSED",
+    "done": true,
+    "labels": [
+      "kind:protocol",
+      "needs-review",
+      "status:done"
+    ],
+    "blocked_by": []
+  },
+  "92": {
+    "state": "CLOSED",
+    "done": true,
+    "labels": [
+      "kind:protocol",
+      "needs-review",
+      "status:done"
+    ],
+    "blocked_by": []
+  },
+  "91": {
+    "state": "CLOSED",
+    "done": false,
+    "labels": [
+      "on-hold"
+    ],
+    "blocked_by": []
+  },
+  "90": {
+    "state": "CLOSED",
+    "done": true,
+    "labels": [
+      "kind:protocol",
+      "needs-review",
+      "status:done"
+    ],
+    "blocked_by": []
+  },
+  "89": {
+    "state": "CLOSED",
+    "done": true,
+    "labels": [
+      "kind:protocol",
+      "needs-review",
+      "status:done"
+    ],
+    "blocked_by": []
+  },
+  "88": {
+    "state": "CLOSED",
+    "done": true,
+    "labels": [
+      "infrastructure",
+      "kind:repair",
+      "status:done"
+    ],
+    "blocked_by": []
+  },
+  "87": {
+    "state": "CLOSED",
+    "done": true,
+    "labels": [
+      "infrastructure",
+      "kind:gap",
+      "needs-triage",
+      "status:done"
+    ],
+    "blocked_by": []
+  },
+  "86": {
+    "state": "CLOSED",
+    "done": true,
+    "labels": [
+      "infrastructure",
+      "kind:defect",
+      "status:done"
+    ],
+    "blocked_by": []
+  },
+  "85": {
+    "state": "CLOSED",
+    "done": true,
+    "labels": [
+      "infrastructure",
+      "kind:defect",
+      "status:done"
+    ],
+    "blocked_by": []
+  },
+  "84": {
+    "state": "CLOSED",
+    "done": false,
+    "labels": [
+      "on-hold"
+    ],
+    "blocked_by": []
+  },
+  "83": {
+    "state": "CLOSED",
+    "done": false,
+    "labels": [
+      "on-hold"
+    ],
+    "blocked_by": []
+  },
+  "82": {
+    "state": "CLOSED",
+    "done": true,
+    "labels": [
+      "kind:experiment",
+      "status:done"
+    ],
+    "blocked_by": []
+  },
+  "81": {
+    "state": "CLOSED",
+    "done": false,
+    "labels": [
+      "on-hold"
+    ],
+    "blocked_by": []
+  },
+  "80": {
+    "state": "CLOSED",
+    "done": false,
+    "labels": [
+      "on-hold"
+    ],
+    "blocked_by": []
+  },
+  "79": {
+    "state": "CLOSED",
+    "done": false,
+    "labels": [
+      "on-hold"
+    ],
+    "blocked_by": []
+  },
+  "78": {
+    "state": "CLOSED",
+    "done": false,
+    "labels": [
+      "on-hold"
+    ],
+    "blocked_by": []
+  },
+  "76": {
+    "state": "CLOSED",
     "done": false,
     "labels": [
       "on-hold"
@@ -74,7 +880,7 @@
     "blocked_by": []
   },
   "69": {
-    "state": "OPEN",
+    "state": "CLOSED",
     "done": false,
     "labels": [
       "on-hold"
@@ -111,7 +917,7 @@
     "blocked_by": []
   },
   "62": {
-    "state": "OPEN",
+    "state": "CLOSED",
     "done": false,
     "labels": [
       "on-hold"
@@ -285,27 +1091,23 @@
     "blocked_by": []
   },
   "44": {
-    "state": "OPEN",
+    "state": "CLOSED",
     "done": false,
     "labels": [
-      "auditor:proposed",
-      "kind:repair",
-      "on-hold"
+      "duplicate"
     ],
     "blocked_by": []
   },
   "43": {
-    "state": "OPEN",
+    "state": "CLOSED",
     "done": false,
     "labels": [
-      "auditor:proposed",
-      "kind:repair",
-      "on-hold"
+      "duplicate"
     ],
     "blocked_by": []
   },
   "42": {
-    "state": "OPEN",
+    "state": "CLOSED",
     "done": false,
     "labels": [
       "auditor:proposed",
@@ -315,7 +1117,7 @@
     "blocked_by": []
   },
   "41": {
-    "state": "OPEN",
+    "state": "CLOSED",
     "done": false,
     "labels": [
       "auditor:proposed",
@@ -325,12 +1127,12 @@
     "blocked_by": []
   },
   "40": {
-    "state": "OPEN",
-    "done": false,
+    "state": "CLOSED",
+    "done": true,
     "labels": [
       "kind:spec",
       "methodology",
-      "status:available"
+      "status:done"
     ],
     "blocked_by": [
       39
