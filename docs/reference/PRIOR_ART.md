@@ -610,6 +610,52 @@ Maith already has.
 
 ---
 
+## 13. Composition prior art — the three nearest lines (added 2026-10-25)
+
+**Source record:** `docs/reference/COMPOSITION_PRIOR_ART.md` (#159, step 1/3 of the
+#158 decomposition), whose verdict was `PROCEED`. This section folds that verdict's
+three nearest-neighbour results into the standing reference so a future probe
+designer does not miss the papers that bound what SAE composition can and cannot
+show. It adds no new literature search and no new claim.
+
+The composition-emergence line is **closed** — Phase 1 (#161) closed at Phase 1 on
+instrument failure (F1+F4 fired; see DEC-043 and the ledger). The three works below
+are recorded as *bounding context for a closed line*, not as a reopened one.
+
+- **SAE Additivity Residuals (SAR)** — *Behavioral Compositionality of Sparse
+  Autoencoder Representations*, arXiv:2610.21261. Measures the behavioral variation
+  left unexplained above a chosen interaction order, and finds SAE coordinates are
+  **not fully additive**: pairwise interaction terms are real and improve held-out
+  coalition ordering in every setting tested. It measures interaction terms above
+  linear superposition — **not** the appearance of a new latent — so it bounds the
+  question but does not answer it.
+
+- **PolySAE** — *Modeling Feature Interactions in Sparse Autoencoders via Polynomial
+  Decoding*, arXiv:2602.01322. Extends the SAE decoder with higher-order terms so
+  feature interactions are representable at all, motivated by the observation that
+  linear models cannot distinguish a composed feature from mere co-occurrence.
+  Reports learned interaction weights negligibly correlated with co-occurrence
+  frequency (r = 0.06 vs 0.82 for SAE feature covariance). It models interaction
+  structure in the decoder, not per-composite latent emergence.
+
+- **OrtSAE** — *Orthogonal Sparse Autoencoders Uncover Atomic Features*,
+  arXiv:2509.22033. Treats feature composition as a **defect to reduce** (independent
+  features merging into composite representations), reporting a 15% reduction in
+  composition. This is the *opposite framing* to the closed Phase 1 question, which
+  asked whether composites are emergent — it treats composite latents as an artifact
+  of an entangled dictionary rather than as a phenomenon to detect.
+
+**What the three together do and do not answer for this repo.** They establish that
+SAE composition is non-additive in general (SAR) and that interactions are
+representable and measurable (PolySAE), while framing composition as entanglement to
+remove (OrtSAE). None measures emergent latents under composition on a constructed,
+frequency-controlled set with a permutation null, an idiom positive control, and a
+synonym noise floor — which was the Phase 1 question, now closed at Phase 1. Read
+them as the boundary on any future composition claim, not as a result this repo
+extends.
+
+---
+
 ## Sources
 
 | Topic | Reference |
@@ -634,3 +680,6 @@ Maith already has.
 | SAE vs simple baselines on **detection** (added DEC-034) | AxBench, arXiv:2501.17148 (Wu et al., ICML 2025): DiffMean 0.942 / linear probe 0.940 AUROC vs vanilla SAE 0.695. Partial rebuttal: arXiv:2605.31183 (SAEs reach parity with a *supervised* selection pipeline). Kantamneni et al. (2025), 113 probing datasets: no consistent SAE advantage under distribution shift |
 | Synthetic ground-truth SAE benchmark | SynthSAEBench, arXiv:2602.14687 (Chanin & Garriga-Alonso); 16,384 ground-truth features, extends SAELens |
 | Retrospective rediscovery protocol (LBD replication) | Swanson (1986) fish-oil/Raynaud, (1988) magnesium/migraine; ARROWSMITH; LBD evaluation-methodology critique, PMC9945845 |
+| SAE composition — additivity residuals (added §13, #159) | SAR, *Behavioral Compositionality of Sparse Autoencoder Representations*, arXiv:2610.21261 |
+| SAE composition — polynomial decoding (added §13, #159) | PolySAE, *Modeling Feature Interactions in Sparse Autoencoders via Polynomial Decoding*, arXiv:2602.01322 |
+| SAE composition — orthogonal dictionary (added §13, #159) | OrtSAE, *Orthogonal Sparse Autoencoders Uncover Atomic Features*, arXiv:2509.22033 |
