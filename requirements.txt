@@ -5,7 +5,7 @@
 
 # Versions confirmed working in the OpenHands Cloud sandbox on 2026-09-18.
 # See docs/reference/SANDBOX_BASELINE.md for the evidence.
-torch==2.14.0+cpu
+torch==2.15.0+cpu
 transformer-lens==4.2.0
 sae-lens==6.54.5
 
