@@ -97,6 +97,74 @@ machinery is proposed by this framing. The layer's 38 specified gates and their
 fixtures already exist; the change is that they are described as an output rather
 than as scaffolding.
 
+## Where the candidate generator stands, and what would kill it
+
+Stated at content HEAD `c9bcc8a`, because this is the section a reader should be
+able to check rather than trust. Every claim below is verifiable in the repo at
+that commit; the citations are files, counts, and decision numbers, not prose.
+
+**Where it stands: zero candidates have been human-reviewed.** The generator has
+produced nothing a human has accepted. The one hand-off interface — rung 6, a
+human articulating a surfaced candidate as a mathematical claim for Maith's gate 1
+— is **not reached, and not currently reachable**: no candidate has been surfaced,
+so there is nothing to hand off (`docs/ROADMAP.md` rung 6;
+`docs/M0_EXIT_NULL_RESULT.md` §6). The nine records in `findings.jsonl` are
+observations on the status ladder, not accepted candidates — four flagged, five
+null — and the rung-2 null has now reproduced at ~28× the parameter count, so the
+scale explanation for it is retired rather than left open (#143 → #144 → #145,
+all closed `status:done`; `docs/ROADMAP.md` rung 3).
+
+**The single most promising next probe: the comparator cross-cut at 2B, read
+against the 70M both-miss.** DEC-034 added supervised comparator baselines
+(difference-in-means, linear probe) beside the SAE, because a probe can split the
+bottleneck that the SAE alone cannot. At 70M, across matched / shuffled-null /
+paraphrase arms, difference-in-means read 0.7561 / 0.5687 / 0.4069 AUROC and the
+linear probe 0.5854 / 0.5996 / 0.4481 — the bridge survived in **neither**, so the
+rung-2 null was *not* an SAE artifact. Whether the comparator re-run at
+`gemma-2-2b` splits **instrument** from **scale** is explicitly *not yet measured*
+(`docs/ROADMAP.md`, "Comparator cross-cut" subsection). It is the only
+measurement left that can move the verdict rather than restate it, and it is
+filed as **#187** — the only outstanding measurement in the repo at this HEAD.
+
+**The falsification condition — what would retire the program.** The program is
+retired when a **pre-registered, control-recovering probe finds no cross-domain
+co-activation at the largest scale reachable here (2B, `gemma-2-2b`), *and* the
+DEC-034 comparator cross-cut at that same scale also misses.** That is a
+condition, not a vague intention: it names two independent instruments, a scale, a
+control requirement, and a measured outcome, and the verdict is *no* only when
+both instruments return a null with the positive control recovering. The
+converse is the discovery the program exists to find: a paraphrase-invariant
+bridge that clears the family-wise cutoff at 2B, or a comparator that detects one
+the SAE misses, revises the verdict rather than confirming it.
+
+This is the only outstanding measurement. The cleanup items the live queue
+previously carried — the ledger backfill (#186), the prior-art fold-in (#188),
+and the verdict reconciliation (#189) — have since closed `status:done`, so
+`docs/NEXT_STEPS.md` §4 is the source for what remains rather than a fixed list.
+
+Two caveats keep the condition honest, and both are recorded rather than
+implicit:
+
+- **The residual alternatives are named, not eliminated.** Feature absorption
+  remains the primary alternative explanation for a null and may be structural to
+  the sparsity objective (`docs/reference/PRIOR_ART.md` §4); a per-feature causal
+  claim is not reachable at this scale (DEC-020 measured 0/50 above the cause
+  threshold; DEC-025 found the effect real only on the logit scale at a feature's
+  own token). So the condition retires *this program as scoped* — local CPU
+  probing of small open-weight models for cross-domain co-activation — not
+  cross-domain structure in general.
+- **Rung 5 has no falsifier, by design.** Whether a credible candidate is
+  *interesting* is a human judgment and not a technical problem
+  (`docs/ROADMAP.md` rung 5); a program-level kill condition cannot be discharged
+  by an instrument, only by the outcome above.
+
+**Unverifiable counts.** No per-repo contributor or PR counts appear on this front
+page; none is needed, so none is asserted. The counts that *are* cited above —
+nine `findings.jsonl` records (four flagged, five null), the closed chains
+#143/#144/#145 and #159/#160/#161, and the comparator AUROC figures — are
+re-derivable from `findings.jsonl`, the issue list, and
+`experiments/2026-09-22-comparator-baselines.json` at content HEAD `c9bcc8a`.
+
 ## How a task moves through the pipeline
 
 The lifecycle in one picture. It is the same for every task: a run takes the
